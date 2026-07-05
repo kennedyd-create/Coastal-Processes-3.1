@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-NZ">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +30,9 @@
         }
     </script>
 
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Custom CSS -->
     <style>
         :root { 
@@ -53,7 +56,7 @@
         
         /* Flashcard Animations */
         .perspective-1000 { perspective: 1000px; }
-        .transform-style-3d { transform-style: preserve-3d; }
+        .transform-style-3d { transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
         .backface-hidden { backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
         .is-flipped { transform: rotateY(180deg); }
@@ -78,22 +81,74 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
+
+        /* Gamification Animations */
+        @keyframes levelUpAnim {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.15); filter: brightness(1.3); text-shadow: 0 0 15px #c5a059; }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+        .level-up { animation: levelUpAnim 1s ease-out; }
+
+        /* Breathing Animation */
+        @keyframes breathe {
+            0% { transform: scale(0.8); opacity: 0.6; }
+            40% { transform: scale(1.5); opacity: 1; }
+            60% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.6; }
+        }
+        .breathe-circle { animation: breathe 16s infinite ease-in-out; }
     </style>
 </head>
 <body class="bg-slate-200 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen p-4 md:p-6 lg:p-8">
 
     <!-- Header -->
-    <header class="max-w-7xl mx-auto flex justify-between items-center mb-6 flex-wrap gap-4 bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md border border-slate-300 dark:border-slate-700">
-        <div>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-whs-dark dark:text-whs-light tracking-tight">Muriwai Coastal Environment</h1>
-            <p class="text-whs-goldtext dark:text-whs-gold font-bold mt-2 text-md lg:text-lg">NCEA Level 3 Geography (91426) - Excellence Mastery Dashboard</p>
+    <header class="max-w-7xl mx-auto bg-gradient-to-br from-[#002066] to-[#001033] rounded-xl p-6 md:p-8 text-white mb-8 shadow-lg relative overflow-hidden flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 border border-blue-900">
+        <div class="relative z-10 flex flex-col">
+            <div class="flex items-center gap-4 mb-2">
+                <div class="border-2 border-white/20 rounded-full px-3 py-1 inline-block bg-white/10 backdrop-blur shadow-sm">
+                    <span class="font-bold text-xs tracking-widest text-whs-light">NCEA L3 GEOGRAPHY (91426)</span>
+                </div>
+                <button onclick="toggleDarkMode()" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition border border-white/20 shadow-sm" aria-label="Toggle Dark Mode">
+                    <!-- Sun Icon -->
+                    <svg class="w-4 h-4 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <!-- Moon Icon -->
+                    <svg class="w-4 h-4 block dark:hidden text-whs-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Muriwai Excellence Hub</h1>
+            <p class="text-blue-200 mt-2 text-sm md:text-md">Master the Coastal Environment. Track your progress. Crush the exam.</p>
         </div>
-        <button onclick="toggleDarkMode()" class="p-3 rounded-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition border border-slate-300 dark:border-slate-600 shadow-sm" aria-label="Toggle Dark Mode">
-            <!-- Sun Icon -->
-            <svg class="w-6 h-6 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-            <!-- Moon Icon -->
-            <svg class="w-6 h-6 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-        </button>
+        
+        <!-- Gamification Panel -->
+        <div class="relative z-10 flex flex-wrap items-center gap-3 w-full xl:w-auto justify-start xl:justify-end">
+            <!-- Exam Countdown -->
+            <div class="bg-blue-900/60 border border-blue-400/30 p-3 rounded-xl text-center shadow-inner min-w-[110px]">
+                <div class="text-[10px] uppercase tracking-widest text-blue-200 font-bold mb-1">Geog 3.1 Exam</div>
+                <div class="text-xl md:text-2xl font-black text-white leading-none" id="exam-days-display">-- Days</div>
+                <div class="text-[9px] text-blue-300 mt-1">24 Nov @ 2:00 PM</div>
+            </div>
+
+            <!-- XP Tracker -->
+            <div id="xp-container" class="bg-black/30 backdrop-blur-sm border border-white/20 p-3 rounded-xl text-center shadow-inner min-w-[100px] transition-all">
+                <div class="text-[10px] uppercase tracking-widest text-whs-gold font-bold mb-1">Rank</div>
+                <div class="text-xl md:text-2xl font-black text-white leading-none">Lvl <span id="level-display">1</span></div>
+                <div class="text-[10px] text-blue-200 mt-1 font-mono"><span id="xp-display">0</span> XP</div>
+            </div>
+
+            <!-- Streak Tracker -->
+            <div class="bg-black/30 backdrop-blur-sm border border-white/20 p-3 rounded-xl text-center shadow-inner min-w-[90px]">
+                <div class="text-[10px] uppercase tracking-widest text-rose-400 font-bold mb-1">Streak</div>
+                <div class="text-xl md:text-2xl font-black text-white flex items-center justify-center gap-1 leading-none">
+                    🔥 <span id="streak-counter">1</span>
+                </div>
+                <div class="text-[10px] text-blue-200 mt-1">Days</div>
+            </div>
+        </div>
+
+        <svg class="absolute right-0 top-0 h-full w-64 text-white/5 transform translate-x-1/4 -translate-y-1/4 scale-150 pointer-events-none" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L2 22h20L12 2zm0 3.5l7.5 15h-15L12 5.5z"/>
+        </svg>
     </header>
 
     <!-- Navigation Tabs -->
@@ -105,12 +160,24 @@
         <button data-action="view" data-target="vault" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">Practice Hub & Quiz</button>
         <button data-action="view" data-target="sandbox" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">Writing Sandbox</button>
         <button data-action="view" data-target="essay" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">E8 Blueprint</button>
-        
-        <!-- Gemini Tab -->
-        <button data-action="view" data-target="gemini" class="nav-btn px-4 py-2 text-sm rounded-lg font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 border border-blue-800 text-white hover:shadow-lg transition-all shadow-md flex items-center gap-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            AI Tutor (Gemini)
+        <button data-action="view" data-target="tools" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm flex items-center gap-1">
+            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Study Tools
         </button>
+
+        <!-- External AI Tools -->
+        <div class="flex gap-2 sm:ml-auto w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
+            <!-- NotebookLM Tab -->
+            <button data-target="notebooklm" class="nav-btn px-4 py-2 text-sm rounded-lg font-extrabold bg-gradient-to-r from-teal-600 to-blue-600 border border-teal-800 text-white hover:shadow-lg transition-all shadow-md flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                NotebookLM
+            </button>
+            <!-- Gemini Tab -->
+            <button data-target="gemini" class="nav-btn px-4 py-2 text-sm rounded-lg font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 border border-blue-800 text-white hover:shadow-lg transition-all shadow-md flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                AI Tutor
+            </button>
+        </div>
     </nav>
 
     <!-- Main Content Area -->
@@ -128,24 +195,30 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                     <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
                         <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">1. Geology (Rock)</h3>
-                        <p class="text-sm">The southern end features <strong>Manukau Breccia</strong> (a hard, erosion-resistant volcanic conglomerate formed 17 million years ago). North of the headland, softer sandstone and siltstone have been eroded away to form the bay.</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300">The southern end features <strong>Manukau Breccia</strong> (a hard, erosion-resistant volcanic conglomerate formed 17 million years ago). North of the headland, softer sandstone and siltstone have been eroded away to form the bay.</p>
                     </div>
                     <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
                         <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">2. Sediment</h3>
-                        <p class="text-sm">The beach consists of fine, black <strong>titanomagnetite iron sand</strong> (0.25mm diameter) sourced from Taranaki and central North Island volcanoes, mixed with lighter quartz and feldspar.</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300">The beach consists of fine, black <strong>titanomagnetite iron sand</strong> (0.25mm diameter) sourced from Taranaki and central North Island volcanoes, mixed with lighter quartz and feldspar.</p>
                     </div>
                     <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
                         <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">3. Waves</h3>
-                        <p class="text-sm">High-energy waves with a massive fetch of 2,000 km across the Tasman Sea. They average 1.5 m in height with an energy of <strong>250,000 to 500,000 joules per m³</strong>.</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300">High-energy waves with a massive fetch of 2,000 km across the Tasman Sea. They average 1.5 m in height with an energy of <strong>250,000 to 500,000 joules per m³</strong>.</p>
                     </div>
                     <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
                         <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">4. Wind</h3>
-                        <p class="text-sm">Prevailing winds are southwesterly/westerly (onshore). They blow over 18 km/h 42% of the time, providing immense energy for both waves and aeolian transport.</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300">Prevailing winds are southwesterly/westerly (onshore). They blow over 18 km/h 42% of the time, providing immense energy for both waves and aeolian transport.</p>
                     </div>
                     <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
                         <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">5. Vegetation</h3>
-                        <p class="text-sm">Crucial for dune formation. Includes native <strong>spinifex</strong> and <strong>pingao</strong>, as well as introduced <strong>marram grass</strong> acting as biological baffles.</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300">Crucial for dune formation. Includes native <strong>spinifex</strong> and <strong>pingao</strong>, as well as introduced <strong>marram grass</strong> acting as biological baffles.</p>
                     </div>
+                </div>
+
+                <div class="bg-blue-50 dark:bg-whs-dark/40 p-6 rounded-xl border border-blue-200 dark:border-slate-600 border-l-4 border-l-whs-gold shadow-sm">
+                    <h3 class="text-xl font-bold mb-3 text-whs-dark dark:text-whs-light">Geological Foundation (The Canvas)</h3>
+                    <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">The structural difference between the erosional headland and depositional beach originates from their lithological foundation. Tectonic compression and volcanic intrusions 17 million years ago (Waitakere volcanic arc) created Otakamiro Point. This highly resistant matrix of <strong>Manukau Breccia</strong> and <strong>Piha Conglomerate</strong> (andesites, basalts, sandstones) erodes slowly to form steep cliffs.</p>
+                    <p class="text-sm text-slate-700 dark:text-slate-300">Crucially, this tectonic history also introduced structural weaknesses—joints and bedding planes—which dictate where marine processes will most effectively exploit fault lines.</p>
                 </div>
             </div>
         </section>
@@ -181,24 +254,24 @@
             <!-- Multimedia & Study Tools Integration -->
             <div class="glass-card bg-slate-100 dark:bg-slate-800/80 p-6 md:p-8 rounded-xl border border-slate-300 dark:border-slate-600 shadow-sm">
                 <h3 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light flex items-center gap-2">
-                    <svg class="w-6 h-6 text-indigo-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                    <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
                     Multimedia & AI Study Tools
                 </h3>
                 <p class="text-sm mb-6 text-slate-700 dark:text-slate-300">Utilise these visual overviews and interactive AI tools to solidify your understanding of Muriwai's processes.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <a href="https://drive.google.com/file/d/1SAae49u-2KngYyZ3Vw2YqbQS-ohYaf-Q/view?usp=sharing" target="_blank" class="bg-white dark:bg-slate-700 p-4 rounded-lg border border-slate-300 dark:border-slate-500 hover:border-indigo-500 hover:shadow-md transition flex items-center gap-3">
-                        <span class="bg-indigo-100 dark:bg-indigo-900/50 p-2 rounded-full"><svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></span>
+                    <a href="https://drive.google.com/file/d/1SAae49u-2KngYyZ3Vw2YqbQS-ohYaf-Q/view?usp=sharing" target="_blank" class="bg-white dark:bg-slate-700 p-4 rounded-lg border border-slate-300 dark:border-slate-500 hover:border-indigo-500 hover:shadow-md transition flex items-center gap-3 group">
+                        <span class="bg-indigo-100 dark:bg-indigo-900/50 p-3 rounded-full group-hover:bg-indigo-200 transition"><svg class="w-6 h-6 text-indigo-700 dark:text-indigo-400" fill="currentColor" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></span>
                         <div>
-                            <div class="font-bold text-sm text-whs-dark dark:text-white">Video: Muriwai Overview</div>
-                            <div class="text-xs text-slate-500 dark:text-slate-400">Watch the visual summary.</div>
+                            <div class="font-bold text-md text-whs-dark dark:text-white">Video: Muriwai Overview</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-400">Watch the visual summary.</div>
                         </div>
                     </a>
-                    <a href="https://drive.google.com/file/d/1oUemO9n26FkwrlgZ85sjv-eZBrguiz3A/view?usp=sharing" target="_blank" class="bg-white dark:bg-slate-700 p-4 rounded-lg border border-slate-300 dark:border-slate-500 hover:border-indigo-500 hover:shadow-md transition flex items-center gap-3">
-                        <span class="bg-purple-100 dark:bg-purple-900/50 p-2 rounded-full"><svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></span>
+                    <a href="https://drive.google.com/file/d/1oUemO9n26FkwrlgZ85sjv-eZBrguiz3A/view?usp=sharing" target="_blank" class="bg-white dark:bg-slate-700 p-4 rounded-lg border border-slate-300 dark:border-slate-500 hover:border-purple-500 hover:shadow-md transition flex items-center gap-3 group">
+                        <span class="bg-purple-100 dark:bg-purple-900/50 p-3 rounded-full group-hover:bg-purple-200 transition"><svg class="w-6 h-6 text-purple-700 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></span>
                         <div>
-                            <div class="font-bold text-sm text-whs-dark dark:text-white">Audio: Muriwai Overview</div>
-                            <div class="text-xs text-slate-500 dark:text-slate-400">Listen to the study summary.</div>
+                            <div class="font-bold text-md text-whs-dark dark:text-white">Audio: Muriwai Overview</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-400">Listen to the study summary.</div>
                         </div>
                     </a>
                 </div>
@@ -206,20 +279,20 @@
                 <div class="bg-gradient-to-r from-slate-800 to-indigo-900 rounded-xl p-5 border border-indigo-700 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
                     <div>
                         <h4 class="font-bold text-white mb-1 flex items-center gap-2">Ask NotebookLM Anything!</h4>
-                        <p class="text-xs text-indigo-200">Got a question about a process? Ask the dedicated AI trained on Muriwai Geography notes.</p>
+                        <p class="text-xs md:text-sm text-indigo-200">Got a question about a process? Ask the dedicated AI trained exclusively on Muriwai Geography notes.</p>
                     </div>
-                    <a href="https://notebooklm.google.com/notebook/f506f311-a6e2-4b6e-a62d-c39cacf544d4?authuser=0" target="_blank" class="bg-white text-indigo-900 px-5 py-2 rounded-lg font-bold text-sm hover:bg-indigo-100 transition whitespace-nowrap shadow-sm">Open NotebookLM</a>
+                    <a href="https://notebooklm.google.com/notebook/f506f311-a6e2-4b6e-a62d-c39cacf544d4?authuser=0" target="_blank" class="bg-white text-indigo-900 px-6 py-3 rounded-lg font-bold text-sm hover:bg-indigo-100 transition whitespace-nowrap shadow-sm">Open NotebookLM</a>
                 </div>
 
                 <div class="mt-6 pt-6 border-t border-slate-300 dark:border-slate-600">
                     <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-3">Specific Process Breakdowns (YouTube):</h4>
                     <div class="flex flex-wrap gap-2">
-                        <a href="https://www.youtube.com/playlist?list=PLjBIbHqApIHGjLQ6gJd8UW96wck2Ds4rx" target="_blank" class="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 px-3 py-1.5 rounded text-xs font-bold hover:bg-red-100 transition">Full Playlist</a>
-                        <a href="https://www.youtube.com/watch?v=G1FIBuybN78" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Wave Refraction</a>
-                        <a href="https://www.youtube.com/watch?v=TYQ--nTcNU8" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Wave Erosion</a>
-                        <a href="https://www.youtube.com/watch?v=00Khn0RSpYA" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Stack Formation</a>
-                        <a href="https://www.youtube.com/watch?v=Zy_rFk4F0pI" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Longshore Transport</a>
-                        <a href="https://www.youtube.com/watch?v=gKU1K8n6jYM" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Saltation</a>
+                        <a href="https://www.youtube.com/playlist?list=PLjBIbHqApIHGjLQ6gJd8UW96wck2Ds4rx" target="_blank" class="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 px-4 py-2 rounded text-sm font-bold hover:bg-red-100 transition shadow-sm">Full Playlist</a>
+                        <a href="https://www.youtube.com/watch?v=G1FIBuybN78" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-2 rounded text-sm font-semibold hover:border-red-400 hover:text-red-600 transition shadow-sm">Wave Refraction</a>
+                        <a href="https://www.youtube.com/watch?v=TYQ--nTcNU8" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-2 rounded text-sm font-semibold hover:border-red-400 hover:text-red-600 transition shadow-sm">Wave Erosion</a>
+                        <a href="https://www.youtube.com/watch?v=00Khn0RSpYA" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-2 rounded text-sm font-semibold hover:border-red-400 hover:text-red-600 transition shadow-sm">Stack Formation</a>
+                        <a href="https://www.youtube.com/watch?v=Zy_rFk4F0pI" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-2 rounded text-sm font-semibold hover:border-red-400 hover:text-red-600 transition shadow-sm">Longshore Transport</a>
+                        <a href="https://www.youtube.com/watch?v=gKU1K8n6jYM" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-2 rounded text-sm font-semibold hover:border-red-400 hover:text-red-600 transition shadow-sm">Saltation</a>
                     </div>
                 </div>
             </div>
@@ -230,8 +303,8 @@
                 <p class="text-sm text-slate-700 dark:text-slate-300 mb-5">In Geography 3.1, you must explain how processes interact (how the output of one process becomes the input for another, or how they work together).</p>
                 
                 <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <h4 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-3 border-b pb-2">Example 1: Formation of Dunes</h4>
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <h4 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">Example 1: Formation of Dunes</h4>
                         <ol class="list-decimal pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-300">
                             <li><strong>Wave Deposition</strong> brings titanomagnetite sand onto the beach.</li>
                             <li>The sun dries the sand during low tide, making it friable.</li>
@@ -239,8 +312,8 @@
                             <li><strong>Vegetation Growth</strong> interrupts the wind, creating a zero-velocity zone causing Aeolian Deposition. The plants bind the sand, forming stable Dunes.</li>
                         </ol>
                     </div>
-                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <h4 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-3 border-b pb-2">Example 2: Evolution of Otakamiro Cave</h4>
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <h4 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">Example 2: Evolution of Otakamiro Cave</h4>
                         <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed">Volcanic activity 17m years ago created the resistant Manukau breccia. Tectonic action lifted the headland above sea level 10,000 years ago, making it vulnerable.</p>
                         <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed">Waves approaching the headland slow down in shallow water, causing them to refract, concentrating massive energy on the end of the headland.</p>
                         <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">This energy drives <strong>corrasion</strong> and <strong>corrosion</strong>. The most important sub-process is <strong>hydraulic action</strong>, where water is forced into a crack and expands due to pressure differentials to force the crack apart. Together these act on weaker points until a cave forms.</p>
@@ -260,7 +333,7 @@
                             <h4 class="font-bold text-red-800 dark:text-red-300 text-md">Not Achieved (NA)</h4><span class="text-red-800 font-extrabold text-xl">+</span>
                         </div>
                         <div id="proc-na" class="hidden p-5 bg-white dark:bg-slate-900">
-                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"The waves hit the cliff at Otakamiro point and break it down. The wind also blows saltwater onto the rocks. This makes caves and stacks."</p>
+                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 dark:border-slate-600 pl-3">"The waves hit the cliff at Otakamiro point and break it down. The wind also blows saltwater onto the rocks. This makes caves and stacks."</p>
                             <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Too descriptive. Lists features but provides no specific data, lacks geographic terminology, and fails to explain the mechanism of *how* they interact.</p>
                         </div>
                     </div>
@@ -269,7 +342,7 @@
                             <h4 class="font-bold text-green-800 dark:text-green-300 text-md">Achieved (A)</h4><span class="text-green-800 font-extrabold text-xl">+</span>
                         </div>
                         <div id="proc-a" class="hidden p-5 bg-white dark:bg-slate-900">
-                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"Wave erosion shapes Otakamiro Point using hydraulic action, where water compresses air in cracks. The rock is Manukau Breccia. Sub-aerial weathering from salt spray also breaks the rock down, helping the waves create wave-cut platforms."</p>
+                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 dark:border-slate-600 pl-3">"Wave erosion shapes Otakamiro Point using hydraulic action, where water compresses air in cracks. The rock is Manukau Breccia. Sub-aerial weathering from salt spray also breaks the rock down, helping the waves create wave-cut platforms."</p>
                             <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Identifies processes correctly and names the rock type. However, it lacks specific quantitative data and only implies the interaction ("helping") rather than explaining the physics of the synergy.</p>
                         </div>
                     </div>
@@ -278,7 +351,7 @@
                             <h4 class="font-bold text-blue-800 dark:text-blue-300 text-md">Merit (M)</h4><span class="text-blue-800 font-extrabold text-xl">+</span>
                         </div>
                         <div id="proc-m" class="hidden p-5 bg-white dark:bg-slate-900">
-                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"Wave refraction concentrates high energy waves onto the cliffs of Otakamiro Point. This causes intense hydraulic action on the Manukau Breccia. This interacts with spray-splash weathering. As salt crystals grow in the rock pores from evaporated sea spray, they weaken the rock. This makes it much easier for the hydraulic action to erode the cliff and form features like Motutara stack."</p>
+                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 dark:border-slate-600 pl-3">"Wave refraction concentrates high energy waves onto the cliffs of Otakamiro Point. This causes intense hydraulic action on the Manukau Breccia. This interacts with spray-splash weathering. As salt crystals grow in the rock pores from evaporated sea spray, they weaken the rock. This makes it much easier for the hydraulic action to erode the cliff and form features like Motutara stack."</p>
                             <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Very good explanation. Correctly identifies the interaction (salt crystals weaken the rock making hydraulic action easier). Misses the absolute top-tier academic vocabulary framing and specific data points.</p>
                         </div>
                     </div>
@@ -315,22 +388,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 transition">
+                            <tr class="border-b border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition">
                                 <td class="p-4 font-bold text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700">Dominant Wave Dynamic</td>
                                 <td class="p-4 text-red-700 dark:text-red-400 font-semibold">Orthogonal Convergence (High Energy)</td>
                                 <td class="p-4 text-blue-700 dark:text-blue-400 font-semibold">Orthogonal Divergence (Low Energy)</td>
                             </tr>
-                            <tr class="border-b border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 transition">
+                            <tr class="border-b border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
                                 <td class="p-4 font-bold text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700">Interacting Processes</td>
                                 <td class="p-4 text-slate-700 dark:text-slate-300">Coastal Erosion (Hydraulic Action, Corrasion)</td>
                                 <td class="p-4 text-slate-700 dark:text-slate-300">Coastal Deposition, Aeolian Transport, Flora</td>
                             </tr>
-                            <tr class="border-b border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 transition">
+                            <tr class="border-b border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition">
                                 <td class="p-4 font-bold text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700">Lithology / Substrate</td>
                                 <td class="p-4 text-slate-700 dark:text-slate-300">Manukau Breccia (Waitakere volcanic group)</td>
                                 <td class="p-4 text-slate-700 dark:text-slate-300">Unconsolidated Titanomagnetite Sand (0.25mm)</td>
                             </tr>
-                            <tr class="bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 transition">
+                            <tr class="bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
                                 <td class="p-4 font-bold text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700">Geomorphic Outcomes</td>
                                 <td class="p-4 text-slate-700 dark:text-slate-300">Steep cliffs, Stacks, wave-cut platforms</td>
                                 <td class="p-4 text-slate-700 dark:text-slate-300">Wide beach profile, extensive dune systems</td>
@@ -345,20 +418,20 @@
                     <p class="text-sm text-slate-700 dark:text-slate-300 mb-5">These examples demonstrate how interacting natural processes operate differently across various locations within the Muriwai environment, resulting in distinct physical features.</p>
                     
                     <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
-                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-2 border-b pb-2">1. Sand Dune Formation (North vs. South)</h4>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-2 border-b border-slate-200 dark:border-slate-700 pb-2">1. Sand Dune Formation (North vs. South)</h4>
                             <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed"><strong>Northern Dunes (Okiritoto):</strong> The interaction between wind deposition and spinifex vegetation creates lower, parabolic-shaped dunes around <strong>6 to 8 metres high</strong> with a gentle <strong>20-degree slope</strong>. Spinifex grass sends out horizontal runners, spreading the deposited sand over a wider area.</p>
                             <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong>Southern Dunes (Headland):</strong> The interaction between wind deposition and marram grass creates much steeper (<strong>45-degree slope</strong>) and higher dunes reaching <strong>12 to 15 metres</strong>. Marram grass grows straight upwards through the sand, forcing vertical dune growth. These steep dunes are highly vulnerable to wave undercutting.</p>
                         </div>
-                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
-                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-2 border-b pb-2">2. Shore Platform Erosion (Inner vs. Seaward Edge)</h4>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-2 border-b border-slate-200 dark:border-slate-700 pb-2">2. Shore Platform Erosion (Inner vs. Seaward Edge)</h4>
                             <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed"><strong>Inner Platform:</strong> Water-layer weathering dominates this zone. As the tide retreats, pooled salt water dries in the sun, forming salt crystals that loosen rock fragments. The next high tide washes these fragments away, gradually eroding the inner platform down to a height of 2 metres.</p>
                             <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong>Seaward Edge (Rampart):</strong> The outer edge remains at a height of 3 metres because constant wave splash prevents it from drying out. The lack of drying prevents salt crystal formation, effectively protecting the rampart from water-layer weathering.</p>
                         </div>
                     </div>
 
-                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-2 border-b pb-2">3. Longshore Drift Direction (Northward vs. Southward)</h4>
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-2 border-b border-slate-200 dark:border-slate-700 pb-2">3. Longshore Drift Direction (Northward vs. Southward)</h4>
                         <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed"><strong>Normal Coastline:</strong> For 95% of Muriwai Beach, Longshore Drift operates in a northward direction due to the prevailing SW winds, maintaining a beach width of about 100m.</p>
                         <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong>Variation at the Headland:</strong> In the 500m stretch immediately north of Otakamiro Headland, wave refraction causes the waves to bend completely around the point, hitting the beach from a northwesterly angle. This creates a localised <strong>southward</strong> longshore drift. The headland acts as a barrier, trapping this southward-moving sand and building a much wider beach (approx. 200m wide) in this specific area.</p>
                     </div>
@@ -377,7 +450,7 @@
                                 <h4 class="font-bold text-red-800 dark:text-red-300 text-md">Not Achieved (NA)</h4><span class="text-red-800 font-extrabold text-xl">+</span>
                             </div>
                             <div id="spat-na" class="hidden p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"The headland is eroding because waves hit it. The beach is building up because wind blows sand. They are different places."</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 dark:border-slate-600 pl-3">"The headland is eroding because waves hit it. The beach is building up because wind blows sand. They are different places."</p>
                                 <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Describes two areas separately without explaining *why* they are different or what processes cause that difference.</p>
                             </div>
                         </div>
@@ -386,7 +459,7 @@
                                 <h4 class="font-bold text-green-800 dark:text-green-300 text-md">Achieved (A)</h4><span class="text-green-800 font-extrabold text-xl">+</span>
                             </div>
                             <div id="spat-a" class="hidden p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"Otakamiro Point has steep cliffs because of wave erosion. Hydraulic action breaks the Manukau Breccia. Muriwai Beach has sand dunes because longshore drift brings sand and wind blows it. This is spatial variation because they happen in different spots."</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 dark:border-slate-600 pl-3">"Otakamiro Point has steep cliffs because of wave erosion. Hydraulic action breaks the Manukau Breccia. Muriwai Beach has sand dunes because longshore drift brings sand and wind blows it. This is spatial variation because they happen in different spots."</p>
                                 <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Better process knowledge, but still treats them as two separate stories. Fails to identify Wave Refraction as the linking mechanism that creates the variation.</p>
                             </div>
                         </div>
@@ -395,7 +468,7 @@
                                 <h4 class="font-bold text-blue-800 dark:text-blue-300 text-md">Merit (M)</h4><span class="text-blue-800 font-extrabold text-xl">+</span>
                             </div>
                             <div id="spat-m" class="hidden p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"Wave refraction is the main process causing spatial variation. The waves bend around Otakamiro Point, concentrating energy. This causes severe hydraulic action on the 40m Manukau Breccia cliffs. At the beach, the waves are constructive. Longshore drift moves 250,000m³ of sand north. When the 200m beach dries, wind over 18km/h causes saltation, building dunes stabilised by Spinifex."</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 dark:border-slate-600 pl-3">"Wave refraction is the main process causing spatial variation. The waves bend around Otakamiro Point, concentrating energy. This causes severe hydraulic action on the 40m Manukau Breccia cliffs. At the beach, the waves are constructive. Longshore drift moves 250,000m³ of sand north. When the beach dries, wind over 20km/h causes saltation, building dunes stabilised by Spinifex."</p>
                                 <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Good stats and clear distinction between the two areas. Understands wave refraction. However, it lacks the overarching systemic framing (orthogonals converging/diverging).</p>
                             </div>
                         </div>
@@ -405,7 +478,7 @@
                             </div>
                             <div id="spat-e" class="block p-5 bg-white dark:bg-slate-900">
                                 <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-whs-gold pl-3">"A clear spatial variation exists between Otakamiro Headland and the adjacent northern embayment, driven by the distribution of marine energy via wave refraction. As waves approach the resistant Piha Conglomerate rock of the headland, wave orthogonals converge. This concentrates marine energy, creating an intense erosional zone dominated by hydraulic action. Conversely, as waves enter the adjacent embayment, the orthogonals diverge and energy dissipates, creating a constructive zone. Here, the receding tide exposes a 150m foreshore, allowing a shift from marine to aeolian processes. Winds exceeding the 5.47 m/s fluid threshold trigger saltation, transporting dry sand inland. This sand interacts with Spinifex vegetation to build depositional sand dunes, providing a stark spatial contrast to the erosional stacks of the headland."</p>
-                                <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Connects both environments seamlessly through the single concept of energy partitioning (refraction/orthogonals). High-value terms (fluid threshold, orthogonals, aeolian) elevate the response.</p>
+                                <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Masterful synthesis. Connects both environments seamlessly through the single concept of energy partitioning (refraction/orthogonals). High-value terms (fluid threshold, orthogonals, aeolian) elevate the response.</p>
                             </div>
                         </div>
                     </div>
@@ -425,8 +498,8 @@
                     <p class="text-sm text-slate-700 dark:text-slate-300 mb-5">These examples explain how interacting processes change over different time periods, from seasonal shifts to geological epochs.</p>
                     
                     <div class="space-y-6">
-                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
-                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b pb-2">1. Seasonal Wave Action (Summer vs. Winter)</h4>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">1. Seasonal Wave Action (Summer vs. Winter)</h4>
                             <div class="grid md:grid-cols-2 gap-4 mt-4">
                                 <div>
                                     <p class="text-sm text-slate-700 dark:text-slate-300 mb-2"><strong class="text-amber-600 dark:text-amber-400">☀️ Summer (Constructive):</strong> High-pressure anti-cyclones generate calmer winds and lower-energy constructive waves (<100,000 joules/m³, <1.5m). These waves possess a strong swash and a weak backwash, allowing them to deposit sediment and build up the beach to a steeper gradient (5–10°) with a distinct berm.</p>
@@ -437,8 +510,8 @@
                             </div>
                         </div>
                         
-                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
-                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b pb-2">2. Seasonal Aeolian (Wind) Transport</h4>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">2. Seasonal Aeolian (Wind) Transport</h4>
                             <div class="grid md:grid-cols-2 gap-4 mt-4">
                                 <div>
                                     <p class="text-sm text-slate-700 dark:text-slate-300 mb-2"><strong class="text-amber-600 dark:text-amber-400">☀️ Summer Transport:</strong> Warmer, drier weather dries out the deposited sediment quickly. Dry sand is much lighter and does not stick together (making it friable), rendering it highly susceptible to wind transport via saltation, suspension, and surface creep.</p>
@@ -449,11 +522,11 @@
                             </div>
                         </div>
 
-                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
-                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b pb-2">3. Historical Variations (1950s vs. Present Day)</h4>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">3. Historical Variations (1950s vs. Present Day)</h4>
                             <div class="grid md:grid-cols-2 gap-4 mt-4">
                                 <div>
-                                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-2"><strong class="text-red-600 dark:text-red-400">1950s (Erosion Dominant):</strong> Human activities (Maori burning, European farming, grazing) stripped dunes of vegetation. Without a 'zone of zero wind velocity', aeolian deposition stopped. Severe aeolian erosion (blowouts) occurred, migrating sand up to 5 km inland.</p>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-2"><strong class="text-red-600 dark:text-red-400">1950s (Erosion Dominant):</strong> Human activities (Māori burning, European farming, grazing) stripped dunes of vegetation. Without a 'zone of zero wind velocity', aeolian deposition stopped. Severe aeolian erosion (blowouts) occurred, migrating sand up to 5 km inland.</p>
                                 </div>
                                 <div>
                                     <p class="text-sm text-slate-700 dark:text-slate-300"><strong class="text-emerald-600 dark:text-emerald-400">Present Day (Deposition Dominant):</strong> The Auckland Council implemented extensive planting programs (marram, spinifex). Vegetation growth successfully interacted with aeolian transport, dramatically increasing deposition. Today, stable foredunes range from 3m to 12m high.</p>
@@ -461,8 +534,8 @@
                             </div>
                         </div>
 
-                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
-                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b pb-2">4. Long-Term Geological Change (1 Million Years Ago vs. Today)</h4>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">4. Long-Term Geological Change (1 Million Years Ago vs. Today)</h4>
                             <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed"><strong>1 Million Years Ago:</strong> Following volcanic activity roughly 17 million years ago that formed the Piha Conglomerate rock, tectonic uplift eventually exposed the Otakamiro Headland to marine erosion for the first time around 1 million years ago.</p>
                             <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong>Today:</strong> The continuous interaction of wave refraction, hydraulic action, and corrosion has drastically reshaped the headland. Refracting waves concentrate massive energy on the headland, while hydraulic action forces air into fissures to shatter the rock. Corrosion uses this broken rubble to further wear down the rock face, ultimately carving out caves, arches, and isolated features like the Motutara Stack over thousands of years.</p>
                         </div>
@@ -482,7 +555,7 @@
                                 <h4 class="font-bold text-red-800 dark:text-red-300 text-md">Not Achieved (NA)</h4><span class="text-red-800 font-extrabold text-xl">+</span>
                             </div>
                             <div id="temp-na" class="hidden p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"In summer the beach gets bigger because the waves are small. In winter the beach gets smaller because the waves are big and wash the sand away."</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 dark:border-slate-600 pl-3">"In summer the beach gets bigger because the waves are small. In winter the beach gets smaller because the waves are big and wash the sand away."</p>
                                 <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Identifies a basic pattern but names zero processes, includes zero data, and completely ignores the aeolian/wind aspects of the environment.</p>
                             </div>
                         </div>
@@ -491,7 +564,7 @@
                                 <h4 class="font-bold text-green-800 dark:text-green-300 text-md">Achieved (A)</h4><span class="text-green-800 font-extrabold text-xl">+</span>
                             </div>
                             <div id="temp-a" class="hidden p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"In summer the waves are constructive at 1.5m and build the beach up. The sun dries the sand so the wind can blow it to make dunes. In winter the waves are destructive at 3m and erode the beach. It rains so the wind cannot blow the wet sand."</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 dark:border-slate-600 pl-3">"In summer the waves are constructive at 1.5m and build the beach up. The sun dries the sand so the wind can blow it to make dunes. In winter the waves are destructive at 3m and erode the beach. It rains so the wind cannot blow the wet sand."</p>
                                 <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Correctly identifies the seasonal differences and includes basic stats. However, language is simple and it doesn't deeply explain the physics (swash/backwash, cohesion).</p>
                             </div>
                         </div>
@@ -500,7 +573,7 @@
                                 <h4 class="font-bold text-blue-800 dark:text-blue-300 text-md">Merit (M)</h4><span class="text-blue-800 font-extrabold text-xl">+</span>
                             </div>
                             <div id="temp-m" class="hidden p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"Seasonal variations happen because of different weather. In summer, constructive waves build a steep beach because swash is stronger than backwash. The dry sand is blown by winds via saltation to build dunes. In winter, destructive waves erode the beach, and the rain makes the sand too wet to blow, stopping dune growth."</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 dark:border-slate-600 pl-3">"Seasonal variations happen because of different weather. In summer, constructive waves build a steep beach because swash is stronger than backwash. The dry sand is blown by winds via saltation to build dunes. In winter, destructive waves erode the beach, and the rain makes the sand too wet to blow, stopping dune growth."</p>
                                 <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Very solid explanation of the mechanics and interactions. Missing the high-level vocabulary and hard data points (like fluid threshold velocity) to push it to Excellence.</p>
                             </div>
                         </div>
@@ -509,7 +582,7 @@
                                 <h4 class="font-bold text-whs-goldtext dark:text-whs-gold text-md">Excellence (E8)</h4><span class="text-whs-goldtext font-extrabold text-xl">-</span>
                             </div>
                             <div id="temp-e" class="block p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-whs-gold pl-3">"Temporal variation at Muriwai is defined by seasonal morphodynamic shifts. During summer anticyclonic conditions, low-energy constructive waves (<100k joules/m³) dominate, using a powerful swash to build a steep 5–10° reflective profile. High solar insolation dries this 200m foreshore, dropping the cohesion of the titanomagnetite and maximising aeolian saltation. Conversely, winter cyclonic systems generate high-energy plunging waves (>400k joules/m³) whose powerful backwash erodes the beach to a dissipative 0–2.5° profile, while high precipitation binds sand grains, raising the fluid threshold velocity and completely stalling aeolian transport."</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-whs-gold pl-3">"Temporal variation at Muriwai is defined by seasonal morphodynamic shifts. During summer anticyclonic conditions, low-energy constructive waves (<100k joules/m³) dominate, using a powerful swash to build a steep 5–10° reflective profile. High solar insolation dries this 150m foreshore, dropping the cohesion of the titanomagnetite and maximising aeolian saltation. Conversely, winter cyclonic systems generate high-energy plunging waves (>400k joules/m³) whose powerful backwash erodes the beach to a dissipative 0–2.5° profile, while high precipitation binds sand grains, raising the fluid threshold velocity and completely stalling aeolian transport."</p>
                                 <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Masterful contrast. Integrates deep mechanics (cohesion, fluid threshold velocity, reflective/dissipative profiles) and exact data to prove the temporal shift.</p>
                             </div>
                         </div>
@@ -519,9 +592,73 @@
             </div>
         </section>
 
+        <!-- VIEW: Study Tools (Pomodoro, Timer, Chart) -->
+        <section id="view-tools" class="view-section hidden space-y-8 animate-in fade-in duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-4 px-4">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">Study Tools & Productivity</h2>
+                <p class="text-sm md:text-base text-slate-600 dark:text-slate-400">Keep yourself on track. Use the Pomodoro timer, track tasks, and take a breath when you need it.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                
+                <!-- Col 1: Timer & Tasks -->
+                <div class="flex flex-col gap-8">
+                    <!-- Pomodoro Timer -->
+                    <div class="glass-card bg-white dark:bg-slate-800 p-8 border-t-8 border-t-red-500 rounded-xl text-center flex flex-col items-center justify-center min-h-[300px] shadow-md border border-slate-300 dark:border-slate-700">
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">Focus Timer</h3>
+                        <p id="timer-mode" class="text-sm font-bold uppercase tracking-widest text-red-500 mb-6">Work Session (25m)</p>
+                        
+                        <div id="timer-display" class="text-7xl md:text-8xl font-black text-whs-dark dark:text-whs-light tabular-nums mb-8 drop-shadow-md">25:00</div>
+                        
+                        <div class="flex gap-4">
+                            <button onclick="toggleTimer()" id="timer-btn" class="bg-red-500 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-red-600 transition shadow-md w-32 border border-red-700">Start</button>
+                            <button onclick="resetTimer()" class="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-white px-6 py-3 rounded-full font-bold text-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition w-32 shadow-sm border border-slate-300 dark:border-slate-600">Reset</button>
+                        </div>
+                    </div>
+
+                    <!-- To-Do List -->
+                    <div class="glass-card bg-white dark:bg-slate-800 p-8 border-t-8 border-t-emerald-500 rounded-xl flex flex-col h-[300px] shadow-md border border-slate-300 dark:border-slate-700">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 dark:text-white">Session Goals</h3>
+                            <span class="text-xs text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded border border-emerald-200 dark:border-emerald-800">+10 XP</span>
+                        </div>
+                        <div class="flex gap-2 mb-6">
+                            <input type="text" id="todo-input" placeholder="What needs to get done today?" class="flex-grow p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:border-emerald-500 outline-none text-sm shadow-inner" onkeypress="if(event.key === 'Enter') addTodo()">
+                            <button onclick="addTodo()" class="bg-emerald-500 text-white px-5 py-2 rounded-lg font-bold hover:bg-emerald-600 transition shadow-sm border border-emerald-700">+</button>
+                        </div>
+                        <ul id="todo-list" class="flex-grow overflow-y-auto custom-scrollbar space-y-2 pr-2">
+                            <!-- Todos injected via JS -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Col 2: Wellbeing & Chart -->
+                <div class="flex flex-col gap-8">
+                    <!-- Breathing Exercise -->
+                    <div class="glass-card bg-rose-50 dark:bg-rose-900/20 p-10 border-t-8 border-t-rose-500 rounded-xl h-[300px] flex flex-col items-center justify-center relative overflow-hidden shadow-md border border-rose-200 dark:border-rose-800">
+                        <h3 class="absolute top-6 text-sm font-bold uppercase tracking-widest text-rose-800 dark:text-rose-300">Box Breathing</h3>
+                        <p class="absolute top-12 text-xs text-rose-600 dark:text-rose-400 text-center w-full px-8 font-medium">Inhale as the circle grows (4s) • Hold (4s) • Exhale as it shrinks (4s)</p>
+                        
+                        <div class="breathe-circle w-40 h-40 md:w-48 md:h-48 rounded-full bg-rose-300/50 dark:bg-rose-500/30 border-4 border-rose-400 dark:border-rose-500 mt-8 shadow-[0_0_15px_rgba(2fb,113,133,0.3)]"></div>
+                    </div>
+
+                    <!-- Analytics Chart -->
+                    <div class="glass-card bg-white dark:bg-slate-800 p-8 border-t-8 border-t-blue-500 rounded-xl flex flex-col h-[300px] shadow-md border border-slate-300 dark:border-slate-700">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 dark:text-white">Focus Sessions</h3>
+                            <span class="text-xs text-blue-600 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded border border-blue-200 dark:border-blue-800">+50 XP / session</span>
+                        </div>
+                        <div class="chart-container h-full w-full relative">
+                            <canvas id="focusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- VIEW: Evidence Vault & Quiz -->
         <section id="view-vault" class="view-section hidden space-y-6 animate-in fade-in duration-500">
-            <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700">
+            <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 shadow-md">
                 <div class="flex justify-between items-center mb-6 flex-wrap gap-4 border-b border-slate-200 dark:border-slate-700 pb-4">
                     <h2 class="text-3xl font-extrabold text-whs-dark dark:text-whs-light">Practice Hub</h2>
                     <div class="flex gap-2 bg-slate-100 dark:bg-slate-700 p-1 rounded-lg border border-slate-300 dark:border-slate-600 shadow-inner">
@@ -592,7 +729,7 @@
         <!-- VIEW: Sandbox & Exemplars -->
         <section id="view-sandbox" class="view-section hidden space-y-8 animate-in fade-in duration-500">
             
-            <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 border-t-4 border-t-whs-dark">
+            <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 border-t-4 border-t-whs-dark shadow-md">
                 <h2 class="text-3xl font-extrabold mb-2 text-whs-dark dark:text-whs-light">Interactive Writing Sandbox</h2>
                 <p class="text-sm mb-6 text-slate-600 dark:text-slate-400">Practise your paragraph writing here. The automated Keyword Engine will scan your draft for E8-level vocabulary and specific Muriwai statistics.</p>
 
@@ -625,7 +762,7 @@
                 <textarea id="sandbox-textarea" class="w-full h-72 p-5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-whs-dark outline-none mb-4 font-serif leading-relaxed resize-y shadow-inner" placeholder="Start drafting your response here... (Your work auto-saves locally)"></textarea>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <button onclick="analyseText()" class="bg-whs-dark text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-900 transition shadow-md border border-slate-800">Run Keyword Analysis</button>
+                    <button onclick="analyseText()" class="bg-whs-dark text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-900 transition shadow-md border border-slate-800">Run Keyword Analysis</button>
                     <button onclick="exportSandbox()" class="bg-emerald-600 text-white px-5 py-3 rounded-lg font-bold hover:bg-emerald-700 transition shadow-md border border-emerald-800 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         Export Draft
@@ -640,7 +777,7 @@
                 </div>
 
                 <!-- Instant Feedback Panel (Hidden until run) -->
-                <div id="sandbox-feedback" class="hidden mt-8 p-6 rounded-xl border-l-4 shadow-md bg-white dark:bg-slate-800 border-whs-gold flex flex-col h-full">
+                <div id="sandbox-feedback" class="hidden mt-8 p-6 rounded-xl border-l-4 shadow-md bg-white dark:bg-slate-800 border-whs-gold flex flex-col h-full transition-all">
                     <h3 class="font-extrabold text-xl text-whs-dark dark:text-whs-light mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Analysis Results</h3>
                     <div id="feedback-content" class="text-sm space-y-4 text-slate-700 dark:text-slate-300">
                         <!-- Populated by JS -->
@@ -651,7 +788,7 @@
 
         <!-- VIEW: Excellence Guide -->
         <section id="view-essay" class="view-section hidden space-y-8 animate-in fade-in duration-500">
-            <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700">
+            <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 shadow-md">
                 
                 <!-- Mandatory Checklist -->
                 <div class="bg-amber-100 dark:bg-amber-900/40 border-l-4 border-whs-gold p-6 rounded-r-lg mb-8 shadow-sm">
@@ -668,54 +805,54 @@
                 </div>
 
                 <!-- Geographic Concepts -->
-                <div class="mb-10">
+                <div class="mb-10 bg-slate-50 dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <h2 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light">Key Geographic Concepts</h2>
                     <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Hover over the concepts below to see their definitions. Click on a concept to see how it can be woven into a sentence for this topic.</p>
-                    <div class="flex flex-wrap gap-4 mb-4">
+                    <div class="flex flex-wrap gap-4 mb-5">
                         <!-- ENVIRONMENT -->
                         <div class="relative group inline-block">
-                            <button onclick="updateConceptSentence('ENVIRONMENT')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">ENVIRONMENT</button>
+                            <button onclick="updateConceptSentence('ENVIRONMENT')" class="px-4 py-2 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition focus:ring-2 focus:ring-offset-2 focus:ring-whs-gold">ENVIRONMENT</button>
                             <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
                                 May be natural and/or cultural. They have particular characteristics and features which can be the result of natural and/or cultural processes. The particular characteristics of an environment may be similar to and/or different from another.
                             </div>
                         </div>
                         <!-- PERSPECTIVE -->
                         <div class="relative group inline-block">
-                            <button onclick="updateConceptSentence('PERSPECTIVE')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">PERSPECTIVE</button>
+                            <button onclick="updateConceptSentence('PERSPECTIVE')" class="px-4 py-2 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition focus:ring-2 focus:ring-offset-2 focus:ring-whs-gold">PERSPECTIVE</button>
                             <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
                                 The way people view and interpret environments. Perspectives and values may be influenced by culture, environment, social systems, technology, economic and political ideology. They may influence how people interact with environments.
                             </div>
                         </div>
                         <!-- PROCESS -->
                         <div class="relative group inline-block">
-                            <button onclick="updateConceptSentence('PROCESS')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">PROCESS</button>
+                            <button onclick="updateConceptSentence('PROCESS')" class="px-4 py-2 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition focus:ring-2 focus:ring-offset-2 focus:ring-whs-gold">PROCESS</button>
                             <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
                                 A sequence of actions, natural and/or cultural, that shape and change environments, places and societies. Some examples of geographic processes include wave erosion and migration.
                             </div>
                         </div>
                         <!-- PATTERN -->
                         <div class="relative group inline-block">
-                            <button onclick="updateConceptSentence('PATTERN')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">PATTERN</button>
+                            <button onclick="updateConceptSentence('PATTERN')" class="px-4 py-2 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition focus:ring-2 focus:ring-offset-2 focus:ring-whs-gold">PATTERN</button>
                             <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
                                 May be spatial: the arrangement of features on the earth’s surface; or temporal: how characteristics differ over time in recognisable ways.
                             </div>
                         </div>
                         <!-- INTERACTION -->
                         <div class="relative group inline-block">
-                            <button onclick="updateConceptSentence('INTERACTION')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">INTERACTION</button>
+                            <button onclick="updateConceptSentence('INTERACTION')" class="px-4 py-2 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition focus:ring-2 focus:ring-offset-2 focus:ring-whs-gold">INTERACTION</button>
                             <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
                                 Involves elements of an environment affecting each other and being linked together. Interaction incorporates movement, flows, connections, links and interrelationships. Landscapes are the visible outcome of interactions.
                             </div>
                         </div>
                         <!-- CHANGE -->
                         <div class="relative group inline-block">
-                            <button onclick="updateConceptSentence('CHANGE')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">CHANGE</button>
+                            <button onclick="updateConceptSentence('CHANGE')" class="px-4 py-2 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition focus:ring-2 focus:ring-offset-2 focus:ring-whs-gold">CHANGE</button>
                             <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
                                 Involves any alteration to the natural or cultural environment. Change can be spatial and/or temporal. It occurs at varying rates, at different times and in different places. Change can bring about further change.
                             </div>
                         </div>
                     </div>
-                    <div class="bg-slate-100 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-300 dark:border-slate-600 text-sm italic text-slate-700 dark:text-slate-300 min-h-[4rem] flex items-center">
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-600 text-sm italic text-slate-700 dark:text-slate-300 min-h-[4rem] flex items-center shadow-inner">
                         <strong class="mr-2">Example usage:</strong> <span id="concept-sentence-display">"The <span class="font-bold underline text-whs-dark dark:text-whs-light">interaction</span> between the natural <span class="font-bold underline text-whs-dark dark:text-whs-light">processes</span> of longshore drift and aeolian saltation acts to <span class="font-bold underline text-whs-dark dark:text-whs-light">change</span> the <span class="font-bold underline text-whs-dark dark:text-whs-light">environment</span> over time, resulting in a distinct spatial <span class="font-bold underline text-whs-dark dark:text-whs-light">pattern</span> of parabolic dune formation." (Click a concept above to update)</span>
                     </div>
                 </div>
@@ -830,13 +967,59 @@
 
     </main>
 
+    <!-- AUDIO GENERATOR FOR GAMIFICATION -->
+    <script>
+        function playBeep(type) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if(!AudioContext) return;
+            const ctx = new AudioContext();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            
+            if(type === 'ding') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.3);
+            } else if (type === 'alarm') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(400, ctx.currentTime);
+                osc.frequency.setValueAtTime(600, ctx.currentTime + 0.2);
+                osc.frequency.setValueAtTime(400, ctx.currentTime + 0.4);
+                osc.frequency.setValueAtTime(600, ctx.currentTime + 0.6);
+                gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.5);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 1.5);
+            }
+        }
+    </script>
+
     <!-- JavaScript Application Logic -->
     <script>
+        // --- Initialization on Load (Error Resilient) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            try { initStreak(); } catch(e) { console.error("Streak err:", e); }
+            try { updateXPDisplay(); } catch(e) { console.error("XP err:", e); }
+            try { initTodos(); } catch(e) { console.error("Todos err:", e); }
+            try { initCountdown(); } catch(e) { console.error("Countdown err:", e); }
+            try { drawFlashcards(); } catch(e) { console.error("Flashcards err:", e); }
+            try { updateConceptSentence('ENVIRONMENT'); } catch(e) { console.error("Concept err:", e); }
+        });
+
         // --- Dark Mode Logic ---
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
             localStorage.setItem('whs-theme', isDark ? 'dark' : 'light');
+            if(document.getElementById('view-tools').classList.contains('block')) {
+                initFocusChart(); // Re-render chart colors
+            }
         }
 
         if (localStorage.getItem('whs-theme') === 'dark' || (!('whs-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -845,25 +1028,85 @@
             document.documentElement.classList.remove('dark');
         }
 
+        // --- Gamification Logic ---
+        let xp = parseInt(localStorage.getItem('whs_muriwai_xp')) || 0;
+
+        function updateXPDisplay() {
+            let level = Math.floor(Math.sqrt(xp / 10)) + 1;
+            document.getElementById('xp-display').innerText = xp;
+            document.getElementById('level-display').innerText = level;
+        }
+
+        function addXP(amount) {
+            let oldLevel = Math.floor(Math.sqrt(xp / 10)) + 1;
+            xp += amount;
+            localStorage.setItem('whs_muriwai_xp', xp);
+            let newLevel = Math.floor(Math.sqrt(xp / 10)) + 1;
+            
+            updateXPDisplay();
+            playBeep('ding');
+
+            if (newLevel > oldLevel) {
+                const container = document.getElementById('xp-container');
+                container.classList.add('level-up');
+                setTimeout(() => container.classList.remove('level-up'), 1000);
+            }
+        }
+
+        function initStreak() {
+            const today = new Date().toDateString();
+            let lastLogin = localStorage.getItem('whs_muriwai_last_login');
+            let streak = parseInt(localStorage.getItem('whs_muriwai_streak')) || 0;
+
+            if (lastLogin !== today) {
+                const yesterday = new Date(Date.now() - 86400000).toDateString();
+                if (lastLogin === yesterday) {
+                    streak++;
+                } else if (lastLogin !== null) {
+                    streak = 1; 
+                } else {
+                    streak = 1;
+                }
+                localStorage.setItem('whs_muriwai_last_login', today);
+                localStorage.setItem('whs_muriwai_streak', streak);
+            }
+            const counter = document.getElementById('streak-counter');
+            if(counter) counter.innerText = streak;
+        }
+
+        function initCountdown() {
+            // Exam Date: Tuesday 24th November 2026, 2:00 PM
+            // Note: Months are 0-indexed in JS, so November is 10
+            const examDate = new Date(2026, 10, 24, 14, 0, 0);
+            const now = new Date();
+            const diffTime = examDate.getTime() - now.getTime();
+            
+            const displayEl = document.getElementById('exam-days-display');
+            if (!displayEl) return;
+
+            if (diffTime > 0) {
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                displayEl.innerText = `${diffDays} Days`;
+            } else {
+                displayEl.innerText = `It's Time!`;
+            }
+        }
+
         // --- Main Tab Navigation Logic ---
         document.querySelectorAll('.nav-btn').forEach(btn => {
-            // Ignore the Gemini external link tab for internal routing
-            if(btn.getAttribute('data-target') === 'gemini') return;
+            if(btn.getAttribute('data-target') === 'gemini' || btn.getAttribute('data-target') === 'notebooklm') return;
 
             btn.addEventListener('click', function() {
-                // Remove active classes from all internal tabs
                 document.querySelectorAll('.nav-btn').forEach(b => {
-                    if(b.getAttribute('data-target') !== 'gemini') {
+                    if(b.getAttribute('data-target') !== 'gemini' && b.getAttribute('data-target') !== 'notebooklm') {
                         b.classList.remove('bg-whs-dark', 'text-white', 'border-whs-dark');
                         b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
                     }
                 });
                 
-                // Add active class to clicked tab
                 this.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
                 this.classList.add('bg-whs-dark', 'text-white', 'border-whs-dark');
 
-                // Switch Views
                 const targetId = 'view-' + this.getAttribute('data-target');
                 document.querySelectorAll('.view-section').forEach(section => {
                     if(section.id === targetId) {
@@ -874,12 +1117,19 @@
                         section.classList.remove('block');
                     }
                 });
+
+                if(targetId === 'view-tools') {
+                    setTimeout(initFocusChart, 100);
+                }
             });
         });
 
-        // Gemini external link click handler
+        // External link click handlers
         document.querySelector('[data-target="gemini"]').addEventListener('click', function() {
             window.open('https://gemini.google.com/gem/1j5V4c0XQhePnEuMgO3m8cPbUfublWpTK?usp=sharing', '_blank');
+        });
+        document.querySelector('[data-target="notebooklm"]').addEventListener('click', function() {
+            window.open('https://notebooklm.google.com/notebook/f506f311-a6e2-4b6e-a62d-c39cacf544d4?authuser=0', '_blank');
         });
 
         // --- Geographic Concepts Logic ---
@@ -911,20 +1161,194 @@
             }
         }
 
+        // --- To Do Logic (Study Tools) ---
+        function initTodos() { renderTodos(); }
+
+        function renderTodos() {
+            const todos = JSON.parse(localStorage.getItem('whs_muriwai_todos')) || [];
+            const list = document.getElementById('todo-list');
+            if (todos.length === 0) {
+                list.innerHTML = `<li class="text-sm text-slate-400 italic text-center mt-4">No tasks added. What's the plan?</li>`;
+                return;
+            }
+            list.innerHTML = '';
+            todos.forEach((t, i) => {
+                list.innerHTML += `
+                <li class="flex justify-between items-center bg-slate-50 dark:bg-slate-700/50 p-3 rounded border border-slate-200 dark:border-slate-600 transition ${t.done ? 'opacity-50' : ''}">
+                    <span class="text-sm ${t.done ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-200 font-medium'}">${t.text}</span>
+                    <div class="flex gap-2 shrink-0">
+                        <button onclick="toggleTodo(${i})" class="text-xs font-bold px-2 py-1 rounded bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 ${t.done ? 'text-slate-600 dark:text-slate-400' : 'text-emerald-600 dark:text-emerald-400'}">${t.done ? 'Undo' : 'Done ✓'}</button>
+                        <button onclick="deleteTodo(${i})" class="text-xs font-bold px-2 py-1 rounded bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800">✕</button>
+                    </div>
+                </li>`;
+            });
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            const text = input.value.trim();
+            if (text) {
+                const todos = JSON.parse(localStorage.getItem('whs_muriwai_todos')) || [];
+                todos.push({ text: text, done: false });
+                localStorage.setItem('whs_muriwai_todos', JSON.stringify(todos));
+                input.value = '';
+                renderTodos();
+            }
+        }
+
+        function toggleTodo(index) {
+            const todos = JSON.parse(localStorage.getItem('whs_muriwai_todos'));
+            todos[index].done = !todos[index].done;
+            localStorage.setItem('whs_muriwai_todos', JSON.stringify(todos));
+            if(todos[index].done) addXP(10);
+            renderTodos();
+        }
+
+        function deleteTodo(index) {
+            const todos = JSON.parse(localStorage.getItem('whs_muriwai_todos'));
+            todos.splice(index, 1);
+            localStorage.setItem('whs_muriwai_todos', JSON.stringify(todos));
+            renderTodos();
+        }
+
+        // --- Pomodoro & Chart Logic (Study Tools) ---
+        let timerInterval = null;
+        let timeLeft = 1500; // 25 mins
+        let isWorkSession = true;
+        let chartInstance = null;
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeLeft/60).toString().padStart(2, '0');
+            const s = (timeLeft%60).toString().padStart(2, '0');
+            document.getElementById('timer-display').innerText = `${m}:${s}`;
+        }
+
+        function trackFocusSession() {
+            const today = new Date().toLocaleDateString('en-NZ', { weekday: 'short' });
+            let tracking = JSON.parse(localStorage.getItem('whs_muriwai_focus_tracking')) || { "Mon":0, "Tue":0, "Wed":0, "Thu":0, "Fri":0, "Sat":0, "Sun":0 };
+            if (tracking[today] !== undefined) tracking[today]++;
+            localStorage.setItem('whs_muriwai_focus_tracking', JSON.stringify(tracking));
+            if(chartInstance) updateFocusChartData(tracking);
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('timer-btn');
+            if(timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                btn.innerText = "Resume";
+                btn.classList.remove('bg-amber-500', 'hover:bg-amber-600', 'border-amber-700');
+                btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600', 'border-emerald-700');
+            } else {
+                btn.innerText = "Pause";
+                btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600', 'border-emerald-700', 'bg-red-500', 'hover:bg-red-600', 'border-red-700');
+                btn.classList.add('bg-amber-500', 'hover:bg-amber-600', 'border-amber-700');
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if(timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                        playBeep('alarm');
+                        
+                        if(isWorkSession) {
+                            addXP(50);
+                            trackFocusSession();
+                        }
+
+                        isWorkSession = !isWorkSession;
+                        timeLeft = isWorkSession ? 1500 : 300;
+                        
+                        const modeText = document.getElementById('timer-mode');
+                        if (isWorkSession) {
+                            modeText.innerText = "Work Session (25m)";
+                            modeText.classList.replace('text-emerald-500', 'text-red-500');
+                        } else {
+                            modeText.innerText = "Break Time (5m)";
+                            modeText.classList.replace('text-red-500', 'text-emerald-500');
+                        }
+                        
+                        btn.innerText = "Start";
+                        btn.classList.remove('bg-amber-500', 'hover:bg-amber-600', 'border-amber-700');
+                        btn.classList.add('bg-red-500', 'hover:bg-red-600', 'border-red-700');
+                        updateTimerDisplay();
+                        alert(isWorkSession ? "Break is over! Time to focus." : "Great job! Take a 5 minute break.");
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isWorkSession = true;
+            timeLeft = 1500;
+            updateTimerDisplay();
+            const btn = document.getElementById('timer-btn');
+            btn.innerText = "Start";
+            btn.classList.remove('bg-amber-500', 'hover:bg-amber-600', 'border-amber-700', 'bg-emerald-500', 'hover:bg-emerald-600', 'border-emerald-700');
+            btn.classList.add('bg-red-500', 'hover:bg-red-600', 'border-red-700');
+            const modeText = document.getElementById('timer-mode');
+            modeText.innerText = "Work Session (25m)";
+            modeText.classList.replace('text-emerald-500', 'text-red-500');
+        }
+
+        function initFocusChart() {
+            const canvas = document.getElementById('focusChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            const tracking = JSON.parse(localStorage.getItem('whs_muriwai_focus_tracking')) || { "Mon":0, "Tue":0, "Wed":0, "Thu":0, "Fri":0, "Sat":0, "Sun":0 };
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            const textColor = isDarkMode ? '#cbd5e1' : '#475569';
+            const gridColor = isDarkMode ? '#334155' : '#e2e8f0';
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(tracking),
+                    datasets: [{
+                        label: 'Sessions Completed',
+                        data: Object.values(tracking),
+                        backgroundColor: '#3b82f6', // blue-500
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1, color: textColor }, grid: { color: gridColor } },
+                        x: { ticks: { color: textColor }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function updateFocusChartData(tracking) {
+            if(chartInstance) {
+                chartInstance.data.datasets[0].data = Object.values(tracking);
+                chartInstance.update();
+            }
+        }
+
         // --- Sandbox Auto-Save, Clear, Export & Analysis Logic ---
         const textarea = document.getElementById('sandbox-textarea');
         const saveStatus = document.getElementById('save-status');
-        let timeoutId;
+        let draftTimeoutId;
 
-        if (localStorage.getItem('whs_draft_essay')) {
-            textarea.value = localStorage.getItem('whs_draft_essay');
+        if (localStorage.getItem('whs_muriwai_draft_essay')) {
+            textarea.value = localStorage.getItem('whs_muriwai_draft_essay');
         }
 
         textarea.addEventListener('input', () => {
             saveStatus.innerText = 'Saving...';
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                localStorage.setItem('whs_draft_essay', textarea.value);
+            clearTimeout(draftTimeoutId);
+            draftTimeoutId = setTimeout(() => {
+                localStorage.setItem('whs_muriwai_draft_essay', textarea.value);
                 saveStatus.innerText = 'Saved locally.';
             }, 1000);
         });
@@ -932,7 +1356,7 @@
         function clearSandbox() {
             if(confirm("Are you sure you want to clear your draft? This cannot be undone.")) {
                 textarea.value = '';
-                localStorage.removeItem('whs_draft_essay');
+                localStorage.removeItem('whs_muriwai_draft_essay');
                 document.getElementById('sandbox-feedback').classList.add('hidden');
                 saveStatus.innerText = 'Draft cleared.';
             }
@@ -992,6 +1416,7 @@
 
             if (dataFound.length >= 3) {
                 htmlOutput += `<p class="bg-emerald-50 dark:bg-emerald-900/30 p-4 rounded-lg border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300">✅ <strong>Strong Evidence:</strong> You integrated specific case study data effectively.</p>`;
+                addXP(50); // Reward for good data
             } else {
                 htmlOutput += `<p class="bg-red-50 dark:bg-red-900/30 p-4 rounded-lg border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300">❌ <strong>Missing Evidence:</strong> Excellence requires specific quantification. Add numbers like '18km/h', '5.47 m/s', or '17 million years'.</p>`;
             }
@@ -1032,7 +1457,6 @@
             const grid = document.getElementById('flashcard-grid');
             grid.innerHTML = ''; 
             
-            // Shuffle database
             const shuffled = [...flashcardDatabase].sort(() => 0.5 - Math.random());
             const selected = shuffled.slice(0, 6);
 
@@ -1046,7 +1470,7 @@
                             <span class="font-bold text-md md:text-lg leading-tight">${card.question}</span>
                         </div>
                         <!-- Back of Card (Answer) -->
-                        <div class="absolute w-full h-full bg-whs-gold text-whs-dark rounded-xl p-5 flex flex-col justify-center items-center text-center backface-hidden rotate-y-180 shadow-lg border border-whs-goldtext">
+                        <div class="absolute w-full h-full bg-whs-gold text-whs-dark rounded-xl p-5 flex flex-col justify-center items-center text-center backface-hidden is-flipped shadow-lg border border-whs-goldtext">
                             <span class="font-bold font-mono text-xl mb-2">${card.stat}</span>
                             <span class="text-sm leading-tight">${card.text}</span>
                         </div>
@@ -1055,8 +1479,6 @@
                 grid.innerHTML += cardHTML;
             });
         }
-
-        drawFlashcards();
 
         // --- Vault Sub-Tab Logic ---
         function switchVaultTab(tab) {
@@ -1078,7 +1500,7 @@
             }
         }
 
-        // --- Extended Quiz Engine Logic ---
+        // --- Extensive Quiz Engine Logic (16 Questions) ---
         const fullQuizBank = [
             { q: "What is the critical fluid threshold velocity required to initiate saltation of the sand grains at Muriwai?", opts: ["1.50 m/s", "5.47 m/s", "12.00 m/s", "20.00 m/s"], ans: 1, exp: "Wind must exceed the fluid threshold velocity of 5.47 m/s (approx 18-20 km/h) to initiate saltation." },
             { q: "What was the result of human activities (burning/grazing) removing vegetation from the dunes in the 1950s?", opts: ["Dunes grew to 20m high.", "Aeolian deposition increased rapidly.", "Severe blowouts caused sand to migrate up to 5km inland.", "Longshore drift reversed direction."], ans: 2, exp: "Without the 'zone of zero wind velocity' provided by vegetation, severe aeolian erosion (blowouts) migrated sand up to 5km inland." },
@@ -1165,8 +1587,9 @@
             
             if (isCorrect) {
                 score++;
+                addXP(10); // Reward for correct answer
                 feedbackBox.classList.add('bg-emerald-100', 'dark:bg-emerald-900/50', 'border-emerald-500', 'text-emerald-800', 'dark:text-emerald-300');
-                feedbackText.innerHTML = `<strong>Correct!</strong> ${q.exp}`;
+                feedbackText.innerHTML = `<strong>Correct! (+10 XP)</strong> ${q.exp}`;
             } else {
                 feedbackBox.classList.add('bg-red-100', 'dark:bg-red-900/50', 'border-red-500', 'text-red-800', 'dark:text-red-300');
                 feedbackText.innerHTML = `<strong>Incorrect.</strong> ${q.exp}`;
@@ -1196,6 +1619,7 @@
 
             document.getElementById('final-score').innerHTML = `You scored ${score} out of ${currentQuizData.length}.<br><span class="text-sm text-slate-600 dark:text-slate-400 mt-2 block">${message}</span>`;
         }
+
     </script>
 </body>
 </html>
