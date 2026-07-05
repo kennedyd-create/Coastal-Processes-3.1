@@ -56,8 +56,23 @@
         .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
-        .group:hover .group-hover\:rotate-y-180 { transform: rotateY(180deg); }
+        .is-flipped { transform: rotateY(180deg); }
         
+        /* Tooltip Arrow */
+        .tooltip-arrow::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: #002066 transparent transparent transparent;
+        }
+        .dark .tooltip-arrow::after {
+            border-color: #1e293b transparent transparent transparent;
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar { height: 6px; width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -81,8 +96,8 @@
         </button>
     </header>
 
-    <!-- Navigation Tabs (Smaller, Wrapping) -->
-    <nav class="max-w-7xl mx-auto flex flex-wrap justify-center sm:justify-start gap-2 mb-8">
+    <!-- Navigation Tabs -->
+    <nav class="max-w-7xl mx-auto flex flex-wrap justify-center sm:justify-start gap-2 mb-8 relative z-0">
         <button data-action="view" data-target="context" class="nav-btn active px-4 py-2 text-sm rounded-lg font-bold bg-whs-dark text-white shadow-md transition-all border border-whs-dark">Geographic Context</button>
         <button data-action="view" data-target="processes" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">Interacting Processes</button>
         <button data-action="view" data-target="spatial" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">Spatial Variations</button>
@@ -104,28 +119,33 @@
         <!-- VIEW: Context -->
         <section id="view-context" class="view-section space-y-8 animate-in fade-in duration-500 block">
             <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 border-t-4 border-t-whs-dark">
-                <h2 class="text-3xl font-extrabold mb-4 text-whs-dark dark:text-whs-light">Defining the Muriwai Coastal Environment (MCE)</h2>
-                <p class="mb-6 text-lg text-slate-700 dark:text-slate-300">A geographic environment is an area large enough to study interacting natural processes. The MCE is a highly dynamic open system spanning approximately <strong>6.2 square kilometres</strong> along the high-energy west coast of Auckland (36.8° S, 174.4° E).</p>
+                <h2 class="text-3xl font-extrabold mb-4 text-whs-dark dark:text-whs-light">Setting the Scene: The MCE</h2>
+                <p class="mb-6 text-lg text-slate-700 dark:text-slate-300">Muriwai is a rugged, high-energy coastline located <strong>42 km west of Auckland</strong>. While the beach stretches 50 km from Otakamiro Headland to the Kaipara Harbour, our specific case study area focuses on a <strong>3-5 km stretch</strong> from Okiritoto Stream in the north, down to Otakamiro Point and Maukatia (Māori) Bay in the south.</p>
                 
-                <div class="grid md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-slate-100 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
-                        <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">Northern Boundary</h3>
-                        <p class="text-sm">Marked by the <strong>Okiritoto Stream</strong>, introducing fluvial processes and forming a delta approximately 60m across at the river mouth.</p>
+                <h3 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light">The Five Key Elements</h3>
+                <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Elements are the "ingredients" of the environment that processes act upon:</p>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
+                        <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">1. Geology (Rock)</h3>
+                        <p class="text-sm">The southern end features <strong>Manukau Breccia</strong> (a hard, erosion-resistant volcanic conglomerate formed 17 million years ago). North of the headland, softer sandstone and siltstone have been eroded away to form the bay.</p>
                     </div>
-                    <div class="bg-slate-100 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
-                        <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">Eastern Boundary</h3>
-                        <p class="text-sm">Defined by the <strong>Woodhill Forest</strong>, a massive pine plantation established in the 1930s to stabilise migrating sand dunes and protect agricultural land.</p>
+                    <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
+                        <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">2. Sediment</h3>
+                        <p class="text-sm">The beach consists of fine, black <strong>titanomagnetite iron sand</strong> (0.25mm diameter) sourced from Taranaki and central North Island volcanoes, mixed with lighter quartz and feldspar.</p>
                     </div>
-                    <div class="bg-slate-100 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
-                        <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">Southern Boundary</h3>
-                        <p class="text-sm">Encompasses <strong>Maori Bay</strong>, a 600m wide embayment featuring a 25m wide beach backed by dramatic cliffs showcasing unique pillow lavas.</p>
+                    <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
+                        <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">3. Waves</h3>
+                        <p class="text-sm">High-energy waves with a massive fetch of 2,000 km across the Tasman Sea. They average 1.5 m in height with an energy of <strong>250,000 to 500,000 joules per m³</strong>.</p>
                     </div>
-                </div>
-
-                <div class="bg-blue-50 dark:bg-whs-dark/40 p-6 rounded-xl border border-blue-200 dark:border-slate-600 border-l-4 border-l-whs-gold shadow-sm">
-                    <h3 class="text-xl font-bold mb-3 text-whs-dark dark:text-whs-light">Geological Foundation (The Canvas)</h3>
-                    <p class="text-sm mb-3">The structural difference between the erosional headland and depositional beach originates from their lithological foundation. Tectonic compression and volcanic intrusions 17 million years ago (Waitakere volcanic arc) created Otakamiro Point. This highly resistant matrix of <strong>Manukau Breccia</strong> and <strong>Piha Conglomerate</strong> (andesites, basalts, sandstones) erodes slowly to form steep cliffs.</p>
-                    <p class="text-sm">Crucially, this tectonic history also introduced structural weaknesses—joints and bedding planes—which dictate where marine processes will most effectively exploit fault lines.</p>
+                    <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
+                        <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">4. Wind</h3>
+                        <p class="text-sm">Prevailing winds are southwesterly/westerly (onshore). They blow over 18 km/h 42% of the time, providing immense energy for both waves and aeolian transport.</p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
+                        <h3 class="font-bold text-whs-dark dark:text-whs-light mb-2">5. Vegetation</h3>
+                        <p class="text-sm">Crucial for dune formation. Includes native <strong>spinifex</strong> and <strong>pingao</strong>, as well as introduced <strong>marram grass</strong> acting as biological baffles.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -133,33 +153,97 @@
         <!-- VIEW: Interacting Processes -->
         <section id="view-processes" class="view-section hidden space-y-8 animate-in fade-in duration-500">
             <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 border-t-4 border-t-whs-dark">
-                <h2 class="text-3xl font-extrabold mb-4 text-whs-dark dark:text-whs-light">1. Atmospheric Energetics & Wave Refraction</h2>
-                <p class="mb-4 text-slate-700 dark:text-slate-300">The MCE is a wave-dominated, high-energy system. The primary driver is the transfer of kinetic energy from the atmosphere to the hydrosphere.</p>
+                <h2 class="text-3xl font-extrabold mb-4 text-whs-dark dark:text-whs-light">Key Natural Processes</h2>
+                <p class="mb-4 text-slate-700 dark:text-slate-300">To gain Excellence, you must understand how these processes operate as a sequence of logical steps.</p>
+                
+                <h3 class="text-xl font-bold mt-6 mb-3 text-whs-goldtext dark:text-whs-gold">A. Marine (Wave) Processes</h3>
                 <ul class="list-disc pl-6 space-y-3 text-sm mb-6 text-slate-700 dark:text-slate-300">
-                    <li><strong>Energy Input:</strong> Prevailing SW and WSW winds blow 42-58% of the time across a massive 2,000km fetch of the Tasman Sea. This generates immense wave trains carrying loads reaching <strong>100,000 Joules per cubic metre</strong>.</li>
-                    <li><strong>Shoaling:</strong> In deep water, energy travels in a circular orbit. As depth decreases near the coast, friction slows wave <em>celerity</em> (speed), shortening the wavelength and dramatically increasing height. Average modal heights exceed 1.5m (up to >5m in winter).</li>
-                    <li><strong class="text-whs-goldtext dark:text-whs-gold">Wave Refraction:</strong> Shallow-water wave velocity is proportional to water depth. Wave fronts encountering the shallow waters off Otakamiro Point slow down, causing the crests to bend. <strong>Orthogonals</strong> (energy trajectory lines) converge on the headland like a magnifying glass, focusing destructive power. Conversely, orthogonals diverge in the deeper embayments, dissipating energy and enabling deposition.</li>
+                    <li><strong>Wave Refraction:</strong> As waves approach the irregular coastline, the shallow water around Otakamiro Headland causes the waves to slow down due to friction. The wave crests (<em>isobaths</em>) bend, concentrating wave energy (<em>orthogonals</em>) onto the headland (increasing erosion) and dissipating energy into the bays (allowing deposition).</li>
+                    <li><strong>Hydraulic Action / Pressure:</strong> High-energy waves smash into the cliff, trapping and compressing air inside rock fissures. When the wave recedes, the air expands explosively, shattering the rock.</li>
+                    <li><strong>Abrasion (Corrasion):</strong> Waves hurl rocks, pebbles, and heavy titanomagnetite sand against the cliff face, wearing it away like sandpaper.</li>
+                    <li><strong>Longshore Drift:</strong> Prevailing SW winds cause waves to approach the beach at an oblique angle. The swash carries sediment diagonally up the beach, while gravity pulls the backwash straight down (at a 90° angle). This zig-zag motion transports roughly 250,000 m³ of sediment northwards annually.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold mt-6 mb-3 text-whs-goldtext dark:text-whs-gold">B. Aeolian (Wind) Processes</h3>
+                <ul class="list-disc pl-6 space-y-3 text-sm mb-6 text-slate-700 dark:text-slate-300">
+                    <li><strong>Deflation & Entrainment:</strong> During low tide, the 150m wide beach is exposed to the sun, drying the sand and making it friable (loose). Strong SW onshore winds exceeding the <strong>fluid threshold velocity of 5.47 metres per second (20 km/h)</strong> pick up the sand.</li>
+                    <li><strong>Saltation:</strong> The primary method of wind transport. Sand grains bounce in a skipping motion along the beach face. As they land, they dislodge other grains, creating a chain reaction.</li>
+                    <li><strong>Aeolian Deposition:</strong> As the wind hits dune vegetation, it creates a <strong>zone of zero wind velocity</strong> (about 10 cm high). The wind loses energy, dropping the sand, which leads to dune accretion (growth).</li>
+                </ul>
+
+                <h3 class="text-xl font-bold mt-6 mb-3 text-whs-goldtext dark:text-whs-gold">C. Sub-Aerial Weathering</h3>
+                <ul class="list-disc pl-6 space-y-3 text-sm mb-6 text-slate-700 dark:text-slate-300">
+                    <li><strong>Spray-splash Weathering:</strong> Wave splash reaches high up the cliff face. When water evaporates, salt crystals are left in the rock's pores. As these crystals grow, they exert pressure, flaking the rock into a "honeycomb" pattern.</li>
+                    <li><strong>Water-layer Weathering:</strong> Tidal changes leave saltwater ponds on flat shore platforms. The sun evaporates the water, and the resulting salt crystals erode the surface downwards.</li>
                 </ul>
             </div>
 
-            <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700">
-                <h2 class="text-2xl font-bold mb-6 text-whs-dark dark:text-whs-light">2. Mechanics of Marine Erosion & Sub-Aerial Interaction</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
-                        <h3 class="font-bold text-whs-goldtext dark:text-whs-gold mb-3 text-lg">Marine Erosional Mechanisms</h3>
-                        <ul class="space-y-3 text-sm list-disc pl-4 text-slate-700 dark:text-slate-300">
-                            <li><strong>Hydraulic Action:</strong> High-energy plunging waves smash against the 35m cliff, compressing air in faults under immense hydrostatic pressure. Retreating waves release this pressure instantly, acting as an explosive wedge that shatters rock.</li>
-                            <li><strong>Corrasion (Abrasion):</strong> Concentrated waves hurl shattered rock fragments and dense titanomagnetite sand against the cliff in a relentless sandpapering action.</li>
-                            <li><strong>Corrosion:</strong> Seawater acts as a weak carbonic acid, dissolving limestone elements in Flat Rock, producing a honeycombed effect.</li>
-                        </ul>
+            <!-- Multimedia & Study Tools Integration -->
+            <div class="glass-card bg-slate-100 dark:bg-slate-800/80 p-6 md:p-8 rounded-xl border border-slate-300 dark:border-slate-600 shadow-sm">
+                <h3 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light flex items-center gap-2">
+                    <svg class="w-6 h-6 text-indigo-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                    Multimedia & AI Study Tools
+                </h3>
+                <p class="text-sm mb-6 text-slate-700 dark:text-slate-300">Utilise these visual overviews and interactive AI tools to solidify your understanding of Muriwai's processes.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <a href="https://drive.google.com/file/d/1SAae49u-2KngYyZ3Vw2YqbQS-ohYaf-Q/view?usp=sharing" target="_blank" class="bg-white dark:bg-slate-700 p-4 rounded-lg border border-slate-300 dark:border-slate-500 hover:border-indigo-500 hover:shadow-md transition flex items-center gap-3">
+                        <span class="bg-indigo-100 dark:bg-indigo-900/50 p-2 rounded-full"><svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></span>
+                        <div>
+                            <div class="font-bold text-sm text-whs-dark dark:text-white">Video: Muriwai Overview</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-400">Watch the visual summary.</div>
+                        </div>
+                    </a>
+                    <a href="https://drive.google.com/file/d/1oUemO9n26FkwrlgZ85sjv-eZBrguiz3A/view?usp=sharing" target="_blank" class="bg-white dark:bg-slate-700 p-4 rounded-lg border border-slate-300 dark:border-slate-500 hover:border-indigo-500 hover:shadow-md transition flex items-center gap-3">
+                        <span class="bg-purple-100 dark:bg-purple-900/50 p-2 rounded-full"><svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></span>
+                        <div>
+                            <div class="font-bold text-sm text-whs-dark dark:text-white">Audio: Muriwai Overview</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-400">Listen to the study summary.</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="bg-gradient-to-r from-slate-800 to-indigo-900 rounded-xl p-5 border border-indigo-700 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-white mb-1 flex items-center gap-2">Ask NotebookLM Anything!</h4>
+                        <p class="text-xs text-indigo-200">Got a question about a process? Ask the dedicated AI trained on Muriwai Geography notes.</p>
                     </div>
-                    <div class="bg-slate-50 dark:bg-slate-700 p-5 rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm">
-                        <h3 class="font-bold text-whs-goldtext dark:text-whs-gold mb-3 text-lg">Sub-Aerial Weathering (Multiplier)</h3>
-                        <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Coastal erosion works synergistically with physical weathering above the high-tide mark, acting as a catalyst that accelerates cliff retreat:</p>
-                        <ul class="space-y-3 text-sm list-disc pl-4 text-slate-700 dark:text-slate-300">
-                            <li><strong>Spray-Splash Weathering:</strong> Ocean spray is carried up the cliff by strong SW winds. Solar insolation evaporates the water, precipitating salt crystals in the rock pores. Crystal growth exerts internal tensile stress, prying grains apart.</li>
-                            <li><strong>Evolution Sequence:</strong> Wave-cut notch $\rightarrow$ unsupported superstructure collapses $\rightarrow$ wave-cut platform left behind. Localised faults evolve into Sea Caves $\rightarrow$ Sea Arches $\rightarrow$ Sea Stacks.</li>
-                        </ul>
+                    <a href="https://notebooklm.google.com/notebook/f506f311-a6e2-4b6e-a62d-c39cacf544d4?authuser=0" target="_blank" class="bg-white text-indigo-900 px-5 py-2 rounded-lg font-bold text-sm hover:bg-indigo-100 transition whitespace-nowrap shadow-sm">Open NotebookLM</a>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-300 dark:border-slate-600">
+                    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-3">Specific Process Breakdowns (YouTube):</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="https://www.youtube.com/playlist?list=PLjBIbHqApIHGjLQ6gJd8UW96wck2Ds4rx" target="_blank" class="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 px-3 py-1.5 rounded text-xs font-bold hover:bg-red-100 transition">Full Playlist</a>
+                        <a href="https://www.youtube.com/watch?v=G1FIBuybN78" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Wave Refraction</a>
+                        <a href="https://www.youtube.com/watch?v=TYQ--nTcNU8" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Wave Erosion</a>
+                        <a href="https://www.youtube.com/watch?v=00Khn0RSpYA" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Stack Formation</a>
+                        <a href="https://www.youtube.com/watch?v=Zy_rFk4F0pI" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Longshore Transport</a>
+                        <a href="https://www.youtube.com/watch?v=gKU1K8n6jYM" target="_blank" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-3 py-1.5 rounded text-xs font-bold hover:border-red-400 transition">Saltation</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deep Dive: Feature Formation (Interaction) -->
+            <div class="glass-card bg-blue-50 dark:bg-slate-900 p-8 rounded-xl border border-blue-200 dark:border-slate-600 shadow-sm">
+                <h3 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light">🌊 How Interacting Processes Shape Features</h3>
+                <p class="text-sm text-slate-700 dark:text-slate-300 mb-5">In Geography 3.1, you must explain how processes interact (how the output of one process becomes the input for another, or how they work together).</p>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <h4 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-3 border-b pb-2">Example 1: Formation of Dunes</h4>
+                        <ol class="list-decimal pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                            <li><strong>Wave Deposition</strong> brings titanomagnetite sand onto the beach.</li>
+                            <li>The sun dries the sand during low tide, making it friable.</li>
+                            <li><strong>Aeolian Transportation</strong> (Saltation) is triggered by strong onshore SW winds (>5.47 m/s), moving sand inland.</li>
+                            <li><strong>Vegetation Growth</strong> interrupts the wind, creating a zero-velocity zone causing Aeolian Deposition. The plants bind the sand, forming stable Dunes.</li>
+                        </ol>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <h4 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-3 border-b pb-2">Example 2: Evolution of Otakamiro Cave</h4>
+                        <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed">Volcanic activity 17m years ago created the resistant Manukau breccia. Tectonic action lifted the headland above sea level 10,000 years ago, making it vulnerable.</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed">Waves approaching the headland slow down in shallow water, causing them to refract, concentrating massive energy on the end of the headland.</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">This energy drives <strong>corrasion</strong> and <strong>corrosion</strong>. The most important sub-process is <strong>hydraulic action</strong>, where water is forced into a crack and expands due to pressure differentials to force the crack apart. Together these act on weaker points until a cave forms.</p>
                     </div>
                 </div>
             </div>
@@ -194,8 +278,8 @@
                             <h4 class="font-bold text-blue-800 dark:text-blue-300 text-md">Merit (M)</h4><span class="text-blue-800 font-extrabold text-xl">+</span>
                         </div>
                         <div id="proc-m" class="hidden p-5 bg-white dark:bg-slate-900">
-                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"Wave refraction concentrates high energy waves onto the 35m cliffs of Otakamiro Point. This causes intense hydraulic action on the Manukau Breccia. This interacts with spray-splash weathering. As salt crystals grow in the rock pores from evaporated sea spray, they weaken the rock. This makes it much easier for the hydraulic action to erode the cliff and form features like Motutara stack."</p>
-                            <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Very good explanation. Uses specific data (35m) and correctly identifies the interaction (salt crystals weaken the rock making hydraulic action easier). Misses the absolute top-tier academic vocabulary framing.</p>
+                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"Wave refraction concentrates high energy waves onto the cliffs of Otakamiro Point. This causes intense hydraulic action on the Manukau Breccia. This interacts with spray-splash weathering. As salt crystals grow in the rock pores from evaporated sea spray, they weaken the rock. This makes it much easier for the hydraulic action to erode the cliff and form features like Motutara stack."</p>
+                            <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Very good explanation. Correctly identifies the interaction (salt crystals weaken the rock making hydraulic action easier). Misses the absolute top-tier academic vocabulary framing and specific data points.</p>
                         </div>
                     </div>
                     <div class="border-2 border-whs-gold rounded-lg overflow-hidden shadow-md">
@@ -203,8 +287,8 @@
                             <h4 class="font-bold text-whs-goldtext dark:text-whs-gold text-md">Excellence (E8)</h4><span class="text-whs-goldtext font-extrabold text-xl">-</span>
                         </div>
                         <div id="proc-e" class="block p-5 bg-white dark:bg-slate-900">
-                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-whs-gold pl-3">"The marine process drives the system via wave refraction. Because orthogonals converge on the resistant 17-million-year-old Manukau Breccia, kinetic energy is intensely focused, driving aggressive hydraulic action at the cliff base. Crucially, this marine attack interacts synergistically with sub-aerial spray-splash weathering. Salt crystallisation above the high-tide mark preconditions and weakens the rock's tensile strength, acting as a force multiplier that accelerates hydraulic cliff retreat, ultimately forming 35m cliffs and stacks like Motutara Island."</p>
-                            <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Perfect vocabulary (orthogonals, preconditions, synergistically, force multiplier). Embedded data (17-million, 35m). Explicitly analyses *how* the processes interact mechanistically.</p>
+                            <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-whs-gold pl-3">"The marine process drives the system via wave refraction. Because orthogonals converge on the resistant 17-million-year-old Manukau Breccia, kinetic energy is intensely focused, driving aggressive hydraulic action at the cliff base. Crucially, this marine attack interacts synergistically with sub-aerial spray-splash weathering. Salt crystallisation above the high-tide mark preconditions and weakens the rock's tensile strength, acting as a force multiplier that accelerates hydraulic cliff retreat, ultimately carving caves which break through to form features like Motutara Stack."</p>
+                            <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Perfect vocabulary (orthogonals, preconditions, synergistically, force multiplier). Embedded data (17-million). Explicitly analyses *how* the processes interact mechanistically.</p>
                         </div>
                     </div>
                 </div>
@@ -248,22 +332,35 @@
                             </tr>
                             <tr class="bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 transition">
                                 <td class="p-4 font-bold text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-slate-700">Geomorphic Outcomes</td>
-                                <td class="p-4 text-slate-700 dark:text-slate-300">40m steep cliffs, Stacks, wave-cut platforms</td>
-                                <td class="p-4 text-slate-700 dark:text-slate-300">Wide 200m beach profile, extensive dune systems</td>
+                                <td class="p-4 text-slate-700 dark:text-slate-300">Steep cliffs, Stacks, wave-cut platforms</td>
+                                <td class="p-4 text-slate-700 dark:text-slate-300">Wide beach profile, extensive dune systems</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <h3 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light">Micro Spatial Variations</h3>
-                <div class="grid md:grid-cols-2 gap-6 mb-8">
-                    <div class="bg-blue-50 dark:bg-slate-700 p-6 rounded-xl border border-blue-200 dark:border-slate-600 border-l-4 border-l-blue-500 shadow-sm">
-                        <h4 class="font-bold text-lg text-blue-800 dark:text-blue-300 mb-2">Water-Layer Weathering (Platform)</h4>
-                        <p class="text-sm text-slate-700 dark:text-slate-300">The inner shore platform sits at 2m high, awash at high tide and baking at low tide, allowing aggressive salt crystallisation. However, constant wave splash at the 3m seaward edge prevents it from drying; salt crystals cannot form, so the "rampart" resists weathering and remains higher.</p>
+                <!-- Deep Dive: Micro Spatial Variations -->
+                <div class="bg-blue-50 dark:bg-slate-900 p-6 rounded-xl border border-blue-200 dark:border-slate-600 shadow-sm mb-8">
+                    <h3 class="text-xl font-bold mb-3 text-whs-dark dark:text-whs-light">🔍 E8 Deep Dive: Micro Spatial Variations</h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-5">These examples demonstrate how interacting natural processes operate differently across various locations within the Muriwai environment, resulting in distinct physical features.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-2 border-b pb-2">1. Sand Dune Formation (North vs. South)</h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed"><strong>Northern Dunes (Okiritoto):</strong> The interaction between wind deposition and spinifex vegetation creates lower, parabolic-shaped dunes around <strong>6 to 8 metres high</strong> with a gentle <strong>20-degree slope</strong>. Spinifex grass sends out horizontal runners, spreading the deposited sand over a wider area.</p>
+                            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong>Southern Dunes (Headland):</strong> The interaction between wind deposition and marram grass creates much steeper (<strong>45-degree slope</strong>) and higher dunes reaching <strong>12 to 15 metres</strong>. Marram grass grows straight upwards through the sand, forcing vertical dune growth. These steep dunes are highly vulnerable to wave undercutting.</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-2 border-b pb-2">2. Shore Platform Erosion (Inner vs. Seaward Edge)</h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed"><strong>Inner Platform:</strong> Water-layer weathering dominates this zone. As the tide retreats, pooled salt water dries in the sun, forming salt crystals that loosen rock fragments. The next high tide washes these fragments away, gradually eroding the inner platform down to a height of 2 metres.</p>
+                            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong>Seaward Edge (Rampart):</strong> The outer edge remains at a height of 3 metres because constant wave splash prevents it from drying out. The lack of drying prevents salt crystal formation, effectively protecting the rampart from water-layer weathering.</p>
+                        </div>
                     </div>
-                    <div class="bg-emerald-50 dark:bg-slate-700 p-6 rounded-xl border border-emerald-200 dark:border-slate-600 border-l-4 border-l-emerald-500 shadow-sm">
-                        <h4 class="font-bold text-lg text-emerald-800 dark:text-emerald-300 mb-2">Dune Morphology (Flora Driven)</h4>
-                        <p class="text-sm text-slate-700 dark:text-slate-300">Native <strong>Spinifex</strong> grows laterally (stolons), forcing deposition outwards to create lower (2-3m), gently sloping (10°) parabolic dunes. Introduced <strong>Marram Grass</strong> grows vertically in clumps, localising air friction and forcing sand straight up into steep (30°), high (7-8m) non-parabolic dunes.</p>
+
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-2 border-b pb-2">3. Longshore Drift Direction (Northward vs. Southward)</h4>
+                        <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed"><strong>Normal Coastline:</strong> For 95% of Muriwai Beach, Longshore Drift operates in a northward direction due to the prevailing SW winds, maintaining a beach width of about 100m.</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong>Variation at the Headland:</strong> In the 500m stretch immediately north of Otakamiro Headland, wave refraction causes the waves to bend completely around the point, hitting the beach from a northwesterly angle. This creates a localised <strong>southward</strong> longshore drift. The headland acts as a barrier, trapping this southward-moving sand and building a much wider beach (approx. 200m wide) in this specific area.</p>
                     </div>
                 </div>
 
@@ -307,8 +404,8 @@
                                 <h4 class="font-bold text-whs-goldtext dark:text-whs-gold text-md">Excellence (E8)</h4><span class="text-whs-goldtext font-extrabold text-xl">-</span>
                             </div>
                             <div id="spat-e" class="block p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-whs-gold pl-3">"A macroscopic spatial contrast exists between Otakamiro Point and the northern embayment, driven entirely by the spatial partitioning of marine energy via wave refraction. The resistant Manukau Breccia causes wave orthogonals to converge, creating an intense erosional zone dominated by hydraulic action on the 40m cliffs. Immediately adjacent, the embayment forces orthogonals to diverge, dropping wave energy to create a constructive zone. Here, the macro-tidal range exposes a 200m foreshore, allowing aeolian saltation (triggered by >18km/h winds) to interact with halophytic Spinifex, replacing erosional stacks with 10m depositional dunes."</p>
-                                <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Connects both environments seamlessly through the single concept of energy partitioning (refraction/orthogonals). High-value terms (macroscopic, partitioning, halophytic) elevate the response.</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-whs-gold pl-3">"A clear spatial variation exists between Otakamiro Headland and the adjacent northern embayment, driven by the distribution of marine energy via wave refraction. As waves approach the resistant Piha Conglomerate rock of the headland, wave orthogonals converge. This concentrates marine energy, creating an intense erosional zone dominated by hydraulic action. Conversely, as waves enter the adjacent embayment, the orthogonals diverge and energy dissipates, creating a constructive zone. Here, the receding tide exposes a 150m foreshore, allowing a shift from marine to aeolian processes. Winds exceeding the 5.47 m/s fluid threshold trigger saltation, transporting dry sand inland. This sand interacts with Spinifex vegetation to build depositional sand dunes, providing a stark spatial contrast to the erosional stacks of the headland."</p>
+                                <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Connects both environments seamlessly through the single concept of energy partitioning (refraction/orthogonals). High-value terms (fluid threshold, orthogonals, aeolian) elevate the response.</p>
                             </div>
                         </div>
                     </div>
@@ -320,30 +417,55 @@
         <section id="view-temporal" class="view-section hidden space-y-8 animate-in fade-in duration-500">
             <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 border-t-4 border-t-whs-light">
                 <h2 class="text-3xl font-extrabold mb-6 text-whs-dark dark:text-whs-light">Temporal Variations at the MCE</h2>
-                <p class="mb-8 text-lg text-slate-700 dark:text-slate-300">Temporal variation refers to the differences in how natural processes operate across different periods of time. The most profound shifts occur seasonally.</p>
+                <p class="mb-8 text-lg text-slate-700 dark:text-slate-300">Temporal variation refers to the differences in how natural processes operate across different periods of time, ranging from seasonal shifts to long-term geological timeframes.</p>
 
-                <h3 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light">Short-Term: Seasonal Morphodynamics</h3>
-                <div class="grid md:grid-cols-2 gap-6 mb-10">
-                    <div class="bg-amber-50 dark:bg-slate-800 border border-amber-200 dark:border-slate-600 p-6 rounded-xl shadow-sm">
-                        <h4 class="font-bold text-xl text-amber-700 dark:text-amber-400 mb-4 flex items-center">
-                            <span class="text-2xl mr-2">☀️</span> Summer (Reflective Profile)
-                        </h4>
-                        <ul class="space-y-3 text-sm list-disc pl-4 text-slate-700 dark:text-slate-300">
-                            <li><strong>Wave Action:</strong> Calmer, spilling <strong>constructive waves</strong> (~1.5m). Swash exceeds backwash, resulting in net deposition and building a steeper beach profile.</li>
-                            <li><strong>Aeolian Efficiency:</strong> High solar insolation dries the massive 200m low-tide foreshore. Dry grains lose cohesion, creating optimal conditions for high-volume saltation.</li>
-                            <li><strong>Biological Accretion:</strong> Vigorous summer growth of pioneer vegetation efficiently traps the saltating sand, leading to rapid dune building.</li>
-                        </ul>
-                    </div>
+                <!-- Deep Dive: Seasonal & Geologic Variations -->
+                <div class="bg-blue-50 dark:bg-slate-900 p-6 rounded-xl border border-blue-200 dark:border-slate-600 shadow-sm mb-8">
+                    <h3 class="text-xl font-bold mb-4 text-whs-dark dark:text-whs-light">⏳ E8 Exemplars: Timeframes of Change</h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-5">These examples explain how interacting processes change over different time periods, from seasonal shifts to geological epochs.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b pb-2">1. Seasonal Wave Action (Summer vs. Winter)</h4>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-2"><strong class="text-amber-600 dark:text-amber-400">☀️ Summer (Constructive):</strong> High-pressure anti-cyclones generate calmer winds and lower-energy constructive waves (<100,000 joules/m³, <1.5m). These waves possess a strong swash and a weak backwash, allowing them to deposit sediment and build up the beach to a steeper gradient (5–10°) with a distinct berm.</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300"><strong class="text-blue-600 dark:text-blue-400">⛈️ Winter (Destructive):</strong> Low-pressure storm systems generate fierce winds and massive, high-energy waves (>400,000 joules/m³, >3m). The powerful backwash drags sand off the beach, stripping the berm away. This leaves a flatter, dissipative beach profile (0–2.5°) and forms offshore sandbars, allowing storm surges to cause severe dune scarping.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b pb-2">2. Seasonal Aeolian (Wind) Transport</h4>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-2"><strong class="text-amber-600 dark:text-amber-400">☀️ Summer Transport:</strong> Warmer, drier weather dries out the deposited sediment quickly. Dry sand is much lighter and does not stick together (making it friable), rendering it highly susceptible to wind transport via saltation, suspension, and surface creep.</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300"><strong class="text-blue-600 dark:text-blue-400">⛈️ Winter Transport:</strong> Rain and heavy clouds leave the coastal environment damp. Wet sand binds together, significantly raising the threshold wind velocity required to move it. Consequently, wind transportation operates at a very slow rate or completely halts during winter.</p>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="bg-blue-50 dark:bg-slate-800 border border-blue-200 dark:border-slate-600 p-6 rounded-xl shadow-sm">
-                        <h4 class="font-bold text-xl text-blue-700 dark:text-blue-400 mb-4 flex items-center">
-                            <span class="text-2xl mr-2">⛈️</span> Winter (Dissipative Profile)
-                        </h4>
-                        <ul class="space-y-3 text-sm list-disc pl-4 text-slate-700 dark:text-slate-300">
-                            <li><strong>Cyclonic Storms:</strong> High winds (>30 km/h) generate massive plunging, <strong>destructive waves</strong> (2.5m - 3m). Backwash outpaces swash, eroding the beach face.</li>
-                            <li><strong>Aeolian Shutdown:</strong> Rain keeps sand damp. Capillary action binds grains together, raising the threshold velocity required for wind transport. Saltation stalls completely.</li>
-                            <li><strong>Environmental Stress:</strong> Plant growth slows, and violent storm surges frequently undercut and erode the dormant foredunes.</li>
-                        </ul>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b pb-2">3. Historical Variations (1950s vs. Present Day)</h4>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-2"><strong class="text-red-600 dark:text-red-400">1950s (Erosion Dominant):</strong> Human activities (Maori burning, European farming, grazing) stripped dunes of vegetation. Without a 'zone of zero wind velocity', aeolian deposition stopped. Severe aeolian erosion (blowouts) occurred, migrating sand up to 5 km inland.</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300"><strong class="text-emerald-600 dark:text-emerald-400">Present Day (Deposition Dominant):</strong> The Auckland Council implemented extensive planting programs (marram, spinifex). Vegetation growth successfully interacted with aeolian transport, dramatically increasing deposition. Today, stable foredunes range from 3m to 12m high.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <h4 class="font-bold text-md text-whs-dark dark:text-whs-light mb-3 border-b pb-2">4. Long-Term Geological Change (1 Million Years Ago vs. Today)</h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 leading-relaxed"><strong>1 Million Years Ago:</strong> Following volcanic activity roughly 17 million years ago that formed the Piha Conglomerate rock, tectonic uplift eventually exposed the Otakamiro Headland to marine erosion for the first time around 1 million years ago.</p>
+                            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong>Today:</strong> The continuous interaction of wave refraction, hydraulic action, and corrosion has drastically reshaped the headland. Refracting waves concentrate massive energy on the headland, while hydraulic action forces air into fissures to shatter the rock. Corrosion uses this broken rubble to further wear down the rock face, ultimately carving out caves, arches, and isolated features like the Motutara Stack over thousands of years.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -378,8 +500,8 @@
                                 <h4 class="font-bold text-blue-800 dark:text-blue-300 text-md">Merit (M)</h4><span class="text-blue-800 font-extrabold text-xl">+</span>
                             </div>
                             <div id="temp-m" class="hidden p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"Seasonal variations happen because of different weather. In summer, constructive waves build a steep beach because swash is stronger than backwash. The dry sand is blown by >18km/h winds via saltation to build dunes. In winter, destructive waves erode the beach, and the rain makes the sand too wet to blow, stopping dune growth."</p>
-                                <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Very solid explanation of the mechanics and interactions. Missing the high-level vocabulary to push it to Excellence.</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-slate-300 pl-3">"Seasonal variations happen because of different weather. In summer, constructive waves build a steep beach because swash is stronger than backwash. The dry sand is blown by winds via saltation to build dunes. In winter, destructive waves erode the beach, and the rain makes the sand too wet to blow, stopping dune growth."</p>
+                                <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Very solid explanation of the mechanics and interactions. Missing the high-level vocabulary and hard data points (like fluid threshold velocity) to push it to Excellence.</p>
                             </div>
                         </div>
                         <div class="border-2 border-whs-gold rounded-lg overflow-hidden shadow-md">
@@ -387,8 +509,8 @@
                                 <h4 class="font-bold text-whs-goldtext dark:text-whs-gold text-md">Excellence (E8)</h4><span class="text-whs-goldtext font-extrabold text-xl">-</span>
                             </div>
                             <div id="temp-e" class="block p-5 bg-white dark:bg-slate-900">
-                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-whs-gold pl-3">"Temporal variation at Muriwai is defined by seasonal morphodynamic shifts. During summer anticyclonic conditions, low-energy constructive waves (<1.5m) dominate, using a powerful swash to build a steep 5° reflective profile. High solar insolation dries this 200m foreshore, dropping the cohesion of the titanomagnetite and maximising aeolian saltation. Conversely, winter cyclonic systems generate high-energy plunging waves (>3m) whose powerful backwash erodes the beach to a dissipative 1° profile, while high precipitation raises the threshold wind velocity, completely stalling aeolian transport despite winds exceeding 30km/h."</p>
-                                <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Masterful contrast. Integrates deep mechanics (cohesion, threshold velocity, reflective/dissipative profiles) and exact data to prove the temporal shift.</p>
+                                <p class="italic text-sm text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-whs-gold pl-3">"Temporal variation at Muriwai is defined by seasonal morphodynamic shifts. During summer anticyclonic conditions, low-energy constructive waves (<100k joules/m³) dominate, using a powerful swash to build a steep 5–10° reflective profile. High solar insolation dries this 200m foreshore, dropping the cohesion of the titanomagnetite and maximising aeolian saltation. Conversely, winter cyclonic systems generate high-energy plunging waves (>400k joules/m³) whose powerful backwash erodes the beach to a dissipative 0–2.5° profile, while high precipitation binds sand grains, raising the fluid threshold velocity and completely stalling aeolian transport."</p>
+                                <p class="text-sm bg-slate-50 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700"><strong class="text-whs-dark dark:text-whs-light">Teacher Note:</strong> Masterful contrast. Integrates deep mechanics (cohesion, fluid threshold velocity, reflective/dissipative profiles) and exact data to prove the temporal shift.</p>
                             </div>
                         </div>
                     </div>
@@ -402,9 +524,9 @@
             <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700">
                 <div class="flex justify-between items-center mb-6 flex-wrap gap-4 border-b border-slate-200 dark:border-slate-700 pb-4">
                     <h2 class="text-3xl font-extrabold text-whs-dark dark:text-whs-light">Practice Hub</h2>
-                    <div class="flex gap-2 bg-slate-200 dark:bg-slate-700 p-1 rounded-lg border border-slate-300 dark:border-slate-600 shadow-inner">
-                        <button onclick="switchVaultTab('flashcards')" id="tab-flashcards" class="px-4 py-2 rounded-md font-bold text-sm bg-white dark:bg-slate-800 shadow-sm transition text-slate-900 dark:text-white">Flashcards</button>
-                        <button onclick="switchVaultTab('quiz')" id="tab-quiz" class="px-4 py-2 rounded-md font-bold text-sm text-slate-600 dark:text-slate-300 hover:text-whs-dark transition bg-transparent">Knowledge Quiz</button>
+                    <div class="flex gap-2 bg-slate-100 dark:bg-slate-700 p-1 rounded-lg border border-slate-300 dark:border-slate-600 shadow-inner">
+                        <button onclick="switchVaultTab('flashcards')" id="tab-flashcards" class="px-4 py-2 rounded-md font-bold text-sm bg-white dark:bg-slate-800 shadow-sm transition text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600">Flashcards</button>
+                        <button onclick="switchVaultTab('quiz')" id="tab-quiz" class="px-4 py-2 rounded-md font-bold text-sm text-slate-600 dark:text-slate-300 hover:text-whs-dark transition bg-transparent border border-transparent">Knowledge Quiz</button>
                     </div>
                 </div>
                 
@@ -413,8 +535,8 @@
                     
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 bg-slate-50 dark:bg-slate-900 p-6 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
                         <div class="max-w-2xl">
-                            <h3 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-2">E8 Data Memorisation</h3>
-                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Hover over the cards to reveal the exact quantitative data required for an Excellence (E8) response. Click the button to draw 6 random cards from the database.</p>
+                            <h3 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-2">E8 Data Memorisation (Q&A Format)</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Click on the cards to reveal the exact quantitative data required for an Excellence (E8) response. Click the button to draw 6 random cards from the database.</p>
                             <button onclick="drawFlashcards()" class="bg-whs-gold text-whs-dark px-5 py-2.5 rounded-lg font-bold shadow-md hover:bg-yellow-500 transition text-sm border border-whs-goldtext">Shuffle & Draw New Cards</button>
                         </div>
                         
@@ -502,13 +624,23 @@
                 <!-- Text Area -->
                 <textarea id="sandbox-textarea" class="w-full h-72 p-5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-whs-dark outline-none mb-4 font-serif leading-relaxed resize-y shadow-inner" placeholder="Start drafting your response here... (Your work auto-saves locally)"></textarea>
 
-                <div class="flex justify-between items-center flex-wrap gap-4 mb-4">
-                    <button onclick="analyseText()" class="bg-whs-dark text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-900 transition shadow-md border border-slate-800">Run Keyword Analysis</button>
-                    <span id="save-status" class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded">Status: Ready</span>
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <button onclick="analyseText()" class="bg-whs-dark text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-900 transition shadow-md border border-slate-800">Run Keyword Analysis</button>
+                    <button onclick="exportSandbox()" class="bg-emerald-600 text-white px-5 py-3 rounded-lg font-bold hover:bg-emerald-700 transition shadow-md border border-emerald-800 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Export Draft
+                    </button>
+                    <button onclick="clearSandbox()" class="bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 px-5 py-3 rounded-lg font-bold hover:bg-red-50 dark:hover:bg-slate-700 transition shadow-sm border border-red-200 dark:border-red-900 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        Clear
+                    </button>
+                    <div class="ml-auto">
+                        <span id="save-status" class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded border border-slate-300 dark:border-slate-600 shadow-inner">Status: Ready</span>
+                    </div>
                 </div>
 
                 <!-- Instant Feedback Panel (Hidden until run) -->
-                <div id="sandbox-feedback" class="hidden mt-8 p-6 rounded-xl border-l-4 shadow-md bg-white dark:bg-slate-800 border-whs-gold">
+                <div id="sandbox-feedback" class="hidden mt-8 p-6 rounded-xl border-l-4 shadow-md bg-white dark:bg-slate-800 border-whs-gold flex flex-col h-full">
                     <h3 class="font-extrabold text-xl text-whs-dark dark:text-whs-light mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Analysis Results</h3>
                     <div id="feedback-content" class="text-sm space-y-4 text-slate-700 dark:text-slate-300">
                         <!-- Populated by JS -->
@@ -520,24 +652,179 @@
         <!-- VIEW: Excellence Guide -->
         <section id="view-essay" class="view-section hidden space-y-8 animate-in fade-in duration-500">
             <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700">
-                <h2 class="text-3xl font-extrabold mb-4 text-whs-dark dark:text-whs-light">The Blueprint for an Excellence (E8) Essay</h2>
-                <p class="mb-8 text-lg text-slate-700 dark:text-slate-300">Examiner reports consistently highlight that successful candidates avoid rote memorisation, focus explicitly on <em>interactions</em>, and deploy strict paragraph architecture.</p>
                 
-                <div class="bg-whs-dark text-white p-6 rounded-xl shadow-md border border-slate-800 mb-8">
-                    <h3 class="font-bold text-xl mb-3 text-whs-gold">The Core Argument (Hierarchy)</h3>
-                    <p class="text-md">In your introduction, explicitly state that the <strong>Marine Process</strong> is the primary driver over both environments. Wave refraction is the mechanism that controls the distribution of this energy, dictating where erosion or deposition occurs.</p>
+                <!-- Mandatory Checklist -->
+                <div class="bg-amber-100 dark:bg-amber-900/40 border-l-4 border-whs-gold p-6 rounded-r-lg mb-8 shadow-sm">
+                    <h2 class="text-2xl font-extrabold text-amber-900 dark:text-amber-300 mb-2">⚠️ The "MUST KNOW" Checklist</h2>
+                    <p class="text-amber-800 dark:text-amber-400 font-bold mb-3 text-sm">Students must be able to answer the exam questions by ensuring they do the following:</p>
+                    <ul class="list-disc pl-5 space-y-2 text-amber-900 dark:text-amber-200 text-sm font-medium">
+                        <li>You MUST know and be able to clearly show the difference between a <strong>Natural Feature</strong> and a <strong>Natural Process</strong>.</li>
+                        <li>You MUST use specific information from Muriwai (statistics, names, and references are essential) throughout your answers.</li>
+                        <li>You MUST use geographic terms – e.g., Isobaths, Hydraulic action, Orthogonals.</li>
+                        <li>You MUST be able to answer using <strong>annotated diagrams</strong> and structured geographic essays.</li>
+                        <li>You MUST be able to explain how interacting natural processes operate at different rates and scales to create variations (spatial/temporal).</li>
+                        <li>Essays MUST have: Structure starting with a clear introduction, geographic terms explained, specific references to Muriwai, one important Geographic Idea, and at least one diagram.</li>
+                    </ul>
                 </div>
 
-                <h3 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light">Rigorous Paragraph Architecture</h3>
-                <div class="bg-slate-50 dark:bg-slate-700/50 p-6 md:p-8 rounded-xl shadow-sm border border-slate-300 dark:border-slate-600">
-                    <ol class="list-decimal pl-5 space-y-4 font-medium text-slate-800 dark:text-slate-200">
-                        <li><strong class="text-whs-dark dark:text-whs-light text-lg">Identify the Process:</strong> Name it accurately (e.g., Aeolian Saltation).</li>
-                        <li><strong class="text-whs-dark dark:text-whs-light text-lg">Define the Mechanics:</strong> Use precise terminology (e.g., threshold wind velocity, ballistic trajectories).</li>
-                        <li class="bg-whs-gold/10 p-3 rounded-lg border-l-4 border-whs-gold"><strong class="text-whs-goldtext dark:text-whs-gold text-lg">Explain the Interaction (The Crucial Step):</strong> Explain how this process relies on, or triggers, another. (e.g., Saltation relies on Wave Deposition for sediment, and Solar Insolation to evaporate interstitial water).</li>
-                        <li><strong class="text-whs-dark dark:text-whs-light text-lg">Integrate Quantifiable Data:</strong> Never write "the wind blows hard." Write: "prevailing SW winds exceed the 18km/h threshold velocity."</li>
-                        <li><strong class="text-whs-dark dark:text-whs-light text-lg">Link back to the Prompt:</strong> Conclude by stating how this creates the exact spatial or temporal variation asked in the question.</li>
-                    </ol>
+                <!-- Geographic Concepts -->
+                <div class="mb-10">
+                    <h2 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light">Key Geographic Concepts</h2>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Hover over the concepts below to see their definitions. Click on a concept to see how it can be woven into a sentence for this topic.</p>
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <!-- ENVIRONMENT -->
+                        <div class="relative group inline-block">
+                            <button onclick="updateConceptSentence('ENVIRONMENT')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">ENVIRONMENT</button>
+                            <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
+                                May be natural and/or cultural. They have particular characteristics and features which can be the result of natural and/or cultural processes. The particular characteristics of an environment may be similar to and/or different from another.
+                            </div>
+                        </div>
+                        <!-- PERSPECTIVE -->
+                        <div class="relative group inline-block">
+                            <button onclick="updateConceptSentence('PERSPECTIVE')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">PERSPECTIVE</button>
+                            <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
+                                The way people view and interpret environments. Perspectives and values may be influenced by culture, environment, social systems, technology, economic and political ideology. They may influence how people interact with environments.
+                            </div>
+                        </div>
+                        <!-- PROCESS -->
+                        <div class="relative group inline-block">
+                            <button onclick="updateConceptSentence('PROCESS')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">PROCESS</button>
+                            <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
+                                A sequence of actions, natural and/or cultural, that shape and change environments, places and societies. Some examples of geographic processes include wave erosion and migration.
+                            </div>
+                        </div>
+                        <!-- PATTERN -->
+                        <div class="relative group inline-block">
+                            <button onclick="updateConceptSentence('PATTERN')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">PATTERN</button>
+                            <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
+                                May be spatial: the arrangement of features on the earth’s surface; or temporal: how characteristics differ over time in recognisable ways.
+                            </div>
+                        </div>
+                        <!-- INTERACTION -->
+                        <div class="relative group inline-block">
+                            <button onclick="updateConceptSentence('INTERACTION')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">INTERACTION</button>
+                            <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
+                                Involves elements of an environment affecting each other and being linked together. Interaction incorporates movement, flows, connections, links and interrelationships. Landscapes are the visible outcome of interactions.
+                            </div>
+                        </div>
+                        <!-- CHANGE -->
+                        <div class="relative group inline-block">
+                            <button onclick="updateConceptSentence('CHANGE')" class="px-3 py-1.5 bg-whs-dark text-white rounded font-bold text-sm shadow-sm border border-whs-dark hover:bg-blue-900 transition">CHANGE</button>
+                            <div class="absolute hidden group-hover:block bg-slate-800 text-white p-4 rounded-lg w-72 text-sm z-10 bottom-full mb-3 left-1/2 -translate-x-1/2 shadow-xl border border-slate-600 tooltip-arrow">
+                                Involves any alteration to the natural or cultural environment. Change can be spatial and/or temporal. It occurs at varying rates, at different times and in different places. Change can bring about further change.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-300 dark:border-slate-600 text-sm italic text-slate-700 dark:text-slate-300 min-h-[4rem] flex items-center">
+                        <strong class="mr-2">Example usage:</strong> <span id="concept-sentence-display">"The <span class="font-bold underline text-whs-dark dark:text-whs-light">interaction</span> between the natural <span class="font-bold underline text-whs-dark dark:text-whs-light">processes</span> of longshore drift and aeolian saltation acts to <span class="font-bold underline text-whs-dark dark:text-whs-light">change</span> the <span class="font-bold underline text-whs-dark dark:text-whs-light">environment</span> over time, resulting in a distinct spatial <span class="font-bold underline text-whs-dark dark:text-whs-light">pattern</span> of parabolic dune formation." (Click a concept above to update)</span>
+                    </div>
                 </div>
+
+                <h2 class="text-3xl font-extrabold mb-6 text-whs-dark dark:text-whs-light">How an Excellence (E8) Essay Looks</h2>
+                <p class="mb-8 text-lg text-slate-700 dark:text-slate-300">Analysis of Excellence Exemplar: Geography 91426. Examiner reports consistently highlight that successful candidates plan their responses to ensure logical construction, and explicitly focus on the <strong>interactions</strong> between processes.</p>
+                
+                <div class="grid lg:grid-cols-2 gap-8 mb-10">
+                    <!-- Structure Column -->
+                    <div class="bg-slate-50 dark:bg-slate-700/50 p-6 md:p-8 rounded-xl shadow-sm border border-slate-300 dark:border-slate-600">
+                        <h3 class="font-bold text-2xl mb-4 text-whs-dark dark:text-whs-light border-b border-slate-300 dark:border-slate-600 pb-2">Structure Breakdown</h3>
+                        
+                        <div class="space-y-4 text-sm text-slate-800 dark:text-slate-200">
+                            <div>
+                                <strong class="text-whs-goldtext dark:text-whs-gold text-lg block mb-1">Paragraph 1: Introduction</strong>
+                                Case study - specific location. Key natural process – and interacting natural processes – identified. Declare a clear thesis.
+                            </div>
+                            <div>
+                                <strong class="text-whs-goldtext dark:text-whs-gold text-lg block mb-1">Paragraphs 2-3: The Process</strong>
+                                Key natural process (and 4 sub-processes like hydraulic action, corrasion, etc) described in detail with reference to the case study diagram.
+                            </div>
+                            <div>
+                                <strong class="text-whs-goldtext dark:text-whs-gold text-lg block mb-1">Paragraphs 4-6: The Interaction</strong>
+                                Interaction of key natural process with three other natural processes described in detail (e.g. Saltation interacting with Vegetation Succession) with close reference to the case study and a second diagram.
+                            </div>
+                            <div>
+                                <strong class="text-whs-goldtext dark:text-whs-gold text-lg block mb-1">Paragraph 7: Shaping</strong>
+                                The role of natural processes in shaping the specific variations (spatial or temporal) in the case study environment.
+                            </div>
+                            <div>
+                                <strong class="text-whs-goldtext dark:text-whs-gold text-lg block mb-1">Paragraph 8: Conclusion</strong>
+                                Bringing it all together – summarising how interacting natural processes impact the case study context.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Language Column -->
+                    <div class="bg-slate-50 dark:bg-slate-700/50 p-6 md:p-8 rounded-xl shadow-sm border border-slate-300 dark:border-slate-600">
+                        <h3 class="font-bold text-2xl mb-4 text-whs-dark dark:text-whs-light border-b border-slate-300 dark:border-slate-600 pb-2">Excellence Language & Vocab</h3>
+                        
+                        <div class="space-y-4 text-sm text-slate-800 dark:text-slate-200">
+                            <div>
+                                <strong class="text-whs-dark dark:text-whs-light text-base block mb-1">Describing Interactions</strong>
+                                "X is a process which... (involves / sees)..."<br>
+                                "It is comprised of x sub-processes..."<br>
+                                "This natural process interacts with / a three-way interaction"<br>
+                                "As shown / illustrated / detailed in the diagram..."<br>
+                                <span class="italic text-xs text-slate-600 dark:text-slate-400">*Relative clauses using ‘which’ and ‘that’ are commonly used to provide descriptive detail.</span>
+                            </div>
+                            <div>
+                                <strong class="text-whs-dark dark:text-whs-light text-base block mb-1">Useful Verbs (Action / Passive)</strong>
+                                <span class="text-slate-600 dark:text-slate-400 italic">operate / interact (with) / shape / erode / deposit / strike / recede / cause / result (in).</span><br>
+                                Passive voice is commonly used: "is eroded / to be blown / sand grains are carried and moved / sand deposited".
+                            </div>
+                            <div>
+                                <strong class="text-whs-dark dark:text-whs-light text-base block mb-1">Adverbs & Time Connectives</strong>
+                                <span class="text-slate-600 dark:text-slate-400 italic">firstly / secondly / initially / subsequently / further / when / as / then.</span>
+                            </div>
+                            <div>
+                                <strong class="text-whs-dark dark:text-whs-light text-base block mb-1">Reason & Contrast Connectives</strong>
+                                <span class="text-slate-600 dark:text-slate-400 italic">because of / due to / as / as opposed to / while / but / however.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 dark:bg-blue-900/30 p-8 rounded-xl border border-blue-200 dark:border-blue-800 shadow-sm mt-8">
+                    <h3 class="font-bold text-2xl text-blue-900 dark:text-blue-300 mb-4 border-b border-blue-200 dark:border-blue-800 pb-2">The "Must-Haves" for Maps and Diagrams</h3>
+                    <p class="text-sm text-blue-800 dark:text-blue-200 mb-4">To get to Merit or Excellence, a diagram cannot just be a pretty picture; it must be a geographical tool. Don't just draw the feature; <strong>draw the process</strong>.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold text-blue-900 dark:text-blue-300 mb-2">Always use the FACKTS checklist:</h4>
+                            <ul class="list-none text-sm text-blue-800 dark:text-blue-200 font-mono bg-white dark:bg-slate-800 p-4 rounded border border-blue-200 dark:border-blue-700 shadow-inner">
+                                <li><strong>F</strong> - Frame</li>
+                                <li><strong>A</strong> - Arrow North (Muriwai faces W/SW)</li>
+                                <li><strong>C</strong> - Colour</li>
+                                <li><strong>K</strong> - Key (patterns for energy levels)</li>
+                                <li><strong>T</strong> - Title (Highly specific e.g., "Map showing spatial variation of interacting processes")</li>
+                                <li><strong>S</strong> - Scale (approximate 1km bar)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-blue-900 dark:text-blue-300 mb-2">Detailed Annotations are Critical</h4>
+                            <p class="text-sm text-blue-800 dark:text-blue-200 mb-2">Do not just label "Headland." Annotate it:</p>
+                            <p class="text-sm italic bg-white dark:bg-slate-800 p-3 rounded border border-blue-200 dark:border-blue-700">"Otakamiro Headland: Composed of resistant Piha Conglomerate rock, subjected to high-energy wave refraction."</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-blue-200 dark:border-blue-700 shadow-sm">
+                            <h4 class="font-bold text-md text-blue-900 dark:text-blue-300 mb-2">1. The "Base Map" Strategy</h4>
+                            <p class="text-sm text-blue-800 dark:text-blue-200 mb-2">Memorise one simple outline: a straight beach at the top (North), jutting out into Otakamiro Headland with Motutara Stack just offshore, curving down into Māori Bay (South).</p>
+                            <ul class="list-disc pl-5 text-sm text-blue-800 dark:text-blue-200 space-y-1">
+                                <li><strong>For Spatial Variation:</strong> Draw SW winds (58%). Show LSD moving 175,000 m³ north. Contrast headland (erosion) vs beach (deposition). Contrast dunes (Spinifex north vs Marram south).</li>
+                                <li><strong>For Temporal Variation:</strong> Split the map or use a dual key. Summer: calm weather, constructive waves, steep 5-10° gradient. Winter: cyclonic, destructive waves, flat 1-2° dissipative profile.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-blue-200 dark:border-blue-700 shadow-sm">
+                            <h4 class="font-bold text-md text-blue-900 dark:text-blue-300 mb-2">2. Wave Refraction Diagram (Zoom on Headland)</h4>
+                            <p class="text-sm text-blue-800 dark:text-blue-200 mb-2">Draw parallel wave crests approaching deep water. As they hit shallow water, draw them bending. Annotate <strong>orthogonals</strong> (arrows perpendicular to crests) converging on the headland (Hydraulic Action) and diverging into Māori Bay.</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-lg border border-blue-200 dark:border-blue-700 shadow-sm">
+                            <h4 class="font-bold text-md text-blue-900 dark:text-blue-300 mb-2">3. Aeolian Deposition (Cross-Section)</h4>
+                            <p class="text-sm text-blue-800 dark:text-blue-200 mb-2">Draw ocean, wide foreshore, and rising dunes. Annotate the source (drying foreshore), the transport (Saltation bouncing, Suspension, Surface creep at >18km/h winds), and the deposition (vegetation creating a "zone of zero wind velocity").</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -595,6 +882,20 @@
             window.open('https://gemini.google.com/gem/1j5V4c0XQhePnEuMgO3m8cPbUfublWpTK?usp=sharing', '_blank');
         });
 
+        // --- Geographic Concepts Logic ---
+        const conceptSentences = {
+            'ENVIRONMENT': "The Muriwai Coastal <span class='font-bold underline text-whs-dark dark:text-whs-light'>environment</span> is characterised by a striking contrast between the resistant headland and the expansive black sand beach.",
+            'PERSPECTIVE': "A coastal planner's <span class='font-bold underline text-whs-dark dark:text-whs-light'>perspective</span> prioritises mitigating erosion, whereas a surfer's perspective values the high-energy wave conditions.",
+            'PROCESS': "The marine <span class='font-bold underline text-whs-dark dark:text-whs-light'>process</span> of wave refraction concentrates immense energy onto Otakamiro Point, driving rapid cliff retreat.",
+            'PATTERN': "The interaction of prevailing onshore winds and vegetation creates a distinct spatial <span class='font-bold underline text-whs-dark dark:text-whs-light'>pattern</span> of parabolic dunes parallel to the coastline.",
+            'INTERACTION': "The <span class='font-bold underline text-whs-dark dark:text-whs-light'>interaction</span> between saltating sand grains and halophytic pioneer vegetation results in the accretion of stable foredunes.",
+            'CHANGE': "Over geological time, tectonic uplift and continuous marine erosion drive profound <span class='font-bold underline text-whs-dark dark:text-whs-light'>change</span> in the shape and retreat of the headland."
+        };
+
+        function updateConceptSentence(concept) {
+            document.getElementById('concept-sentence-display').innerHTML = conceptSentences[concept];
+        }
+
         // --- Accordion Logic ---
         function toggleAccordion(id) {
             const content = document.getElementById(id);
@@ -610,7 +911,7 @@
             }
         }
 
-        // --- Sandbox Auto-Save & Analysis Logic ---
+        // --- Sandbox Auto-Save, Clear, Export & Analysis Logic ---
         const textarea = document.getElementById('sandbox-textarea');
         const saveStatus = document.getElementById('save-status');
         let timeoutId;
@@ -628,6 +929,37 @@
             }, 1000);
         });
 
+        function clearSandbox() {
+            if(confirm("Are you sure you want to clear your draft? This cannot be undone.")) {
+                textarea.value = '';
+                localStorage.removeItem('whs_draft_essay');
+                document.getElementById('sandbox-feedback').classList.add('hidden');
+                saveStatus.innerText = 'Draft cleared.';
+            }
+        }
+
+        function exportSandbox() {
+            const text = textarea.value;
+            const feedbackEl = document.getElementById('feedback-content');
+            let exportData = "--- WHS Geography Draft (Muriwai) ---\n\n" + text + "\n\n\n--- Keyword Analysis Feedback ---\n\n";
+            
+            if (!document.getElementById('sandbox-feedback').classList.contains('hidden') && feedbackEl.innerText.trim() !== '') {
+                exportData += feedbackEl.innerText;
+            } else {
+                exportData += "No analysis run yet.";
+            }
+            
+            const blob = new Blob([exportData], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Muriwai_Draft.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
         function analyseText() {
             const text = textarea.value.toLowerCase();
             const feedbackBox = document.getElementById('sandbox-feedback');
@@ -639,8 +971,8 @@
                 return;
             }
 
-            const vocabKeywords = ['orthogonal', 'refraction', 'hydraulic', 'corrasion', 'abrasion', 'saltation', 'halophytic', 'xerophytic', 'accretion', 'spatial', 'temporal', 'synergistic', 'dissipative', 'constructive', 'destructive', 'bathymetry', 'precondition'];
-            const dataKeywords = ['18', '250', '150', '35', '40', '17', 'taranaki', 'manukau', 'titanomagnetite', 'pingao', 'spinifex', 'woodhill', '200', '1.5', '100000'];
+            const vocabKeywords = ['orthogonal', 'refraction', 'hydraulic', 'corrasion', 'abrasion', 'saltation', 'halophytic', 'xerophytic', 'accretion', 'spatial', 'temporal', 'synergistic', 'dissipative', 'constructive', 'destructive', 'bathymetry', 'precondition', 'isobath', 'fluid threshold', 'fackts'];
+            const dataKeywords = ['18', '5.47', '250', '150', '35', '40', '17', 'taranaki', 'manukau', 'titanomagnetite', 'pingao', 'spinifex', 'woodhill', '200', '1.5', '100000', '400000', '1950', '20', '45', '10', '30'];
 
             let vocabFound = [];
             let dataFound = [];
@@ -661,14 +993,20 @@
             if (dataFound.length >= 3) {
                 htmlOutput += `<p class="bg-emerald-50 dark:bg-emerald-900/30 p-4 rounded-lg border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300">✅ <strong>Strong Evidence:</strong> You integrated specific case study data effectively.</p>`;
             } else {
-                htmlOutput += `<p class="bg-red-50 dark:bg-red-900/30 p-4 rounded-lg border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300">❌ <strong>Missing Evidence:</strong> Excellence requires specific quantification. Add numbers like '18km/h', '200m width', or '17 million years'.</p>`;
+                htmlOutput += `<p class="bg-red-50 dark:bg-red-900/30 p-4 rounded-lg border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300">❌ <strong>Missing Evidence:</strong> Excellence requires specific quantification. Add numbers like '18km/h', '5.47 m/s', or '17 million years'.</p>`;
             }
 
-            if (text.includes("interact") || text.includes("together") || text.includes("results in") || text.includes("causes") || text.includes("because") || text.includes("allows")) {
+            if (text.includes("interact") || text.includes("together") || text.includes("results in") || text.includes("causes") || text.includes("because") || text.includes("allows") || text.includes("due to") || text.includes("subsequently") || text.includes("when")) {
                  htmlOutput += `<p class="bg-emerald-50 dark:bg-emerald-900/30 p-4 rounded-lg border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300">✅ <strong>Interaction Detected:</strong> Good use of linking words indicating processes affecting each other.</p>`;
             } else {
-                 htmlOutput += `<p class="bg-amber-50 dark:bg-amber-900/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300">⚠️ <strong>Check Interactions:</strong> Ensure you aren't just describing features in isolation. Explain <em>how</em> process A affects process B.</p>`;
+                 htmlOutput += `<p class="bg-amber-50 dark:bg-amber-900/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300">⚠️ <strong>Check Interactions:</strong> Ensure you aren't just describing features in isolation. Explain <em>how</em> process A affects process B using connectives.</p>`;
             }
+
+            // Next Steps Output
+            htmlOutput += `<div class="mt-4 pt-4 border-t border-whs-gold/30">
+                <p class="font-bold text-whs-dark dark:text-whs-light mb-2">🎯 Next Steps for Excellence:</p>
+                <p class="text-sm">Read your paragraph aloud to check the flow. For in-depth feedback on your logic, sentence structure, and geographic reasoning, <a href="https://gemini.google.com/gem/1j5V4c0XQhePnEuMgO3m8cPbUfublWpTK?usp=sharing" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-bold hover:text-blue-800 transition">click here to copy your text into the WHS AI Tutor (Gemini)</a>.</p>
+            </div>`;
 
             feedbackContent.innerHTML = htmlOutput;
             feedbackBox.classList.remove('hidden');
@@ -676,18 +1014,18 @@
 
         // --- Flashcard Database & Render Logic ---
         const flashcardDatabase = [
-            { title: "Location & Dimensions", subtitle: "Where is the MCE?", stat: "40km NW Auckland", text: "The beach stretches for 50 km, from Otakamiro Point in the south to the Kaipara Harbour entrance." },
-            { title: "Marine Hydrology", subtitle: "Waves & Tides", stat: "3m to 3.5m Tide", text: "Fetch is >2,000km. Avg waves 1.5m (up to 3m). Macro-tidal range exposes 200m of flat beach profile." },
-            { title: "Aeolian Dynamics", subtitle: "Wind & Sand", stat: "18 km/h Threshold", text: "Prevailing SW winds avg 20-25km/h. Saltation moves 0.15mm to 0.25mm sand grains when dry." },
-            { title: "Geological Origins", subtitle: "Rock & Sand Source", stat: "300km Journey", text: "Otakamiro = 15-22m yr old Manukau Breccia. Titanomagnetite sand originates from Mt Taranaki, 300km south." },
-            { title: "Feature Glossary", subtitle: "Named Landforms", stat: "Motutara & Oaia", text: "Stacks (Oaia is 1.5km offshore). Fisherman's Rock (Platform). Pillow Lavas found in Maori Bay." },
-            { title: "Human Intervention", subtitle: "Woodhill Forest", stat: "10m/yr Advance", text: "Exotic radiata pine planted in the 1930s to halt dunes that were migrating inland at up to 10 metres a year." },
-            { title: "Marine Energy Load", subtitle: "Atmospheric Energetics", stat: "100k Joules/m³", text: "Energy generated across the 2,000km fetch by Roaring Forties SW winds (42-58% frequency)." },
-            { title: "Lithological Matrix", subtitle: "Headland Resistance", stat: "17 Million Yrs", text: "Age of Manukau Breccia & Piha Conglomerate (andesites, basalts) forming the 35m-40m cliffs." },
-            { title: "Littoral Budget", subtitle: "Longshore Drift", stat: "175k-250k m³", text: "Volume of dense Titanomagnetite sand moved annually in a 'sawtooth' motion." },
-            { title: "Pleistocene Level", subtitle: "Geological Time", stat: "-100 Metres", text: "During Ice Ages, the sea level dropped 100m, leaving the shelf exposed to sub-aerial weathering." },
-            { title: "Pioneer Flora", subtitle: "Dune Stabilisation", stat: "10° vs 30°", text: "Spinifex (runners) forms 10° slope, 2-3m dunes. Marram (vertical) forms 30° slope, 5-10m dunes." },
-            { title: "Vulnerability", subtitle: "Dynamic Change", stat: "1980 & 2008", text: "Years the surf club relocated due to 1.5m/yr erosion and 1M visitors causing dune blowouts." }
+            { question: "Where is the MCE located and what are its dimensions?", stat: "42km West", text: "42km west of Auckland. The case study is a 3-5 km stretch from Okiritoto Stream to Maori Bay." },
+            { question: "What is the average wave height and fetch at Muriwai?", stat: "1.5m / 2,000km", text: "Fetch is >2,000km across the Tasman. Avg waves are 1.5m (up to >5m in winter)." },
+            { question: "What is the fluid threshold velocity required for saltation?", stat: "5.47 m/s", text: "Onshore SW winds must exceed 5.47 m/s (18-20 km/h) to initiate saltation. This occurs 42% of the time." },
+            { question: "What is the source and type of sand at Muriwai?", stat: "300km Journey", text: "Heavy titanomagnetite iron sand originates from Taranaki, 300km south, moved via longshore drift." },
+            { question: "How old is the Manukau Breccia at Otakamiro Headland?", stat: "17 Million Yrs", text: "Formed 17 million years ago, creating the highly resistant 35m-40m cliffs." },
+            { question: "What caused sand to migrate 5km inland during the 1950s?", stat: "Human Impact", text: "Human burning/grazing stripped vegetation, removing the zone of zero wind velocity and causing massive blowouts." },
+            { question: "How much sediment does longshore drift move annually?", stat: "250,000 m³", text: "Moved in a 'sawtooth' motion northwards due to prevailing SW winds." },
+            { question: "What was the sea level during the Pleistocene Ice Ages?", stat: "-100 Metres", text: "Sea level dropped 100m, leaving the continental shelf exposed to sub-aerial weathering rather than waves." },
+            { question: "How do Spinifex and Marram grass affect dune morphology?", stat: "20° vs 45°", text: "Spinifex (runners) forms 20° slope, 6-8m dunes. Marram (vertical clumps) forms 45° slope, 12-15m dunes." },
+            { question: "Why was the surf club relocated in 1980 and 2008?", stat: "Vulnerability", text: "Relocated due to 1.5m/yr erosion and 1 million human visitors causing dune blowouts." },
+            { question: "What is the wave energy difference between Summer and Winter?", stat: "100k vs 400k", text: "Summer waves carry <100,000 Joules/m³. Winter destructive waves carry >400,000 Joules/m³." },
+            { question: "Name the stack and platform features at Muriwai.", stat: "Motutara / Fisherman's", text: "Motutara Stack, Oaia Island (1.5km offshore), and Fisherman's Rock (Wave-cut platform)." }
         ];
 
         function drawFlashcards() {
@@ -700,14 +1038,16 @@
 
             selected.forEach(card => {
                 const cardHTML = `
-                <div class="group h-48 perspective-1000 cursor-pointer">
-                    <div class="relative w-full h-full transition-transform duration-500 transform-style-3d group-hover:rotate-y-180">
-                        <div class="absolute w-full h-full bg-whs-dark text-white rounded-xl p-4 flex flex-col justify-center items-center text-center backface-hidden shadow-lg border border-slate-700">
-                            <span class="font-bold text-lg">${card.title}</span>
-                            <span class="text-xs text-whs-light mt-2">${card.subtitle}</span>
+                <div class="h-48 perspective-1000 cursor-pointer" onclick="this.querySelector('.transform-style-3d').classList.toggle('is-flipped')">
+                    <div class="relative w-full h-full transition-transform duration-500 transform-style-3d">
+                        <!-- Front of Card (Question) -->
+                        <div class="absolute w-full h-full bg-whs-dark text-white rounded-xl p-5 flex flex-col justify-center items-center text-center backface-hidden shadow-lg border border-slate-700 hover:bg-blue-900 transition">
+                            <span class="text-sm text-whs-light mb-2">Click to reveal</span>
+                            <span class="font-bold text-md md:text-lg leading-tight">${card.question}</span>
                         </div>
+                        <!-- Back of Card (Answer) -->
                         <div class="absolute w-full h-full bg-whs-gold text-whs-dark rounded-xl p-5 flex flex-col justify-center items-center text-center backface-hidden rotate-y-180 shadow-lg border border-whs-goldtext">
-                            <span class="font-bold font-mono text-lg mb-2">${card.stat}</span>
+                            <span class="font-bold font-mono text-xl mb-2">${card.stat}</span>
                             <span class="text-sm leading-tight">${card.text}</span>
                         </div>
                     </div>
@@ -738,53 +1078,39 @@
             }
         }
 
-        // --- Quiz Engine Logic ---
-        const quizData = [
-            {
-                q: "What is the primary geological component of Otakamiro Point?",
-                opts: ["Pillow Lavas (Holocene epoch)", "Manukau Breccia (Miocene epoch)", "Titanomagnetite (Pleistocene epoch)", "Quartz and Feldspar (Waitakere group)"],
-                ans: 1,
-                exp: "Otakamiro Point is made of Manukau Breccia, a hard volcanic conglomerate formed 15 to 22 million years ago during the Miocene epoch."
-            },
-            {
-                q: "What is the original source of the black Titanomagnetite sand found at Muriwai?",
-                opts: ["The Kaipara Harbour immediately to the north", "Erosion of the Waitakere Ranges", "Mt Taranaki, approximately 300km to the south", "Deposits from the Okiritoto Stream"],
-                ans: 2,
-                exp: "The heavy, dark iron sand originates from Mt Taranaki (300 km south) and is brought up the coast over hundreds of years via longshore drift."
-            },
-            {
-                q: "What is the critical wind speed required to initiate saltation of the 0.15-0.25mm sand grains?",
-                opts: ["10 km/h", "18 km/h", "25 km/h", "30 km/h"],
-                ans: 1,
-                exp: "Wind must exceed 18 km/h to initiate saltation. Muriwai's prevailing SW winds average 20-25 km/h, making aeolian transport highly frequent."
-            },
-            {
-                q: "Why was Woodhill Forest planted in the 1930s?",
-                opts: ["To provide timber for the growing Auckland region", "To create a wildlife sanctuary for the Gannet colony", "To halt the dunes that were advancing inland at up to 10 metres a year", "To prevent hydraulic action from eroding the cliffs"],
-                ans: 2,
-                exp: "Exotic radiata pine was planted to stabilise the massive dune systems and prevent them from migrating inland at a rapid rate of up to 10m/year."
-            },
-            {
-                q: "Which statement best describes the macro-tidal range at Muriwai and its impact?",
-                opts: ["A 3m to 3.5m range that exposes up to 200m of flat beach, crucial for aeolian processes.", "A 1m range that limits the width of the beach to 25m, increasing wave erosion.", "A 5m range that causes constant cliff collapse at high tide.", "A 0.5m micro-tidal range that prevents longshore drift from occurring."],
-                ans: 0,
-                exp: "The 3m to 3.5m macro-tidal range exposes a massive 200m wide foreshore at low tide. When this dries, it provides the vast amount of sediment needed for aeolian saltation."
-            },
-            {
-                q: "Oaia Island is an offshore stack created by marine erosion. How far offshore is it located?",
-                opts: ["100 metres", "500 metres", "1.5 kilometres", "3 kilometres"],
-                ans: 2,
-                exp: "Oaia Island is located approximately 1.5 km offshore, demonstrating the historic extent of the headland before centuries of wave retreat."
-            }
+        // --- Extended Quiz Engine Logic ---
+        const fullQuizBank = [
+            { q: "What is the critical fluid threshold velocity required to initiate saltation of the sand grains at Muriwai?", opts: ["1.50 m/s", "5.47 m/s", "12.00 m/s", "20.00 m/s"], ans: 1, exp: "Wind must exceed the fluid threshold velocity of 5.47 m/s (approx 18-20 km/h) to initiate saltation." },
+            { q: "What was the result of human activities (burning/grazing) removing vegetation from the dunes in the 1950s?", opts: ["Dunes grew to 20m high.", "Aeolian deposition increased rapidly.", "Severe blowouts caused sand to migrate up to 5km inland.", "Longshore drift reversed direction."], ans: 2, exp: "Without the 'zone of zero wind velocity' provided by vegetation, severe aeolian erosion (blowouts) migrated sand up to 5km inland." },
+            { q: "How does the morphology of Marram grass dunes differ from Spinifex dunes?", opts: ["Marram creates 20° parabolic dunes; Spinifex creates 45° steep dunes.", "Marram creates 45° steep dunes; Spinifex creates 20° parabolic dunes.", "Both create 10° dunes, but Marram dunes are taller.", "Spinifex dunes only form in winter."], ans: 1, exp: "Spinifex sends out horizontal runners (parabolic 20° slope, 6-8m). Marram grows vertically in clumps, forcing steep vertical growth (45° slope, 12-15m)." },
+            { q: "What is the original source of the black Titanomagnetite sand found at Muriwai?", opts: ["The Kaipara Harbour immediately to the north", "Erosion of the Waitakere Ranges", "Mt Taranaki, approximately 300km to the south", "Deposits from the Okiritoto Stream"], ans: 2, exp: "The heavy, dark iron sand originates from Mt Taranaki (300 km south) and is brought up the coast over hundreds of years via longshore drift." },
+            { q: "Which statement best describes the wave energy difference between Summer and Winter?", opts: ["Summer: <100,000 joules/m³ | Winter: >400,000 joules/m³", "Summer: >400,000 joules/m³ | Winter: <100,000 joules/m³", "Both seasons average 250,000 joules/m³", "Winter wave energy is lower due to offshore winds."], ans: 0, exp: "Summer features low-energy constructive waves (<100k joules). Winter features high-energy plunging destructive waves (>400k joules)." },
+            { q: "What causes the anomalous SOUTHWARD longshore drift in the 500m stretch north of Otakamiro Headland?", opts: ["The Okiritoto stream pushes water south.", "Extreme wave refraction causes waves to bend completely around the point, hitting the beach from a NW angle.", "Winter storms reverse the prevailing wind direction.", "The 3m macro-tidal range pulls sediment backward."], ans: 1, exp: "Refraction causes waves to bend around the headland, hitting from the NW and creating a localised southward drift that traps sand, making the beach 200m wide there." },
+            { q: "How old is the Manukau Breccia rock that forms Otakamiro Headland?", opts: ["10,000 years", "1 Million years", "17 Million years", "100 Million years"], ans: 2, exp: "The Manukau Breccia is a highly resistant volcanic conglomerate formed roughly 17 million years ago." },
+            { q: "What is the approximate fetch across the Tasman Sea driving Muriwai's wave energy?", opts: ["500 km", "1,000 km", "2,000 km", "5,000 km"], ans: 2, exp: "The uninterrupted fetch across the Tasman Sea is approximately 2,000 km, allowing immense wave energy to build up." },
+            { q: "During the Pleistocene Ice Ages, how much lower was the sea level?", opts: ["-10 metres", "-50 metres", "-100 metres", "-200 metres"], ans: 2, exp: "During global glaciation, sea levels dropped up to 100m, leaving the continental shelf exposed to sub-aerial weathering." },
+            { q: "What is the estimated volume of sediment moved annually by longshore drift at Muriwai?", opts: ["50,000 m³", "100,000 m³", "250,000 m³", "1,000,000 m³"], ans: 2, exp: "Longshore drift transports roughly 175,000 to 250,000 m³ of sediment northwards annually." },
+            { q: "Why was the Muriwai Surf Club relocated in 1980 and 2008?", opts: ["Tsunami threats", "Erosion of 1.5m/yr and dune blowouts caused by 1M annual visitors", "To move closer to Motutara Stack", "Rising sea levels flooding the building"], ans: 1, exp: "Relocation was necessitated by severe erosion (1.5m/yr) and the trampling of vegetation by visitors, which caused massive dune blowouts." },
+            { q: "What is the name of the steep stack located just off Otakamiro Headland?", opts: ["Oaia Island", "Fisherman's Rock", "Okiritoto Stack", "Motutara Stack"], ans: 3, exp: "Motutara Stack is the prominent stack formed by the collapse of a sea arch off Otakamiro Point." },
+            { q: "How does water-layer weathering create micro-spatial variations on the shore platform?", opts: ["It erodes the seaward edge faster than the inner platform.", "It erodes the inner platform (2m high) via salt crystallisation, while wave splash protects the seaward edge (3m high).", "It prevents all erosion on the platform.", "It only operates during winter storms."], ans: 1, exp: "The inner platform dries out and undergoes salt crystallisation, eroding down to 2m, while the constantly wet seaward edge (rampart) remains at 3m." },
+            { q: "What specific marine process involves water being forced into cracks and expanding explosively?", opts: ["Corrasion", "Corrosion", "Hydraulic Action", "Attrition"], ans: 2, exp: "Hydraulic action traps and compresses air inside rock fissures. Upon wave retreat, the air expands explosively, shattering the rock." },
+            { q: "What percentage of the time do the prevailing Southwesterly winds blow at Muriwai?", opts: ["20-30%", "42-58%", "70-80%", "90-100%"], ans: 1, exp: "The prevailing SW and WSW winds blow between 42% and 58% of the time, driving both waves and aeolian transport." },
+            { q: "What is the maximum width of the Muriwai foreshore exposed during low tide?", opts: ["50m", "100m", "150m - 200m", "500m"], ans: 2, exp: "The macro-tidal range (3-3.5m) exposes a massive 150m to 200m wide foreshore, providing abundant sand for aeolian saltation." }
         ];
 
+        let currentQuizData = [];
         let currentQuestion = 0;
         let score = 0;
         let answered = false;
 
         function startQuiz() {
+            // Randomly select 6 questions from the full bank
+            const shuffled = [...fullQuizBank].sort(() => 0.5 - Math.random());
+            currentQuizData = shuffled.slice(0, 6);
+            
             currentQuestion = 0;
             score = 0;
+            
             document.getElementById('quiz-intro').classList.add('hidden');
             document.getElementById('quiz-results').classList.add('hidden');
             document.getElementById('quiz-active').classList.remove('hidden');
@@ -793,8 +1119,8 @@
 
         function loadQuestion() {
             answered = false;
-            const q = quizData[currentQuestion];
-            document.getElementById('quiz-progress').innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+            const q = currentQuizData[currentQuestion];
+            document.getElementById('quiz-progress').innerText = `Question ${currentQuestion + 1} of ${currentQuizData.length}`;
             document.getElementById('quiz-score').innerText = `Score: ${score}`;
             document.getElementById('question-text').innerText = q.q;
             
@@ -817,7 +1143,7 @@
             if (answered) return;
             answered = true;
             
-            const q = quizData[currentQuestion];
+            const q = currentQuizData[currentQuestion];
             const isCorrect = selectedIndex === q.ans;
             const buttons = document.getElementById('options-container').children;
 
@@ -852,7 +1178,7 @@
 
         function nextQuestion() {
             currentQuestion++;
-            if (currentQuestion < quizData.length) {
+            if (currentQuestion < currentQuizData.length) {
                 loadQuestion();
             } else {
                 showResults();
@@ -864,11 +1190,11 @@
             document.getElementById('quiz-results').classList.remove('hidden');
             
             let message = "";
-            if(score === quizData.length) message = "Perfect! You have Mastered the E8 Evidence.";
+            if(score === currentQuizData.length) message = "Perfect! You have Mastered the E8 Evidence.";
             else if (score >= 4) message = "Great job! Keep reviewing the flashcards.";
             else message = "Keep studying! Use the flashcards to memorise the specific statistics.";
 
-            document.getElementById('final-score').innerHTML = `You scored ${score} out of ${quizData.length}.<br><span class="text-sm text-slate-600 dark:text-slate-400 mt-2 block">${message}</span>`;
+            document.getElementById('final-score').innerHTML = `You scored ${score} out of ${currentQuizData.length}.<br><span class="text-sm text-slate-600 dark:text-slate-400 mt-2 block">${message}</span>`;
         }
     </script>
 </body>
