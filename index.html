@@ -436,7 +436,7 @@
                 <p class="mb-6 text-sm text-slate-700 dark:text-slate-300">Natural processes operate in a mechanical sequence. To achieve Excellence, you must be able to describe these steps logically and integrate specific data.</p>
                 
                 <!-- Hydrological Accordion -->
-                <button onclick="toggleAccordion('proc-hydro')" class="w-full text-left font-bold text-whs-dark dark:text-whs-light bg-blue-50 dark:bg-slate-900/50 p-4 rounded-lg flex justify-between items-center shadow-sm border border-blue-200 dark:border-slate-700 mb-3 hover:bg-blue-100 dark:hover:bg-slate-800 transition">
+                <button onclick="toggleAccordion('proc-hydro', this)" class="w-full text-left font-bold text-whs-dark dark:text-whs-light bg-blue-50 dark:bg-slate-900/50 p-4 rounded-lg flex justify-between items-center shadow-sm border border-blue-200 dark:border-slate-700 mb-3 hover:bg-blue-100 dark:hover:bg-slate-800 transition">
                     <span class="flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Hydrological Processes (Wave Dynamics & Erosion)
                     </span> 
@@ -462,7 +462,7 @@
                 </div>
 
                 <!-- Climatological Accordion -->
-                <button onclick="toggleAccordion('proc-clima')" class="w-full text-left font-bold text-whs-dark dark:text-whs-light bg-amber-50 dark:bg-slate-900/50 p-4 rounded-lg flex justify-between items-center shadow-sm border border-amber-200 dark:border-slate-700 mb-3 hover:bg-amber-100 dark:hover:bg-slate-800 transition">
+                <button onclick="toggleAccordion('proc-clima', this)" class="w-full text-left font-bold text-whs-dark dark:text-whs-light bg-amber-50 dark:bg-slate-900/50 p-4 rounded-lg flex justify-between items-center shadow-sm border border-amber-200 dark:border-slate-700 mb-3 hover:bg-amber-100 dark:hover:bg-slate-800 transition">
                     <span class="flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Climatological Processes (Aeolian Transport)
                     </span> 
@@ -483,7 +483,7 @@
                 </div>
 
                 <!-- Biogeographical Accordion -->
-                <button onclick="toggleAccordion('proc-bio')" class="w-full text-left font-bold text-whs-dark dark:text-whs-light bg-emerald-50 dark:bg-slate-900/50 p-4 rounded-lg flex justify-between items-center shadow-sm border border-emerald-200 dark:border-slate-700 mb-3 hover:bg-emerald-100 dark:hover:bg-slate-800 transition">
+                <button onclick="toggleAccordion('proc-bio', this)" class="w-full text-left font-bold text-whs-dark dark:text-whs-light bg-emerald-50 dark:bg-slate-900/50 p-4 rounded-lg flex justify-between items-center shadow-sm border border-emerald-200 dark:border-slate-700 mb-3 hover:bg-emerald-100 dark:hover:bg-slate-800 transition">
                     <span class="flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Biogeographical Processes (Vegetation Baffling)
                     </span> 
@@ -963,7 +963,6 @@
             try { initTodos(); } catch(e) { console.error("Todos err:", e); }
             try { initCountdown(); } catch(e) { console.error("Countdown err:", e); }
             try { drawFlashcards(); } catch(e) { console.error("Flashcards err:", e); }
-            try { updateConceptSentence('ENVIRONMENT'); } catch(e) { console.error("Concept err:", e); }
             try { updateEssayPlan(); } catch(e) { console.error("Essay Plan err:", e); }
 
             // --- Main Tab Navigation Logic ---
@@ -1249,28 +1248,14 @@
             }
         }
 
-        // --- Geographic Concepts Logic ---
-        const conceptSentences = {
-            'ENVIRONMENT': "The Muriwai Coastal <span class='font-bold underline text-whs-dark dark:text-whs-light'>environment</span> is characterised by a striking contrast between the resistant headland and the expansive black sand beach.",
-            'PERSPECTIVE': "A coastal planner's <span class='font-bold underline text-whs-dark dark:text-whs-light'>perspective</span> prioritises mitigating erosion, whereas a surfer's perspective values the high-energy wave conditions.",
-            'PROCESS': "The marine <span class='font-bold underline text-whs-dark dark:text-whs-light'>process</span> of wave refraction concentrates immense energy onto Otakamiro Point, driving rapid cliff retreat.",
-            'PATTERN': "The interaction of prevailing onshore winds and vegetation creates a distinct spatial <span class='font-bold underline text-whs-dark dark:text-whs-light'>pattern</span> of parabolic dunes parallel to the coastline.",
-            'INTERACTION': "The <span class='font-bold underline text-whs-dark dark:text-whs-light'>interaction</span> between saltating sand grains and halophytic pioneer vegetation results in the accretion of stable foredunes.",
-            'CHANGE': "Over geological time, tectonic uplift and continuous marine erosion drive profound <span class='font-bold underline text-whs-dark dark:text-whs-light'>change</span> in the shape and retreat of the headland."
-        };
-
-        function updateConceptSentence(concept) {
-            const el = document.getElementById('concept-sentence-display');
-            if (el) el.innerHTML = conceptSentences[concept];
-        }
-
         // --- Accordion Logic ---
-        function toggleAccordion(id) {
+        function toggleAccordion(id, btn) {
             const content = document.getElementById(id);
             if (!content) return;
-            const btn = content.previousElementSibling;
-            // Target the specific span containing the + / - icon
-            const icon = btn ? btn.querySelector('.font-mono') : null;
+            
+            // Fallback if btn isn't passed for some reason
+            const targetBtn = btn || content.previousElementSibling;
+            const icon = targetBtn ? targetBtn.querySelector('.font-mono') : null;
             
             if (content.classList.contains('hidden')) {
                 content.classList.remove('hidden');
