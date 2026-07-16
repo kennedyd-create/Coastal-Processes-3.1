@@ -1264,6 +1264,23 @@
             if (el) el.innerHTML = conceptSentences[concept];
         }
 
+        // --- Accordion Logic ---
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            if (!content) return;
+            const btn = content.previousElementSibling;
+            // Target the specific span containing the + / - icon
+            const icon = btn ? btn.querySelector('.font-mono') : null;
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                if (icon) icon.innerText = '-';
+            } else {
+                content.classList.add('hidden');
+                if (icon) icon.innerText = '+';
+            }
+        }
+
         // --- To Do Logic (Study Tools) ---
         function initTodos() { renderTodos(); }
 
