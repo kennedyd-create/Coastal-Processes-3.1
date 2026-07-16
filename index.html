@@ -98,6 +98,15 @@
             100% { transform: scale(0.8); opacity: 0.6; }
         }
         .breathe-circle { animation: breathe 16s infinite ease-in-out; }
+
+        /* Fade In Animation for dynamically loaded content */
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-slate-200 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen p-4 md:p-6 lg:p-8">
@@ -152,7 +161,7 @@
     </header>
 
     <!-- Navigation Tabs -->
-    <nav class="max-w-7xl mx-auto flex flex-wrap justify-center sm:justify-start gap-2 mb-8 relative z-0">
+    <nav class="max-w-7xl mx-auto flex flex-wrap justify-center gap-2 mb-8 relative z-0">
         <button data-action="view" data-target="context" class="nav-btn active px-4 py-2 text-sm rounded-lg font-bold bg-whs-dark text-white shadow-md transition-all border border-whs-dark">Geographic Context</button>
         <button data-action="view" data-target="processes" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">Interacting Processes</button>
         <button data-action="view" data-target="spatial" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">Spatial Variations</button>
@@ -160,10 +169,10 @@
         <button data-action="view" data-target="vault" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">Practice Hub & Quiz</button>
         <button data-action="view" data-target="sandbox" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">Writing Sandbox</button>
         <button data-action="view" data-target="tools" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">Study Tools</button>
-        <button data-action="view" data-target="essay" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">E8 Blueprint</button>
+        <button data-action="view" data-target="essay" class="nav-btn px-4 py-2 text-sm rounded-lg font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-slate-700 dark:text-slate-200 shadow-sm">E8 Blueprint & Toolkit</button>
         
         <!-- External AI Tools -->
-        <div class="flex gap-2 sm:ml-auto w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
+        <div class="flex gap-2 justify-center">
             <!-- NotebookLM Tab -->
             <button data-target="notebooklm" class="nav-btn px-4 py-2 text-sm rounded-lg font-extrabold bg-gradient-to-r from-teal-600 to-blue-600 border border-teal-800 text-white hover:shadow-lg transition-all shadow-md flex items-center gap-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -412,7 +421,77 @@
             </div>
         </section>
 
-        <!-- VIEW: Excellence Guide (Blueprint) -->
+        <!-- VIEW: Evidence Vault & Quiz -->
+        <section id="view-vault" class="view-section hidden space-y-6 animate-in fade-in duration-500">
+            <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 shadow-md">
+                <div class="flex justify-between items-center mb-6 flex-wrap gap-4 border-b border-slate-200 dark:border-slate-700 pb-4">
+                    <h2 class="text-3xl font-extrabold text-whs-dark dark:text-whs-light">Practice Hub</h2>
+                    <div class="flex gap-2 bg-slate-100 dark:bg-slate-700 p-1 rounded-lg border border-slate-300 dark:border-slate-600 shadow-inner">
+                        <button onclick="switchVaultTab('flashcards')" id="tab-flashcards" class="px-4 py-2 rounded-md font-bold text-sm bg-white dark:bg-slate-800 shadow-sm transition text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600">Flashcards</button>
+                        <button onclick="switchVaultTab('quiz')" id="tab-quiz" class="px-4 py-2 rounded-md font-bold text-sm text-slate-600 dark:text-slate-300 hover:text-whs-dark transition bg-transparent border border-transparent">Knowledge Quiz</button>
+                    </div>
+                </div>
+                
+                <!-- FLASHCARDS SECTION -->
+                <div id="vault-flashcards" class="block animate-in fade-in">
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 bg-slate-50 dark:bg-slate-900 p-6 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="max-w-2xl">
+                            <h3 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-2">E8 Data Memorisation (Q&A Format)</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Click on the cards to reveal the exact quantitative data required for an Excellence (E8) response. Click the button to draw 6 random cards from the database.</p>
+                            <button onclick="drawFlashcards()" class="bg-whs-gold text-whs-dark px-5 py-2.5 rounded-lg font-bold shadow-md hover:bg-yellow-500 transition text-sm border border-whs-goldtext">Shuffle & Draw New Cards</button>
+                        </div>
+                        
+                        <!-- NZQA Link Button -->
+                        <a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=Geography&view=exams&level=03&_gl=1*baqhh8*_ga*MTU2NDA5MzUxMi4xNzczOTUxOTU0*_ga_TFQQ681L2E*czE3ODMyMDQzOTMkbzE3JGcxJHQxNzgzMjA0NDA0JGo0OSRsMCRoMA.." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 bg-whs-dark text-white rounded-lg hover:bg-blue-900 transition text-sm font-bold shadow-md w-full md:w-auto justify-center border border-slate-800">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            NZQA Past Exams
+                        </a>
+                    </div>
+
+                    <!-- Flashcard Grid injected via JS -->
+                    <div id="flashcard-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+                </div>
+
+                <!-- QUIZ SECTION -->
+                <div id="vault-quiz" class="hidden animate-in fade-in">
+                    <div id="quiz-intro" class="text-center py-10 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light">Muriwai Data Mastery Quiz</h3>
+                        <p class="mb-6 max-w-lg mx-auto text-sm text-slate-700 dark:text-slate-300">Test your knowledge of the specific statistics and features required for an E8 essay. You need to know these numbers by heart.</p>
+                        <button onclick="startQuiz()" class="bg-whs-dark text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-900 transition shadow-md border border-slate-800">Start Quiz</button>
+                    </div>
+
+                    <div id="quiz-active" class="hidden max-w-2xl mx-auto">
+                        <div class="flex justify-between items-center mb-4 text-sm font-bold text-slate-500 dark:text-slate-400">
+                            <span id="quiz-progress">Question 1/6</span>
+                            <span id="quiz-score">Score: 0</span>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-slate-700/50 p-6 md:p-8 rounded-xl border border-slate-300 dark:border-slate-600 shadow-md mb-6">
+                            <h3 id="question-text" class="text-xl font-bold text-whs-dark dark:text-white mb-6">Question goes here?</h3>
+                            <div id="options-container" class="space-y-3">
+                                <!-- Options injected via JS -->
+                            </div>
+                        </div>
+
+                        <div id="feedback-container" class="hidden p-5 rounded-lg mb-6 text-sm font-bold border-l-4 shadow-sm">
+                            <p id="feedback-text"></p>
+                        </div>
+
+                        <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-whs-gold text-whs-dark font-bold py-4 rounded-lg hover:bg-yellow-500 transition shadow-md border border-whs-goldtext">Next Question</button>
+                    </div>
+
+                    <div id="quiz-results" class="hidden text-center py-10 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <h3 class="text-3xl font-extrabold mb-2 text-whs-dark dark:text-whs-light">Quiz Complete!</h3>
+                        <p id="final-score" class="text-xl font-bold text-whs-goldtext dark:text-whs-gold mb-6">You scored X out of Y.</p>
+                        <button onclick="startQuiz()" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white px-6 py-3 rounded-lg font-bold hover:bg-slate-300 dark:hover:bg-slate-600 transition shadow-sm border border-slate-300">Retake Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Excellence Guide (Blueprint & Toolkit) -->
         <section id="view-essay" class="view-section hidden space-y-8 animate-in fade-in duration-500">
             <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 shadow-md">
                 
@@ -423,7 +502,62 @@
                     <p class="text-sm text-blue-100 leading-relaxed">The pinnacle of this standard, <strong>"Achievement with Excellence,"</strong> requires an "insightful analysis". This means explicitly deconstructing the interactions between processes, elements, and features. Insight is consistently demonstrated when candidates synthesize spatial and temporal aspects, articulate feedback loops, and explain how the output of one geological or climatological event fundamentally dictates the operation of subsequent natural processes.</p>
                 </div>
 
-                <h2 class="text-3xl font-extrabold mb-6 text-whs-dark dark:text-whs-light">Typology of Past NCEA Examination Questions</h2>
+                <h2 class="text-3xl font-extrabold mb-6 text-whs-dark dark:text-whs-light mt-12">Dynamic Essay Planner (Excellence Toolkit)</h2>
+                <div class="glass-card bg-slate-50 dark:bg-slate-900/50 rounded-xl shadow-sm border border-slate-300 dark:border-slate-700 p-6 mb-8">
+                    <label for="essay-question-select" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Select an Exam Question Type to generate a custom Essay Plan:</label>
+                    <select id="essay-question-select" onchange="updateEssayPlan()" class="w-full p-3 border border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold focus:ring-2 focus:ring-whs-dark focus:border-whs-dark dark:focus:ring-whs-light dark:focus:border-whs-light cursor-pointer outline-none">
+                        <option value="spatial">Spatial Variation (Muriwai Beach vs Maori Bay)</option>
+                        <option value="feature_dune">Interaction Shaping a Feature (Foredunes)</option>
+                        <option value="feature_headland">Interaction Shaping a Feature (Otakamiro Point & Wave-Cut Platform)</option>
+                        <option value="temporal">Temporal Variation (Summer vs Winter Beach Profiles)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+                    <!-- Dynamic Content Container -->
+                    <div class="lg:col-span-2" id="dynamic-essay-plan">
+                        <!-- Javascript injects HTML here -->
+                    </div>
+
+                    <!-- Excellence Checklist -->
+                    <div class="bg-whs-dark text-white p-8 rounded-2xl shadow-md h-fit sticky top-24 border border-blue-900">
+                        <h3 class="text-2xl font-bold mb-4 text-whs-gold">The 3.1 Excellence Checklist</h3>
+                        <p class="text-blue-200 text-sm mb-6 pb-4 border-b border-blue-800">Ensure your essay meets these strict NCEA standard requirements:</p>
+                        
+                        <ul class="space-y-5 text-sm">
+                            <li class="flex items-start">
+                                <span class="mr-3 text-emerald-400 font-bold text-lg leading-none">&check;</span> 
+                                <div>
+                                    <strong class="block text-white">Geographic Concepts Integrated</strong>
+                                    <span class="text-blue-100 block mt-1">Explicitly use terms like <em>Environments</em>, <em>Processes</em>, <em>Patterns</em>, and <em>Interaction</em>.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-3 text-emerald-400 font-bold text-lg leading-none">&check;</span> 
+                                <div>
+                                    <strong class="block text-white">Highly Specific Data</strong>
+                                    <span class="text-blue-100 block mt-1">Use names (Manukau Breccia, Roaring Forties) and numbers (11 knots, 300,000 kJ). Aim for 15+ specific data points.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-3 text-emerald-400 font-bold text-lg leading-none">&check;</span> 
+                                <div>
+                                    <strong class="block text-white">Explicit Process Links</strong>
+                                    <span class="text-blue-100 block mt-1">Don't just list processes. Explain how the *output* of one triggers the *initiation* of another (Feedback Loops).</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-3 text-emerald-400 font-bold text-lg leading-none">&check;</span> 
+                                <div>
+                                    <strong class="block text-white">Annotated Diagrams</strong>
+                                    <span class="text-blue-100 block mt-1">Draw clearly labelled maps/cross-sections and directly refer to them in text (e.g., "As seen in Diagram 1...").</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 class="text-3xl font-extrabold mb-6 text-whs-dark dark:text-whs-light border-t border-slate-200 dark:border-slate-700 pt-8">Typology of Past NCEA Examination Questions</h2>
                 <p class="mb-6 text-sm text-slate-700 dark:text-slate-300">To adequately prepare, candidates must be familiar with the variations in the phrasing of past NZQA prompts. The questions generally fall into three analytical categories: Feature Formation, Process Interaction, and Variations (Spatial/Temporal).</p>
                 
                 <div class="overflow-x-auto mb-10 shadow-sm rounded-lg border border-slate-300 dark:border-slate-600">
@@ -501,28 +635,58 @@
                 <p class="mb-6 text-sm text-slate-700 dark:text-slate-300">Beyond isolated excerpts, it is worth studying what full-script E8 candidates in past years did differently across an entire response. Two years are especially instructive: 2017 (Feature Formation) and 2016 (Temporal Variations).</p>
 
                 <div class="grid md:grid-cols-2 gap-6 mb-10">
-                    <div class="bg-blue-50 dark:bg-slate-900 p-6 rounded-xl border border-blue-200 dark:border-slate-600 shadow-sm">
+                    <div class="bg-blue-50 dark:bg-slate-900 p-6 rounded-xl border border-blue-200 dark:border-slate-600 shadow-sm flex flex-col">
                         <h4 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-1">The 2017 Excellence Exemplar</h4>
                         <p class="text-xs font-bold uppercase tracking-widest text-whs-goldtext dark:text-whs-gold mb-3">Feature Formation: Sand Dunes</p>
                         <p class="text-sm text-slate-700 dark:text-slate-300 mb-3">In 2017, the examination required candidates to analyse how interacting natural processes shaped a specific feature. The E8 candidate focused on the sand dunes at the Muriwai Coastal Environment.</p>
                         <p class="font-bold text-sm text-whs-dark dark:text-whs-light mb-2">Why it gained Excellence:</p>
-                        <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                        <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-300 mb-4 flex-grow">
                             <li><strong>Technical Granularity:</strong> The candidate avoided simplistic phrasing like "the wind blows sand." Instead, they broke aeolian processes down into their constituent physics — saltation, reptation, creep, and suspension — and established the hydrological prerequisite by explaining how constructive depositional waves supplied the initial sediment.</li>
                             <li><strong>Explicit Interactions:</strong> Insight was demonstrated by explaining how the shape and size of the dunes varied based on the specific combinations of the three processes. The candidate articulated that vegetation acts as the physical friction point for saltating sand, meaning the biological process directly controls the physical accumulation.</li>
                             <li><strong>Integrated Evidence:</strong> The candidate used highly detailed, annotated diagrams. Rather than drawing generic dunes, their diagrams included specific case study evidence embedded within the annotations, which directly supported their written analysis of the MCE.</li>
                         </ul>
+                        
+                        <div class="mt-auto border-t border-blue-200 dark:border-slate-700 pt-4">
+                            <button onclick="toggleAccordion('script-2017')" class="w-full text-left font-bold text-whs-dark dark:text-whs-light bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-800 transition flex justify-between items-center border border-blue-200 dark:border-blue-700">
+                                Read Student Script Excerpt <span class="text-xl leading-none font-mono">+</span>
+                            </button>
+                            <div id="script-2017" class="hidden mt-2 p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 shadow-inner">
+                                <p class="italic mb-3">"The formation of the 10-15 metre foredunes at Muriwai Beach is the result of the continuous interaction between hydrological sediment supply, climatological transportation, and biogeographical stabilisation. Initially, hydrological processes are required to provide the sediment. The prevailing south-westerly winds drive constructive waves across a 2,000km fetch in the Tasman Sea. As these waves enter the shallow bathymetry (1.3-degree gradient) of Muriwai Beach, they spill and deposit vast quantities of 0.25mm titanomagnetite sand during the swash phase. Because Muriwai is a mesotidal environment with a 3-metre tidal range, a massive 300-metre wide foreshore is exposed at low tide. Solar radiation evaporates the moisture from the sediment, creating the precondition for aeolian transport.</p>
+                                <p class="italic mb-3">Once dried, climatological processes dominate. Prevailing westerly winds, blowing onshore 70% of the time, exceed the critical fluid threshold velocity of 5.47 m/s. This initiates saltation, which accounts for 75% of sand movement. Sand grains are aerodynamically lifted up to 17cm into the air and travel in parabolic trajectories, dislodging other grains upon impact. Heavier 0.5mm quartz grains move via surface creep (25%).</p>
+                                <p class="italic">This climatological transport interacts directly with biogeographical processes. Halophytic pioneer vegetation, such as Spinifex sericeus, sends out horizontal runners across the backshore. As saltating sand hits these runners, the vegetation acts as a physical baffle. It disrupts the aerodynamic boundary layer, causing wind velocity to drop below 5.47 m/s. Lacking the kinetic energy to carry the sand, gravity forces deposition. This burial stimulates the Spinifex to grow rapidly upwards, binding the loose titanomagnetite with deep root networks. This positive feedback loop between wind transport and vegetation baffling causes continuous vertical accretion, shaping the distinct 20-degree parabolic foredunes that define the Muriwai beach profile."</p>
+                            </div>
+                            <a href="https://www.nzqa.govt.nz/ncea/assessment/view-detailed.do?standardNumber=91426" target="_blank" rel="noopener noreferrer" class="flex justify-center items-center gap-2 mt-3 w-full bg-whs-dark text-white font-bold py-3 rounded-lg hover:bg-blue-900 transition text-sm shadow-sm border border-slate-800">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                Download Official Exemplar PDF
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="bg-blue-50 dark:bg-slate-900 p-6 rounded-xl border border-blue-200 dark:border-slate-600 shadow-sm">
+                    <div class="bg-blue-50 dark:bg-slate-900 p-6 rounded-xl border border-blue-200 dark:border-slate-600 shadow-sm flex flex-col">
                         <h4 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-1">The 2016 Excellence Exemplar</h4>
                         <p class="text-xs font-bold uppercase tracking-widest text-whs-goldtext dark:text-whs-gold mb-3">Temporal Variations</p>
                         <p class="text-sm text-slate-700 dark:text-slate-300 mb-3">In 2016, the prompt focused on spatial or temporal variations. The E8 candidate chose to exclusively analyse temporal variations at Muriwai.</p>
                         <p class="font-bold text-sm text-whs-dark dark:text-whs-light mb-2">Why it gained Excellence:</p>
-                        <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                        <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-300 mb-4 flex-grow">
                             <li><strong>Dual Timeframes:</strong> The candidate provided a highly sophisticated response by analysing two completely different scales of time. They compared the short-term seasonal shift (summer versus winter beach profiles) with the deep geological macro-scale (17-million-years-ago submarine volcanism versus today's coastal erosion at Otakamiro Headland).</li>
                             <li><strong>Process-Driven Reasoning:</strong> The candidate demonstrated immense geographic insight by linking the temporal variations to the changing operations of specific processes, explaining that the difference in the beach profile is due to the shift between wave deposition and wave erosion, broken down into a logical series of steps.</li>
                             <li><strong>Inter-process Linking:</strong> The defining mark of Excellence was the candidate's ability to explain how the output of one process fundamentally alters the operation of another. They successfully argued that the historical output of volcanism (the creation of the hard breccia headland) directly dictates how contemporary wave refraction and coastal erosion operate today.</li>
                         </ul>
+                        
+                        <div class="mt-auto border-t border-blue-200 dark:border-slate-700 pt-4">
+                            <button onclick="toggleAccordion('script-2016')" class="w-full text-left font-bold text-whs-dark dark:text-whs-light bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-800 transition flex justify-between items-center border border-blue-200 dark:border-blue-700">
+                                Read Student Script Excerpt <span class="text-xl leading-none font-mono">+</span>
+                            </button>
+                            <div id="script-2016" class="hidden mt-2 p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 shadow-inner">
+                                <p class="italic mb-3">"The Muriwai Coastal Environment experiences significant temporal variations in its geomorphology. On a micro-temporal (seasonal) scale, the beach profile fluctuates dramatically between summer and winter due to changing atmospheric interactions with the Tasman Sea. During summer, anti-cyclonic weather systems produce lower wind velocities. This generates constructive waves, which have a low frequency (6-8 per minute) and a long wavelength. The swash of these waves is more powerful than the backwash, meaning that over the summer months, 0.25mm titanomagnetite sand is systematically transported from the offshore bar and deposited onto the beach. This builds a wide, convex berm and decreases the overall beach gradient to around 1.3 degrees.</p>
+                                <p class="italic mb-3">Conversely, during winter, intense low-pressure cyclonic systems create storm conditions. High-energy plunging destructive waves (12-14 per minute) crash onto the beach with energies exceeding 400,000 Joules. The backwash becomes dominant, scouring sand from the berm and dragging it seaward to rebuild the offshore bar. This temporal shift leaves the winter beach profile steep, narrow, and highly concave, often resulting in severe cliffing of the foredune at the high-tide mark.</p>
+                                <p class="italic">On a macro-temporal (geological) scale, the processes operating at Otakamiro Point have completely reversed over the last 17 million years. During the early Miocene epoch, the dominant process was submarine volcanic construction. The Waitakere Volcanic Arc deposited layers of basaltic andesite lava, forming the highly resistant Manukau Breccia. Following tectonic uplift 3 to 5 million years ago, this landmass was exposed to the sea. Today, the temporal focus has shifted entirely to marine degradation. The resistant headland alters the local bathymetry, causing wave refraction. Wave orthogonals bend inwards, concentrating immense hydraulic action directly onto the headland. Over time, this has eroded faults into caves, arches, and eventually isolated stacks like Motutara Island. Therefore, the long-term temporal variation shows a shift from an environment dominated by volcanic accretion to one dominated by continuous hydrological erosion."</p>
+                            </div>
+                            <a href="https://www.nzqa.govt.nz/ncea/assessment/view-detailed.do?standardNumber=91426" target="_blank" rel="noopener noreferrer" class="flex justify-center items-center gap-2 mt-3 w-full bg-whs-dark text-white font-bold py-3 rounded-lg hover:bg-blue-900 transition text-sm shadow-sm border border-slate-800">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                Download Official Exemplar PDF
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -644,76 +808,6 @@
             </div>
         </section>
 
-        <!-- VIEW: Evidence Vault & Quiz -->
-        <section id="view-vault" class="view-section hidden space-y-6 animate-in fade-in duration-500">
-            <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-300 dark:border-slate-700 shadow-md">
-                <div class="flex justify-between items-center mb-6 flex-wrap gap-4 border-b border-slate-200 dark:border-slate-700 pb-4">
-                    <h2 class="text-3xl font-extrabold text-whs-dark dark:text-whs-light">Practice Hub</h2>
-                    <div class="flex gap-2 bg-slate-100 dark:bg-slate-700 p-1 rounded-lg border border-slate-300 dark:border-slate-600 shadow-inner">
-                        <button onclick="switchVaultTab('flashcards')" id="tab-flashcards" class="px-4 py-2 rounded-md font-bold text-sm bg-white dark:bg-slate-800 shadow-sm transition text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600">Flashcards</button>
-                        <button onclick="switchVaultTab('quiz')" id="tab-quiz" class="px-4 py-2 rounded-md font-bold text-sm text-slate-600 dark:text-slate-300 hover:text-whs-dark transition bg-transparent border border-transparent">Knowledge Quiz</button>
-                    </div>
-                </div>
-                
-                <!-- FLASHCARDS SECTION -->
-                <div id="vault-flashcards" class="block animate-in fade-in">
-                    
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 bg-slate-50 dark:bg-slate-900 p-6 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <div class="max-w-2xl">
-                            <h3 class="font-bold text-lg text-whs-dark dark:text-whs-light mb-2">E8 Data Memorisation (Q&A Format)</h3>
-                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Click on the cards to reveal the exact quantitative data required for an Excellence (E8) response. Click the button to draw 6 random cards from the database.</p>
-                            <button onclick="drawFlashcards()" class="bg-whs-gold text-whs-dark px-5 py-2.5 rounded-lg font-bold shadow-md hover:bg-yellow-500 transition text-sm border border-whs-goldtext">Shuffle & Draw New Cards</button>
-                        </div>
-                        
-                        <!-- NZQA Link Button -->
-                        <a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=Geography&view=exams&level=03&_gl=1*baqhh8*_ga*MTU2NDA5MzUxMi4xNzczOTUxOTU0*_ga_TFQQ681L2E*czE3ODMyMDQzOTMkbzE3JGcxJHQxNzgzMjA0NDA0JGo0OSRsMCRoMA.." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 bg-whs-dark text-white rounded-lg hover:bg-blue-900 transition text-sm font-bold shadow-md w-full md:w-auto justify-center border border-slate-800">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                            NZQA Past Exams
-                        </a>
-                    </div>
-
-                    <!-- Flashcard Grid injected via JS -->
-                    <div id="flashcard-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
-                </div>
-
-                <!-- QUIZ SECTION -->
-                <div id="vault-quiz" class="hidden animate-in fade-in">
-                    <div id="quiz-intro" class="text-center py-10 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h3 class="text-2xl font-bold mb-4 text-whs-dark dark:text-whs-light">Muriwai Data Mastery Quiz</h3>
-                        <p class="mb-6 max-w-lg mx-auto text-sm text-slate-700 dark:text-slate-300">Test your knowledge of the specific statistics and features required for an E8 essay. You need to know these numbers by heart.</p>
-                        <button onclick="startQuiz()" class="bg-whs-dark text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-900 transition shadow-md border border-slate-800">Start Quiz</button>
-                    </div>
-
-                    <div id="quiz-active" class="hidden max-w-2xl mx-auto">
-                        <div class="flex justify-between items-center mb-4 text-sm font-bold text-slate-500 dark:text-slate-400">
-                            <span id="quiz-progress">Question 1/6</span>
-                            <span id="quiz-score">Score: 0</span>
-                        </div>
-                        
-                        <div class="bg-white dark:bg-slate-700/50 p-6 md:p-8 rounded-xl border border-slate-300 dark:border-slate-600 shadow-md mb-6">
-                            <h3 id="question-text" class="text-xl font-bold text-whs-dark dark:text-white mb-6">Question goes here?</h3>
-                            <div id="options-container" class="space-y-3">
-                                <!-- Options injected via JS -->
-                            </div>
-                        </div>
-
-                        <div id="feedback-container" class="hidden p-5 rounded-lg mb-6 text-sm font-bold border-l-4 shadow-sm">
-                            <p id="feedback-text"></p>
-                        </div>
-
-                        <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-whs-gold text-whs-dark font-bold py-4 rounded-lg hover:bg-yellow-500 transition shadow-md border border-whs-goldtext">Next Question</button>
-                    </div>
-
-                    <div id="quiz-results" class="hidden text-center py-10 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <h3 class="text-3xl font-extrabold mb-2 text-whs-dark dark:text-whs-light">Quiz Complete!</h3>
-                        <p id="final-score" class="text-xl font-bold text-whs-goldtext dark:text-whs-gold mb-6">You scored X out of Y.</p>
-                        <button onclick="startQuiz()" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white px-6 py-3 rounded-lg font-bold hover:bg-slate-300 dark:hover:bg-slate-600 transition shadow-sm border border-slate-300">Retake Quiz</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <!-- AUDIO GENERATOR FOR GAMIFICATION -->
@@ -752,14 +846,64 @@
     <!-- JavaScript Application Logic -->
     <script>
         // --- Initialization on Load (Error Resilient) ---
-        document.addEventListener('DOMContentLoaded', () => {
+        function initApp() {
             try { initStreak(); } catch(e) { console.error("Streak err:", e); }
             try { updateXPDisplay(); } catch(e) { console.error("XP err:", e); }
             try { initTodos(); } catch(e) { console.error("Todos err:", e); }
             try { initCountdown(); } catch(e) { console.error("Countdown err:", e); }
             try { drawFlashcards(); } catch(e) { console.error("Flashcards err:", e); }
             try { updateConceptSentence('ENVIRONMENT'); } catch(e) { console.error("Concept err:", e); }
-        });
+            try { updateEssayPlan(); } catch(e) { console.error("Essay Plan err:", e); }
+
+            // --- Main Tab Navigation Logic ---
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if(btn.getAttribute('data-target') === 'gemini' || btn.getAttribute('data-target') === 'notebooklm') return;
+
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-btn').forEach(b => {
+                        if(b.getAttribute('data-target') !== 'gemini' && b.getAttribute('data-target') !== 'notebooklm') {
+                            b.classList.remove('bg-whs-dark', 'text-white', 'border-whs-dark');
+                            b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
+                        }
+                    });
+                    
+                    this.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
+                    this.classList.add('bg-whs-dark', 'text-white', 'border-whs-dark');
+
+                    const targetId = 'view-' + this.getAttribute('data-target');
+                    document.querySelectorAll('.view-section').forEach(section => {
+                        if(section.id === targetId) {
+                            section.classList.remove('hidden');
+                            section.classList.add('block');
+                        } else {
+                            section.classList.add('hidden');
+                            section.classList.remove('block');
+                        }
+                    });
+
+                    if(targetId === 'view-tools') {
+                        setTimeout(initFocusChart, 100);
+                    }
+                });
+            });
+
+            // External link click handlers
+            const geminiBtn = document.querySelector('[data-target="gemini"]');
+            if(geminiBtn) geminiBtn.addEventListener('click', function() {
+                window.open('https://gemini.google.com/gem/1j5V4c0XQhePnEuMgO3m8cPbUfublWpTK?usp=sharing', '_blank');
+            });
+            const notebookBtn = document.querySelector('[data-target="notebooklm"]');
+            if(notebookBtn) notebookBtn.addEventListener('click', function() {
+                window.open('https://notebooklm.google.com/notebook/f506f311-a6e2-4b6e-a62d-c39cacf544d4?authuser=0', '_blank');
+            });
+        }
+
+        // Execute init immediately if loaded, otherwise wait for DOM
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
 
         // --- Dark Mode Logic ---
         function toggleDarkMode() {
@@ -775,6 +919,65 @@
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
+        }
+
+        // --- STREAMING_CHUNK: Dynamic Essay Toolkit Logic ---
+        const essayPlans = {
+            'spatial': {
+                title: "Essay Plan: Spatial Variation (Muriwai vs Maori Bay)",
+                intro: "<p><strong>Key Geographic Concepts:</strong> <em class='text-whs-dark dark:text-whs-light font-bold'>Spatial Variation, Environment, Patterns.</em></p><p class='mt-2'>Start by defining Spatial Variation (differences across the earth's surface). Introduce the two distinct environments located approximately 500m apart. State clearly that the interaction of hydrological processes with different geomorphological bathymetry and lithology creates a depositional environment in the north (Muriwai) and an erosional one in the south (Maori Bay).</p>",
+                para1: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Body Paragraph 1: Muriwai Beach (Depositional)</h4><p class='mt-2'>Focus on constructive processes. Muriwai has a 1.3&deg; gradient and a 300m wide dissipative beach. Longshore drift deposits 0.25mm titanomagnetite sediment. Climatological (SW winds > 11 knots) and Biogeographical (Spinifex baffling) interact here to build 10-15m foredunes due to the massive accommodation space.</p><div class='bg-blue-50 dark:bg-blue-900/30 p-3 mt-3 text-sm italic border-l-4 border-blue-400 text-slate-800 dark:text-blue-200 rounded shadow-sm'><strong>Diagram Integration:</strong> Draw a cross-section of the wide, low-angle Muriwai Beach showing the extensive dune system and wind vectors.</div>",
+                para2: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Body Paragraph 2: Maori Bay (Erosional)</h4><p class='mt-2'>Focus on destructive processes. Maori Bay has a steep 8&deg;+ profile and deeper bathymetry. Wave refraction concentrates 300,000 kJ of energy on Otakamiro Point. Dominated by Hydraulic Action and Abrasion against the Manukau Breccia. Result: Vertical cliffs and wave-cut platforms (Fisherman's Rock). There is no sand accumulation or space for dune formation.</p><div class='bg-blue-50 dark:bg-blue-900/30 p-3 mt-3 text-sm italic border-l-4 border-blue-400 text-slate-800 dark:text-blue-200 rounded shadow-sm'><strong>Diagram Integration:</strong> Draw a map view showing wave orthogonal lines converging (refracting) onto the Otakamiro Point headland, proving energy concentration.</div>",
+                para3: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Insightful Conclusion</h4><p class='mt-2 mb-2'>Summarise how the interaction of wave dynamics (refraction) and underlying geology (Manukau Breccia vs Waitemata Sandstone) dictates where sand can settle and where it is stripped away, creating two entirely different environments in close geographic proximity.</p>"
+            },
+            'feature_dune': {
+                title: "Essay Plan: Feature Formation (Foredunes)",
+                intro: "<p><strong>Key Geographic Concepts:</strong> <em class='text-whs-dark dark:text-whs-light font-bold'>Interaction, Processes, Change.</em></p><p class='mt-2'>Name the feature (Muriwai foredunes). State the key interacting processes: Climatological (Aeolian) and Biogeographical (Vegetation) operating on the sediment supply provided by Hydrological processes (Longshore Drift).</p>",
+                para1: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Body Paragraph 1: The Supply & Transport</h4><p class='mt-2'>Hydrological longshore drift supplies the 0.25mm titanomagnetite. Climatological processes take over: Prevailing SW winds from the Roaring Forties hit the critical 11-knot threshold. Explain Saltation (75-80% of transport, up to 17cm high) and Surface Creep (20-25%).</p>",
+                para2: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Body Paragraph 2: The Biological Interaction</h4><p class='mt-2'>Biogeographical processes interact with the moving sand. <em>Spinifex sericeus</em> and <em>Ficinia spiralis</em> act as biological baffles. Friction disrupts the wind's boundary layer, dropping the velocity below 11 knots. Without energy to carry the sand, gravity forces deposition.</p><div class='bg-blue-50 dark:bg-blue-900/30 p-3 mt-3 text-sm italic border-l-4 border-blue-400 text-slate-800 dark:text-blue-200 rounded shadow-sm'><strong>Diagram Integration:</strong> Draw a cross-section of a dune showing wind arrows hitting a plant, highlighting the low-pressure 'shadow' zone where deposition occurs.</div>",
+                para3: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Insightful Conclusion (Feedback Loop)</h4><p class='mt-2 mb-2'>Explain the positive feedback loop: Plants trap sand &rarr; sand threatens to bury plant &rarr; plant stimulated to grow upwards &rarr; plant traps more sand. This interaction results in continuous vertical accretion, creating massive dunes up to 15m high that stabilise the entire coastline.</p>"
+            },
+            'feature_headland': {
+                title: "Essay Plan: Feature Formation (Headlands & Platforms)",
+                intro: "<p><strong>Key Geographic Concepts:</strong> <em class='text-whs-dark dark:text-whs-light font-bold'>Interaction, Environments, Change.</em></p><p class='mt-2'>Identify the features: Otakamiro Point and its surrounding wave-cut platforms (Fisherman's Rock). State that these are erosional features formed by the interaction of extreme Hydrological energy and Geological lithology.</p>",
+                para1: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Body Paragraph 1: Energy Concentration</h4><p class='mt-2'>Explain the source of energy: A 2,000km fetch across the Tasman Sea creates 2-3m waves with a 14-second period. As these waves enter shallow bathymetry, Wave Refraction occurs. Orthogonals bend inwards, concentrating 300,000 kJ of energy directly onto the headland.</p><div class='bg-blue-50 dark:bg-blue-900/30 p-3 mt-3 text-sm italic border-l-4 border-blue-400 text-slate-800 dark:text-blue-200 rounded shadow-sm'><strong>Diagram Integration:</strong> Aerial map showing wave crests bending to run parallel to the shore, focusing orthogonals on Otakamiro Point.</div>",
+                para2: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Body Paragraph 2: Erosion Mechanics</h4><p class='mt-2'>Explain the interaction with the Manukau Breccia. Detail specific erosion types: Hydraulic Action compresses air into faults, causing explosive decompression. Abrasion hurls suspended quartz and titanomagnetite against the base. This carves a wave-cut notch at the high-water mark within the 3-4m mesotidal range.</p>",
+                para3: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Insightful Conclusion (Feature Evolution)</h4><p class='mt-2 mb-2'>Discuss the sequence of change over time: The notch undercuts the cliff, causing gravity collapse and cliff retreat. This leaves behind a wave-cut platform. Continued interaction erodes weaknesses into caves, arches, and eventually stacks like Motutara Island, demonstrating continuous coastal evolution.</p>"
+            },
+            'temporal': {
+                title: "Essay Plan: Temporal Variation (Seasonal Profiles)",
+                intro: "<p><strong>Key Geographic Concepts:</strong> <em class='text-whs-dark dark:text-whs-light font-bold'>Temporal Variation, Change, Processes.</em></p><p class='mt-2'>Define Temporal Variation (change over time). State that the Muriwai beach profile changes significantly between Summer (constructive) and Winter (destructive) due to seasonal shifts in the interaction of wind and wave climates.</p>",
+                para1: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Body Paragraph 1: Summer (Constructive Phase)</h4><p class='mt-2'>During summer, anti-cyclonic weather systems reduce wind speeds. This results in lower-energy waves with a long wavelength. The swash is stronger than the backwash. This hydrological interaction pushes sediment up the 1.3&deg; gradient beach, building a steep berm and widening the sub-aerial beach, supplying dry sand for Aeolian processes.</p><div class='bg-blue-50 dark:bg-blue-900/30 p-3 mt-3 text-sm italic border-l-4 border-blue-400 text-slate-800 dark:text-blue-200 rounded shadow-sm'><strong>Diagram Integration:</strong> Draw a side-profile of the beach showing a convex (accretional) summer profile with a distinct berm.</div>",
+                para2: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Body Paragraph 2: Winter (Destructive Phase)</h4><p class='mt-2'>During winter, deep depressions increase SW wind frequency and intensity. This generates high-energy, high-frequency plunging waves. The backwash becomes stronger than the swash. This scours sand from the berm and foredune base, transporting it offshore to form a submarine bar.</p>",
+                para3: "<h4 class='font-bold text-whs-dark dark:text-whs-light mt-4 text-lg'>Insightful Conclusion (Dynamic Equilibrium)</h4><p class='mt-2 mb-2'>Conclude that while temporal variations drastically change the beach shape throughout the year, the system remains in a state of dynamic equilibrium. The offshore bar created in winter breaks incoming waves, dissipating energy and protecting the coast, storing sand until summer wave action returns it to the beach.</p>"
+            }
+        };
+
+        function updateEssayPlan() {
+            const selected = document.getElementById('essay-question-select').value;
+            const plan = essayPlans[selected];
+            const container = document.getElementById('dynamic-essay-plan');
+            
+            if(!container) return; // Error resilience
+
+            container.innerHTML = `
+                <div class="glass-card bg-white dark:bg-slate-800 p-8 rounded-xl shadow-sm border border-slate-300 dark:border-slate-700 fade-in text-slate-800 dark:text-slate-200">
+                    <h3 class="text-2xl font-bold mb-6 text-whs-dark dark:text-whs-light border-b-2 border-slate-200 dark:border-slate-700 pb-4">${plan.title}</h3>
+                    <div class="mb-6">
+                        <h4 class="font-bold text-slate-700 dark:text-slate-300 text-lg uppercase tracking-wider mb-2">Introduction</h4>
+                        <div class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">${plan.intro}</div>
+                    </div>
+                    <div class="mb-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        ${plan.para1}
+                    </div>
+                    <div class="mb-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        ${plan.para2}
+                    </div>
+                    <div class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        ${plan.para3}
+                    </div>
+                </div>
+            `;
         }
 
         // --- Gamification Logic ---
@@ -841,46 +1044,6 @@
             }
         }
 
-        // --- Main Tab Navigation Logic ---
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            if(btn.getAttribute('data-target') === 'gemini' || btn.getAttribute('data-target') === 'notebooklm') return;
-
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.nav-btn').forEach(b => {
-                    if(b.getAttribute('data-target') !== 'gemini' && b.getAttribute('data-target') !== 'notebooklm') {
-                        b.classList.remove('bg-whs-dark', 'text-white', 'border-whs-dark');
-                        b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
-                    }
-                });
-                
-                this.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
-                this.classList.add('bg-whs-dark', 'text-white', 'border-whs-dark');
-
-                const targetId = 'view-' + this.getAttribute('data-target');
-                document.querySelectorAll('.view-section').forEach(section => {
-                    if(section.id === targetId) {
-                        section.classList.remove('hidden');
-                        section.classList.add('block');
-                    } else {
-                        section.classList.add('hidden');
-                        section.classList.remove('block');
-                    }
-                });
-
-                if(targetId === 'view-tools') {
-                    setTimeout(initFocusChart, 100);
-                }
-            });
-        });
-
-        // External link click handlers
-        document.querySelector('[data-target="gemini"]').addEventListener('click', function() {
-            window.open('https://gemini.google.com/gem/1j5V4c0XQhePnEuMgO3m8cPbUfublWpTK?usp=sharing', '_blank');
-        });
-        document.querySelector('[data-target="notebooklm"]').addEventListener('click', function() {
-            window.open('https://notebooklm.google.com/notebook/f506f311-a6e2-4b6e-a62d-c39cacf544d4?authuser=0', '_blank');
-        });
-
         // --- Geographic Concepts Logic ---
         const conceptSentences = {
             'ENVIRONMENT': "The Muriwai Coastal <span class='font-bold underline text-whs-dark dark:text-whs-light'>environment</span> is characterised by a striking contrast between the resistant headland and the expansive black sand beach.",
@@ -894,21 +1057,6 @@
         function updateConceptSentence(concept) {
             const el = document.getElementById('concept-sentence-display');
             if (el) el.innerHTML = conceptSentences[concept];
-        }
-
-        // --- Accordion Logic ---
-        function toggleAccordion(id) {
-            const content = document.getElementById(id);
-            const icon = content.previousElementSibling.querySelector('span');
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                content.classList.add('block');
-                icon.innerText = '-';
-            } else {
-                content.classList.remove('block');
-                content.classList.add('hidden');
-                icon.innerText = '+';
-            }
         }
 
         // --- To Do Logic (Study Tools) ---
@@ -961,6 +1109,7 @@
             renderTodos();
         }
 
+        // --- STREAMING_CHUNK: Analytics, Sandbox, Pomodoro Script ---
         // --- Pomodoro & Chart Logic (Study Tools) ---
         let timerInterval = null;
         let timeLeft = 1500; // 25 mins
