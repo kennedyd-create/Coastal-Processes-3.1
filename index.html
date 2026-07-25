@@ -293,6 +293,14 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Mind Map -->
+            <div class="glass-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-300 dark:border-slate-700 border-t-4 border-t-blue-500 mb-8">
+                <h3 class="text-xl font-bold mb-4 text-whs-dark dark:text-whs-light">Mind Map: Muriwai Coastal Environment</h3>
+                <div class="relative w-full rounded-lg overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700" style="padding-top: 56.25%;">
+                    <iframe class="absolute inset-0 w-full h-full" src="https://embed.coggle.it/diagram/amNBMwWXt63AOf5r/HdNMEWwlArj-Lj0CyPHnw3EuVeovHjPy_a2Xqd9jGvQ" title="Muriwai Coastal Environment mind map" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
         </section>
 
         <!-- Process Dynamics -->
@@ -322,72 +330,134 @@
                         <svg id="svg-diag-dune" viewBox="0 0 800 400" class="w-full h-full object-cover absolute inset-0 block" preserveAspectRatio="xMidYMid slice">
                             <rect width="800" height="400" fill="#e0f2fe" class="dark:hidden" />
                             <rect width="800" height="400" fill="#1e293b" class="hidden dark:block" />
-                            <circle cx="100" cy="80" r="40" fill="#fde047" opacity="0.8" />
-                            <path d="M 0 350 Q 100 320 180 340 T 300 280 L 300 400 L 0 400 Z" fill="#0284c7" opacity="0.6" />
-                            <path d="M 0 360 Q 100 330 180 350 T 320 280 L 320 400 L 0 400 Z" fill="#0369a1" opacity="0.8" />
-                            <path d="M 160 345 Q 220 320 310 275 Q 290 285 180 350 Z" fill="white" opacity="0.8" />
-                            <path d="M 0 380 Q 150 390 300 280 L 500 260 Q 600 250 650 100 Q 700 120 800 150 L 800 400 L 0 400 Z" fill="#d6d3d1" class="dark:fill-slate-600" />
-                            <path d="M 0 385 Q 150 395 300 285 L 500 265 Q 600 255 650 105 Q 700 125 800 155 L 800 400 L 0 400 Z" fill="#1c1917" opacity="0.2" /> 
-                            <path d="M 600 230 Q 610 200 620 220 Q 630 180 640 210 Q 650 150 660 190 Q 670 120 680 150" fill="none" stroke="#65a30d" stroke-width="4" stroke-linecap="round"/>
-                            <path d="M 620 240 Q 630 210 640 230 Q 650 190 660 220 Q 670 160 680 200" fill="none" stroke="#4d7c0f" stroke-width="4" stroke-linecap="round"/>
-                            <g stroke="#64748b" stroke-width="3" fill="none" opacity="0.7">
-                                <path d="M 250 150 L 450 150" />
-                                <path d="M 430 140 L 450 150 L 430 160" />
-                                <path d="M 480 260 Q 520 220 560 255" stroke-dasharray="4 4" />
-                                <circle cx="560" cy="255" r="3" fill="#1c1917" stroke="none" />
+                            <circle cx="90" cy="65" r="34" fill="#fde047" opacity="0.85" />
+
+                            <!-- Sea -->
+                            <path d="M 0 210 Q 60 198 120 210 T 220 208 L 220 400 L 0 400 Z" fill="#0284c7" opacity="0.85" />
+                            <path d="M 0 188 Q 60 176 120 188 T 220 186" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.5" />
+                            <path d="M 0 226 Q 60 214 120 226 T 220 224" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.4" />
+
+                            <!-- Swash zone (wet sand) -->
+                            <path d="M 180 218 Q 230 232 260 262 L 260 400 L 180 400 Z" fill="#a8a29e" class="dark:fill-slate-500" opacity="0.7" />
+                            <g stroke="#0284c7" stroke-width="2" fill="none" opacity="0.55">
+                                <path d="M 190 248 Q 215 258 240 252" />
+                                <path d="M 185 278 Q 210 290 245 283" />
                             </g>
+
+                            <!-- Dry beach (wide, flat foreshore) -->
+                            <path d="M 235 252 Q 350 262 470 256 L 470 400 L 235 400 Z" fill="#e7e0cf" class="dark:fill-slate-600" />
+
+                            <!-- Wind arrows blowing landward across the dry beach -->
+                            <g stroke="#64748b" stroke-width="3" fill="none" opacity="0.8" stroke-linecap="round">
+                                <path d="M 265 145 L 345 145" />
+                                <path d="M 327 135 L 345 145 L 327 155" />
+                                <path d="M 265 175 L 365 175" />
+                                <path d="M 347 165 L 365 175 L 347 185" />
+                                <path d="M 265 205 L 335 205" />
+                                <path d="M 317 195 L 335 205 L 317 215" />
+                            </g>
+
+                            <!-- Embryo dune: low mound, sparse pioneer grass (spinifex) -->
+                            <path d="M 445 258 Q 500 233 560 253 Q 590 260 620 256 L 620 400 L 445 400 Z" fill="#d6cba8" class="dark:fill-slate-600" />
+                            <g stroke="#84cc16" stroke-width="2.5" fill="none" opacity="0.9" stroke-linecap="round">
+                                <path d="M 490 243 Q 493 226 498 241" />
+                                <path d="M 512 238 Q 515 221 520 236" />
+                                <path d="M 534 242 Q 537 225 542 240" />
+                            </g>
+
+                            <!-- Foredune: tall, dense marram grass -->
+                            <path d="M 588 262 Q 655 185 725 200 Q 765 208 800 197 L 800 400 L 588 400 Z" fill="#c4b998" class="dark:fill-slate-700" />
+                            <g stroke="#4d7c0f" stroke-width="3" fill="none" opacity="0.95" stroke-linecap="round">
+                                <path d="M 635 205 Q 639 178 646 202" />
+                                <path d="M 657 193 Q 661 165 668 190" />
+                                <path d="M 680 187 Q 684 158 691 184" />
+                                <path d="M 703 190 Q 707 163 714 188" />
+                                <path d="M 726 198 Q 730 172 737 196" />
+                            </g>
+
+                            <!-- Labels -->
+                            <text x="55" y="180" text-anchor="middle" class="text-[11px] font-bold fill-blue-900 dark:fill-blue-100">Sea</text>
+                            <text x="220" y="238" text-anchor="middle" class="text-[10px] font-bold fill-slate-800 dark:fill-slate-100">Swash zone</text>
+                            <text x="315" y="125" text-anchor="middle" class="text-[11px] font-bold fill-slate-700 dark:fill-slate-200">Prevailing SW wind</text>
+                            <text x="350" y="295" text-anchor="middle" class="text-[10px] fill-slate-700 dark:fill-slate-200">Wide, flat, dry beach</text>
+                            <text x="530" y="280" text-anchor="middle" class="text-[10px] font-bold fill-slate-800 dark:fill-slate-100">Embryo dune</text>
+                            <text x="695" y="150" text-anchor="middle" class="text-[11px] font-bold fill-slate-800 dark:fill-slate-100">Foredune (10-15m)</text>
+
                             <g class="cursor-pointer hotspot-marker" onclick="updateDiagramInfo('hydro')">
-                                <circle cx="200" cy="300" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" />
-                                <circle cx="200" cy="300" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
+                                <circle cx="205" cy="255" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" />
+                                <circle cx="205" cy="255" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
                             </g>
                             <g class="cursor-pointer hotspot-marker" onclick="updateDiagramInfo('beach')">
-                                <circle cx="400" cy="270" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 0.5s;" />
-                                <circle cx="400" cy="270" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
+                                <circle cx="350" cy="330" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 0.5s;" />
+                                <circle cx="350" cy="330" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
                             </g>
                             <g class="cursor-pointer hotspot-marker" onclick="updateDiagramInfo('aeolian')">
-                                <circle cx="510" cy="190" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 1s;" />
-                                <circle cx="510" cy="190" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
+                                <circle cx="305" cy="175" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 1s;" />
+                                <circle cx="305" cy="175" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
                             </g>
                             <g class="cursor-pointer hotspot-marker" onclick="updateDiagramInfo('bio')">
-                                <circle cx="650" cy="160" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 1.5s;" />
-                                <circle cx="650" cy="160" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
+                                <circle cx="680" cy="230" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 1.5s;" />
+                                <circle cx="680" cy="230" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
                             </g>
                         </svg>
 
+
                         <!-- Headland Diagram SVG -->
                         <svg id="svg-diag-headland" viewBox="0 0 800 400" class="w-full h-full object-cover absolute inset-0 hidden" preserveAspectRatio="xMidYMid slice">
-                            <rect width="800" height="400" fill="#0284c7" opacity="0.6" class="dark:opacity-80 dark:fill-blue-900" />
-                            
-                            <!-- Headland -->
+                            <rect width="800" height="400" fill="#0284c7" opacity="0.55" class="dark:opacity-80 dark:fill-blue-900" />
+
+                            <!-- Headland and bays -->
                             <path d="M 800 0 L 500 0 Q 450 150 350 200 Q 450 250 500 400 L 800 400 Z" fill="#78716c" class="dark:fill-slate-600" />
-                            
-                            <!-- Sand Bays -->
-                            <path d="M 800 0 L 600 0 Q 550 50 500 0 Z" fill="#d6d3d1" opacity="0.8" />
-                            <path d="M 800 400 L 600 400 Q 550 350 500 400 Z" fill="#d6d3d1" opacity="0.8" />
-                            
-                            <!-- Wave Crests & Orthogonals -->
-                            <g stroke="#ffffff" stroke-width="2" fill="none" opacity="0.5">
-                                <path d="M 100 0 L 100 400" />
-                                <path d="M 200 0 Q 250 200 200 400" />
-                                <path d="M 300 0 Q 400 200 300 400" />
+                            <path d="M 800 0 L 600 0 Q 545 45 505 5 Z" fill="#e7e0cf" opacity="0.9" />
+                            <path d="M 800 400 L 600 400 Q 545 355 505 395 Z" fill="#e7e0cf" opacity="0.9" />
+
+                            <!-- Underwater depth contours around the shallower headland platform -->
+                            <path d="M 300 110 A 130 130 0 0 1 300 290" fill="none" stroke="#e0f2fe" stroke-width="1.5" stroke-dasharray="5 5" opacity="0.6" />
+                            <path d="M 245 70 A 175 175 0 0 1 245 330" fill="none" stroke="#e0f2fe" stroke-width="1.5" stroke-dasharray="5 5" opacity="0.4" />
+
+                            <!-- Wave crests bending (refracting) as they approach the shallower water off the headland -->
+                            <g fill="none" stroke="#ffffff" stroke-width="2" opacity="0.55">
+                                <path d="M 130 0 C 108 65 80 145 80 200 C 80 255 108 335 130 400" />
+                                <path d="M 215 0 C 198 65 175 145 175 200 C 175 255 198 335 215 400" />
+                                <path d="M 300 0 C 288 60 268 135 268 200 C 268 265 288 340 300 400" />
                             </g>
-                            <g stroke="#fde047" stroke-width="3" stroke-dasharray="6 6" fill="none">
-                                <path d="M 50 100 Q 250 150 350 180" />
-                                <path d="M 50 300 Q 250 250 350 220" />
+
+                            <!-- Orthogonals converging on the headland (energy concentrated) -->
+                            <g stroke="#fde047" stroke-width="3" fill="none" opacity="0.9" stroke-linecap="round">
+                                <path d="M 80 120 L 345 195" />
+                                <path d="M 80 200 L 350 200" />
+                                <path d="M 80 280 L 345 205" />
+                                <path d="M 328 190 L 345 195 L 333 205" />
+                                <path d="M 333 195 L 350 200 L 333 205" />
+                                <path d="M 328 210 L 345 205 L 333 195" />
                             </g>
+
+                            <!-- Orthogonals diverging into the sheltered bays (energy dispersed) -->
+                            <g stroke="#fde047" stroke-width="2" stroke-dasharray="6 5" fill="none" opacity="0.65" stroke-linecap="round">
+                                <path d="M 150 40 Q 350 15 520 10" />
+                                <path d="M 150 360 Q 350 385 520 390" />
+                            </g>
+
+                            <!-- Labels -->
+                            <text x="200" y="70" text-anchor="middle" class="text-[11px] font-bold fill-white">Orthogonals converge</text>
+                            <text x="200" y="86" text-anchor="middle" class="text-[10px] fill-blue-100">= energy concentrated</text>
+                            <text x="270" y="360" text-anchor="middle" class="text-[11px] font-bold fill-white">Shallow seabed off headland</text>
+                            <text x="640" y="130" text-anchor="middle" class="text-[11px] font-bold fill-slate-100">Headland</text>
+                            <text x="650" y="35" text-anchor="middle" class="text-[10px] font-bold fill-slate-800">Sheltered bay</text>
+                            <text x="650" y="49" text-anchor="middle" class="text-[9px] fill-slate-700">orthogonals diverge</text>
 
                             <!-- Hotspots -->
                             <g class="cursor-pointer hotspot-marker" onclick="updateDiagramInfo('orthogonals')">
-                                <circle cx="250" cy="150" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" />
-                                <circle cx="250" cy="150" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
+                                <circle cx="180" cy="200" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" />
+                                <circle cx="180" cy="200" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
                             </g>
                             <g class="cursor-pointer hotspot-marker" onclick="updateDiagramInfo('hydraulic')">
-                                <circle cx="360" cy="200" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 0.5s;" />
-                                <circle cx="360" cy="200" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
+                                <circle cx="365" cy="200" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 0.5s;" />
+                                <circle cx="365" cy="200" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
                             </g>
                             <g class="cursor-pointer hotspot-marker" onclick="updateDiagramInfo('lithology')">
-                                <circle cx="550" cy="200" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 1s;" />
-                                <circle cx="550" cy="200" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
+                                <circle cx="600" cy="200" r="16" fill="rgba(197, 160, 89, 0.4)" class="hotspot-pulse" style="animation-delay: 1s;" />
+                                <circle cx="600" cy="200" r="12" fill="#c5a059" stroke="#fff" stroke-width="2" />
                             </g>
                         </svg>
                     </div>
@@ -452,6 +522,16 @@
                                     <p class="field-photo-caption">Inside one of the sea caves carved by hydraulic action and corrasion into the Manukau Breccia — people shown for scale. (Own photo)</p>
                                 </div>
                             </div>
+
+                            <a href="https://www.youtube.com/watch?v=G1FIBuybN78" target="_blank" rel="noopener noreferrer" class="mt-5 flex items-center gap-3 p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition group max-w-sm">
+                                <span class="shrink-0 w-10 h-10 rounded-full bg-red-600 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </span>
+                                <span class="min-w-0">
+                                    <span class="block text-sm font-bold text-slate-800 dark:text-slate-100 group-hover:underline truncate">Video: Wave Refraction</span>
+                                    <span class="block text-xs text-slate-500 dark:text-slate-400">Watch on YouTube ↗</span>
+                                </span>
+                            </a>
                         </div>
                     </div>
 
