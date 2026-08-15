@@ -148,6 +148,7 @@
                 <div class="border-2 border-white/20 rounded-full px-3 py-1 inline-block bg-white/10 backdrop-blur shadow-sm">
                     <span class="font-bold text-xs tracking-widest text-whs-light">NCEA L3 GEOGRAPHY (91426)</span>
                 </div>
+                <span id="version-badge" class="text-[10px] font-mono px-2 py-1 rounded-full bg-white/10 border border-white/20 text-blue-200">v1.0</span>
                 <button onclick="toggleDarkMode()" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition border border-white/20 shadow-sm" aria-label="Toggle Dark Mode">
                     <svg class="w-4 h-4 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     <svg class="w-4 h-4 block dark:hidden text-whs-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
@@ -1100,6 +1101,9 @@
 
     </main>
 
+    <footer class="max-w-7xl mx-auto px-4 py-6 text-center">
+        <p class="text-xs text-slate-500 dark:text-slate-500">Muriwai Excellence Hub — <span id="footer-version">v1.0</span> · Last updated <span id="footer-updated">15 August 2026</span></p>
+    </footer>
     <!-- UI Notification Area (Replaces Alerts) -->
     <div id="ui-notification" role="status" aria-live="polite" class="fixed bottom-4 right-4 bg-whs-dark text-white px-6 py-3 rounded-lg shadow-xl border border-slate-700 transform translate-y-20 opacity-0 transition-all duration-300 z-50 font-bold pointer-events-none">
         Message
@@ -1109,7 +1113,9 @@
     <script>
         // --- CONFIG: single place to update per-year settings ---
         const CONFIG = {
-            examDate: new Date(2026, 10, 24) // 24 Nov 2026 — update this each year the resource is reused
+            examDate: new Date(2026, 10, 24), // 24 Nov 2026 — update this each year the resource is reused
+            siteVersion: "1.0",
+            lastUpdated: "15 August 2026"
         };
 
         // --- STORAGE_KEYS: single source of truth for every localStorage key used in this app ---
@@ -1150,6 +1156,13 @@
             
             const diffDays = Math.ceil((CONFIG.examDate - new Date()) / (1000 * 60 * 60 * 24));
             document.getElementById('exam-days-display').innerText = diffDays > 0 ? `${diffDays} Days` : "Time!";
+
+            const versionBadge = document.getElementById('version-badge');
+            if (versionBadge) versionBadge.innerText = `v${CONFIG.siteVersion}`;
+            const footerVersion = document.getElementById('footer-version');
+            if (footerVersion) footerVersion.innerText = `v${CONFIG.siteVersion}`;
+            const footerUpdated = document.getElementById('footer-updated');
+            if (footerUpdated) footerUpdated.innerText = CONFIG.lastUpdated;
         }
 
         function updateXPDisplay() {
